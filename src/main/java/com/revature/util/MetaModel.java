@@ -12,13 +12,13 @@ import com.revature.annotations.JoinColumn;
 
 public class MetaModel<T> {
 
-	private Class<T> clazz;
+	private final Class<T> clazz;
 	private IdField primarykeyField;
-	private List<ColumnField> columnFields;
+	private final List<ColumnField> columnFields;
 	private List<ForeignKeyField> foreignKeyFields;
 	
 	// of() method to take in a class and transform it to a meta model
-	public static <T> MetaModel<T> of(Class<T> clazz) {
+	public static <T> MetaModel<T> of(final Class<T> clazz) {
 		
 		// first we have to check that it's marked with the Entity annotation
 		if (clazz.getAnnotation(Entity.class) == null) {
@@ -27,7 +27,7 @@ public class MetaModel<T> {
 		return new MetaModel<>(clazz);		
 	}
 	
-	public MetaModel(Class<T> clazz) {
+	public MetaModel(final Class<T> clazz) {
 		this.clazz = clazz;
 		this.columnFields = new LinkedList<>();
 		
@@ -46,9 +46,9 @@ public class MetaModel<T> {
 	
     public IdField getPrimaryKey() {
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            Id primaryKey = field.getAnnotation(Id.class);
+        final Field[] fields = clazz.getDeclaredFields();
+        for (final Field field : fields) {
+            final Id primaryKey = field.getAnnotation(Id.class);
             if (primaryKey != null) {
                 return new IdField(field);
             }
@@ -58,9 +58,9 @@ public class MetaModel<T> {
 
     public List<ColumnField> getColumns() {
 
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            Column column = field.getAnnotation(Column.class);
+        final Field[] fields = clazz.getDeclaredFields();
+        for (final Field field : fields) {
+            final Column column = field.getAnnotation(Column.class);
             if (column != null) {
                 columnFields.add(new ColumnField(field));
             }
@@ -75,12 +75,12 @@ public class MetaModel<T> {
 
     public List<ForeignKeyField> getForeignKeys() {
 
-        List<ForeignKeyField> foreignKeyFields = new ArrayList<>();
-        Field[] fields = clazz.getDeclaredFields();
+        final List<ForeignKeyField> foreignKeyFields = new ArrayList<>();
+        final Field[] fields = clazz.getDeclaredFields();
         
-        for (Field field : fields) {
+        for (final Field field : fields) {
         	
-            JoinColumn column = field.getAnnotation(JoinColumn.class);
+            final JoinColumn column = field.getAnnotation(JoinColumn.class);
             
             if (column != null) {
                 foreignKeyFields.add(new ForeignKeyField(field));
@@ -90,6 +90,10 @@ public class MetaModel<T> {
         return foreignKeyFields;
 
     }
+
+	public String getTableName() {
+		return this.clazz.getAnnotation(Entity.class).tableName();
+	}
 
 	
 	

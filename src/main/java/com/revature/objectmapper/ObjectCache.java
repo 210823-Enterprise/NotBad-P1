@@ -10,18 +10,17 @@ import java.util.HashSet;
  */
 public class ObjectCache {
 	
-	static final  ObjectCache obj_cache = new ObjectCache();
+	private static final  ObjectCache OBJ_CACHE = new ObjectCache();
+	
 	private final HashMap<Class<?>, HashSet<Object>> cache;
 
 	private ObjectCache() {
 		super();
-		cache = new HashMap<>();
+		this.cache = new HashMap<>();
 	}
 	
 	public static ObjectCache getInstance() {
-		
-		return obj_cache;
-		
+		return OBJ_CACHE;
 	}
 	
 	

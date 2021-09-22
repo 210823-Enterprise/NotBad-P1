@@ -1,53 +1,51 @@
 package com.revature.objectmapper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public abstract class ObjectMapper {
-
 	
-	protected void setStatement(PreparedStatement pstmt, ParameterMetaData pd, Method getter, Object obj, int index) {
-		
+	protected void setStatement(final PreparedStatement statement, final ParameterMetaData pd, final Object object, final String fieldName, final int index) {
 		try {
-			setPreparedStatementByType(pstmt, pd.getParameterTypeName(index), String.valueOf(getter.invoke(obj)), index);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SQLException e) {
-		
+			
+			//TODO: move get value to meta model, try to not use a dirty hack
+			final Field field = object.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			final Object value = field.get(object);
+			field.setAccessible(false);
+			
+			setPreparedStatementByType(statement, pd.getParameterTypeName(index), value.toString(), index);
+			
+		} catch (IllegalAccessException | IllegalArgumentException | SQLException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	
-	/**
-	 * @param prepares  statement to set
-	 * @param parameter type
-	 * @param input     that represents the value to be placed in the preapred
-	 *                  statement
-	 * @param index     to plave the value at
-	 */
-	protected void setPreparedStatementByType(PreparedStatement pstmt, String type, String input, int index) {
+	protected void setPreparedStatementByType(final PreparedStatement statement, final String type, final String input, final int index) {
 
-		// find some way to evalutate the Java type of the type param
+		//TODO: smart type evaluation
 		try {
 			switch (type) {
-			case "text":
-			case "String":
+			case "boolean":
+				statement.setBoolean(index, Boolean.parseBoolean(input));
+				break;
 			case "varchar":
-				pstmt.setString(index, input);
+				statement.setString(index, input);
 				break;
 			case "int":
-				pstmt.setInt(index, Integer.parseInt(input));
+			case "int4":
+				statement.setInt(index, Integer.parseInt(input));
 				break;
 			case "double":
-				pstmt.setDouble(index, Double.parseDouble(input));
+				statement.setDouble(index, Double.parseDouble(input));
 				break;
-				// timestamp, float, etc...
+			default:
+				System.out.println("Unknown type " + type);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 

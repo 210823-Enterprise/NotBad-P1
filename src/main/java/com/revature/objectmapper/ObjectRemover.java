@@ -3,38 +3,43 @@ package com.revature.objectmapper;
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
+import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
-public class ObjectRemover extends ObjectMapper{
+public class ObjectRemover extends ObjectMapper {
 	
-	public boolean removeObjectFromDb(final Object obj, final Connection conn) {
+	private static final String SQL = "DELETE from %s where %s = ?;";
+	
+	public boolean removeObjectFromDb(final Object object, final Connection connection) {
 		
-		final MetaModel<?> model = MetaModel.of(obj.getClass()); // use this to creaet an instance of the object
-		
-		
-		final String primaryKey = model.getPrimaryKey().getName(); // change this to IdField
-		final String sql 		  = "DELETE from " + model.getSimpleClassName() + " where " + primaryKey + "= ?"; // create some type of method that returns the table name in MetaModel;
-		final PreparedStatement pstmt =  conn.prepareStatement(sql);
-		// we want to grab meta data from this statement
-		final ParameterMetaData pd = pstmt.getParameterMetaData();
-		
-		// instead of Method, maybe pass in a hashmap containing info about the object that you
-		setStatement(pstmt, pd, obj, 1);
-		
-		//ObjectCache class...
-		
-		
-		
-		
-		// then call acustom setStatement method
-		
-		
-		pstmt.executeUpdate();
-		
+		try {
+			
+			final MetaModel<?> model = MetaModel.of(object.getClass());
+			final IdField primaryKey = model.getPrimaryKey();
+			final String sql 		 = String.format(SQL, model.getTableName(), primaryKey.getColumnName());
+			
+			final PreparedStatement statement = connection.prepareStatement(sql);
+			final ParameterMetaData parameter = statement.getParameterMetaData();
+			
+			setStatement(statement, parameter, object, primaryKey.getName(), 1);
+
+			System.out.println(statement);
+			statement.executeUpdate();
+			
+		} catch(final IllegalStateException e) {
+			e.printStackTrace();
+			return false;
+		} catch (final SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
+	public static ObjectRemover getInstance() {
+		return new ObjectRemover();
+	}
 	
-	
-
 }
