@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>World of ORMcraft</title>
+
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+<body>
+
+	<div class="character-container">
+
+	<h1>World of ORMcraft</h1>
+
+
+		<form method="POST" action="sesserv">
+			
+			<p>Create a Character</p>
+			<input type="text" name="name" placeholder="Enter your name"/> <br />
+			<label for="gender">Gender:</label>
+			<select id="gender">
+			<option value="male">male</option>
+			<option value="female">female</option>
+			</select>
+			
+			<label for="race">Race:</label>
+			<select id="race">
+			<option value="human">human</option>
+			<option value="elf">elf</option>
+			<option value="orc">orc</option>
+			<option value="dwarf">dwarf</option>
+			<option value="fairy">fairy</option>
+			<option value="undead">undead</option>
+			</select>
+			
+			<label for="class">Class:</label>
+			<select id="class">
+			<option value="fighter">fighter</option>
+			<option value="assasian">assasian</option>
+			<option value="mage">mage</option>
+			<option value="tank">tank</option>
+			<option value="healer">healer</option>
+			<option value="marksman">marksman</option>
+			</select>
+			
+			<label for="special ability">Special Ability:</label>
+			<select id="special ability">
+			<option value="leader">leader</option>
+			<option value="charisma">charisma</option>
+			<option value="jack-of-all-trades">jack-of-all-trades</option>
+			<option value="blacksmith">blacksmith</option>
+			<option value="farmer">farmer</option>
+			<option value="banker">banker</option>
+			</select>
+			
+			<input type="submit" value="create your character">
+		
+		</form>
+		
+		<form method="GET" action="helperserv"> <!-- We will have to change the URL pattern which points to the particular servlet in web.xml -->
+
+			<p>List of Characters</p>
+			<input type="submit" value="List of Characters">
+
+		</form>
+
+		<hr>
+
+	</div>
+
+</body>
+</html>
