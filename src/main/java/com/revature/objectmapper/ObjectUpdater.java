@@ -10,11 +10,11 @@ import com.revature.util.ColumnField;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
-public class ObjectSaver extends ObjectMapper {
+public class ObjectUpdater extends ObjectMapper {
 	
-	private static final String SQL = "INSERT INTO %s (%s) VALUES (%s);";
+	private static final String SQL = "UPDATE %s SET %s WHERE %s = ?;";
 	
-	public boolean addObjectToDb(final Object object, final Connection connection) {
+	public boolean updateObjectInDb(final Object object, final Connection connection) {
 		
 		try {
 			
@@ -23,28 +23,24 @@ public class ObjectSaver extends ObjectMapper {
 			final List<ColumnField> fields = model.getColumns();
 
 			//generate list of entry names
-			String entries = primaryKey.getColumnName() + ", ";
+			String entries = "";
 			for(final ColumnField field: fields)
 				if(!field.getColumnName().equals(primaryKey.getColumnName()))
-					entries += field.getColumnName() + ", ";
-			entries = entries.substring(0,entries.length()-2);
-			
-			//generate string of ? of needed length
-			String qs = "?, ";
-			for(int i = 0; i < fields.size(); i++)
-				qs += "?, ";
-			qs = qs.substring(0,qs.length()-2);
+					entries += field.getColumnName() + " = ?, ";
+			if(entries.length() > 2)
+				entries = entries.substring(0,entries.length()-2);
 			
 			//generate prepared statement
-			final String sql 		 = String.format(SQL, model.getTableName(), entries, qs);
+			final String sql 		 = String.format(SQL, model.getTableName(), entries, primaryKey.getColumnName());
 			final PreparedStatement statement = connection.prepareStatement(sql);
 			final ParameterMetaData parameter = statement.getParameterMetaData();
 			
 			//set each parameter
-			setStatement(statement, parameter, object, primaryKey.getName(), 1);
 			for(int i = 0; i < fields.size(); i++)
-				setStatement(statement, parameter, object, fields.get(i).getName(), i+2);
+				setStatement(statement, parameter, object, fields.get(i).getName(), i+1);
+			setStatement(statement, parameter, object, primaryKey.getName(), fields.size()+1);
 			
+			//System.out.println(statement);
 			statement.executeUpdate();
 			
 		} catch(final IllegalStateException e) {
@@ -57,8 +53,8 @@ public class ObjectSaver extends ObjectMapper {
 		return true;
 	}
 	
-	public static ObjectSaver getInstance() {
-		return new ObjectSaver();
+	public static ObjectUpdater getInstance() {
+		return new ObjectUpdater();
 	}
 	
 }

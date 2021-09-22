@@ -28,7 +28,6 @@ public abstract class ObjectMapper {
 
 		//TODO: smart type evaluation
 		try {
-			System.out.println(type);
 			switch (type) {
 			case "boolean":
 				statement.setBoolean(index, Boolean.parseBoolean(input));

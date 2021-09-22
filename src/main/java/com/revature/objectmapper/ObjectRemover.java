@@ -38,7 +38,8 @@ public class ObjectRemover extends ObjectMapper {
 		return true;
 	}
 	
+	public static ObjectRemover getInstance() {
+		return new ObjectRemover();
+	}
 	
-	
-
 }

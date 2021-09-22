@@ -7,31 +7,23 @@ import com.revature.objectmapper.ObjectRemover;
 
 public class DIYORM {
 	
-	final private static DIYORM diyorm = new DIYORM();
+	private final static DIYORM diyorm = new DIYORM();
 	private final Connection conn;
 	private final ObjectRemover obj_remover;
-	// obj getter, etc.....
 	
 	private DIYORM() {
-		conn = ConnectionFactory.getInstance().getConnection();
-		obj_remover =   ObjectRemover.getInstance();
-		
-		
+		this.conn = ConnectionFactory.getInstance().getConnection();
+		this.obj_remover = ObjectRemover.getInstance();
 	}
 	
-	// return a a static instanc of this singleton class
-	public static getInstance() {
+	public static DIYORM getInstance() {
 		return diyorm;
 	}
 	
 	
 	
-	// when someone wants to delete an object from their database
-	// DIYORM.deleteObjFromDB
-	public boolean deleteObjFromDB(Object obj) {
-		
-		return obj_remover.removeObjectFromDb(obj, conn);
-		
+	public boolean deleteObjFromDB(final Object obj) {
+		return this.obj_remover.removeObjectFromDb(obj, conn);
 	}
 
 }
