@@ -10,7 +10,7 @@ public abstract class ObjectMapper {
 	protected void setStatement(final PreparedStatement statement, final ParameterMetaData pd, final Object object, final String fieldName, final int index) {
 		try {
 			
-			//TODO: move get value to meta model, try to not use a diry hack
+			//TODO: move get value to meta model, try to not use a dirty hack
 			final Field field = object.getClass().getDeclaredField(fieldName);
 			field.setAccessible(true);
 			final Object value = field.get(object);
@@ -42,6 +42,8 @@ public abstract class ObjectMapper {
 			case "double":
 				statement.setDouble(index, Double.parseDouble(input));
 				break;
+			default:
+				System.out.println("Unknown type " + type);
 			}
 		} catch (final SQLException e) {
 			e.printStackTrace();
