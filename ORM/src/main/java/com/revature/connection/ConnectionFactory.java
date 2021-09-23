@@ -23,7 +23,7 @@ public class ConnectionFactory {
 	
 			try {
 				Class.forName("org.postgresql.Driver");
-			} catch (ClassNotFoundException e) {
+			} catch (final ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		
@@ -32,17 +32,17 @@ public class ConnectionFactory {
 	private ConnectionFactory() {
 		
 		try {
-			Properties props = new Properties();
+			final Properties props = new Properties();
 			props.load(new FileReader("src/main/resources/application.properties"));
-			ds = new BasicDataSource();
-			ds.setUrl(props.getProperty("url"));
-			ds.setUsername(props.getProperty("username"));
-			ds.setPassword(props.getProperty("password"));
-			ds.setMinIdle(5);
-			ds.setDefaultAutoCommit(false);
-			ds.setMaxOpenPreparedStatements(100);
+			this.ds = new BasicDataSource();
+			this.ds.setUrl(props.getProperty("url"));
+			this.ds.setUsername(props.getProperty("username"));
+			this.ds.setPassword(props.getProperty("password"));
+			this.ds.setMinIdle(5);
+			this.ds.setDefaultAutoCommit(false);
+			this.ds.setMaxOpenPreparedStatements(100);
 			
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// log that the file can't be found 
 			// research into creating a custom loggers using a BufferedReader
 		}
@@ -63,8 +63,8 @@ public class ConnectionFactory {
 	public Connection getConnection() {
 		
 		try {
-			return ds.getConnection();
-		} catch (SQLException e) {
+			return this.ds.getConnection();
+		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -9,7 +9,7 @@ public class TestClass {
 
 	@Override
 	public String toString() {
-		return "TestClass [id=" + id + ", testUsername=" + testUsername + ", testPassword=" + testPassword + "]";
+		return "TestClass [id=" + this.id + ", testUsername=" + this.testUsername + ", testPassword=" + this.testPassword + "]";
 	}
 
 	@Id(columnName="test_id")

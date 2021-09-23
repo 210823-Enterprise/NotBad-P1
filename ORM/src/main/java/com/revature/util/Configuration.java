@@ -6,34 +6,22 @@ import java.util.List;
 
 public class Configuration {
 	
-
 	private List<MetaModel<Class<?>>> metaModelList;  // List is a list of MetaModel<Dog>, MetaModel<Cat>
 	
 	// this essentially does what the Hibernate.cfg.xml mapping property does!
-	public Configuration addAnnotatedClass(Class annotatedClass) {
+	@SuppressWarnings("unchecked")
+	public Configuration addAnnotatedClass(final Class<?> annotatedClass) {
 		
-		if (metaModelList == null) {
-			
-			metaModelList = new LinkedList<>();
-			
+		if (this.metaModelList == null) {
+			this.metaModelList = new LinkedList<>();
 		}
-		
 		// we are adding MetaModel<SomeClass>
-		metaModelList.add(MetaModel.of(annotatedClass)); // we will amke this of() method
-		
-		// Create the of() method inside MetaModel to trasform a class
-		// into an appropraite data model to be transposed into a relational db object.
-		
+		this.metaModelList.add( (MetaModel<Class<?>>) MetaModel.of(annotatedClass) );
 		return this;
 	}
 	
-	
 	public List<MetaModel<Class<?>>> getMetaModels() {
-		
-		return (List<MetaModel<Class<?>>>) ((metaModelList == null) ? Collections.emptyList() : metaModelList);
-		
+		return ((this.metaModelList == null) ? Collections.emptyList() : this.metaModelList);
 	}
 	
-	
-
 }

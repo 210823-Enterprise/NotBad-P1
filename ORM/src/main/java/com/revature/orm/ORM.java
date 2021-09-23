@@ -1,4 +1,4 @@
-package com.revature.diyORM;
+package com.revature.orm;
 
 import java.sql.Connection;
 
@@ -8,9 +8,9 @@ import com.revature.objectmapper.ObjectRemover;
 import com.revature.objectmapper.ObjectSaver;
 import com.revature.objectmapper.ObjectUpdater;
 
-public class DIYORM {
+public class ORM {
 	
-	private final static DIYORM DIYORM = new DIYORM();
+	private final static ORM DIYORM = new ORM();
 	
 	private final Connection connection;
 	private final ObjectGetter objectGetter;
@@ -18,9 +18,7 @@ public class DIYORM {
 	private final ObjectUpdater objectUpdater;
 	private final ObjectRemover objectRemover;
 	
-	//TODO: move get connection to inside DAO methods instead of top level
-	
-	private DIYORM() {
+	private ORM() {
 		this.connection = ConnectionFactory.getInstance().getConnection();
 		this.objectGetter = ObjectGetter.getInstance();
 		this.objectSaver = ObjectSaver.getInstance();
@@ -28,7 +26,7 @@ public class DIYORM {
 		this.objectRemover = ObjectRemover.getInstance();
 	}
 	
-	public static DIYORM getInstance() {
+	public static ORM getInstance() {
 		return DIYORM;
 	}
 	

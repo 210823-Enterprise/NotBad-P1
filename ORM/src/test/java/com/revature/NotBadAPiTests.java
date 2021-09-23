@@ -1,23 +1,23 @@
 package com.revature;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.diyORM.NotBadAPi;
 import com.revature.dummymodels.TestClass;
+import com.revature.orm.ORM;
 
 public class NotBadAPiTests {
 	
 	private TestClass testObject;
-	private NotBadAPi api;
+	private ORM api;
 	
 
 	@Before
 	public void setUp() throws Exception {
-		NotBadAPi api = NotBadAPi.getInstance();
+		final ORM api = ORM.getInstance();
 		this.testObject = new TestClass(1, "passing", "failing");
 	}
 
