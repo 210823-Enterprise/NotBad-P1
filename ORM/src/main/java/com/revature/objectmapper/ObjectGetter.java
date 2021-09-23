@@ -14,12 +14,12 @@ public class ObjectGetter extends ObjectMapper{
 	
 	private static final String SQL = "SELECT * from %s where %s = ?;";
 	
-	public Object getObjectFromDb(final Class<?> clazz, final Object object, final Connection connection) {
+	public Object getObjectFromDb(final Class<?> clazz, final Object object, final String columnName, final Connection connection) {
 		
 		try {
 			final MetaModel<?> model = MetaModel.of(clazz);
 			final IdField primaryKey = model.getPrimaryKey();
-			final String sql 		 = String.format(SQL, model.getTableName(), primaryKey.getColumnName());
+			final String sql 		 = String.format(SQL, model.getTableName(), columnName);
 			
 			final PreparedStatement statement = connection.prepareStatement(sql);
 			final ParameterMetaData parameter = statement.getParameterMetaData();
