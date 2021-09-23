@@ -1,13 +1,7 @@
 package com.revature;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.revature.connection.ConnectionFactory;
 import com.revature.dummymodels.TestClass;
 import com.revature.objectmapper.ObjectGetter;
 import com.revature.objectmapper.ObjectRemover;
@@ -23,6 +17,7 @@ public class ObjectMapperTests {
 	private ObjectGetter getter;
 	private ObjectUpdater updater;
 	
+	/*
 	@Before
 	public void setup() throws SQLException {
 		this.connection = ConnectionFactory.getInstance().getConnection();
@@ -63,5 +58,5 @@ public class ObjectMapperTests {
 	public void update_normal() {
 		updater.updateObjectInDb(this.testObject, this.connection);
 	}
-	
+	*/
 }
