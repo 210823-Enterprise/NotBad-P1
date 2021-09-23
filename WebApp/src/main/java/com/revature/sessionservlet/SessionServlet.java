@@ -48,13 +48,13 @@ public class SessionServlet extends HttpServlet {
 		String specialAbility = request.getParameter("specialability");
 		
 		
-		// 2. Convert the capture params into an object by passing it thru the SuperVillain Constructor
+		// 2. Convert the capture params into an object by passing it thru the character Constructor
 		Character character = new Character(name, gender, race, clazz, specialAbility);
 		
 		// 3. Grab the HttpSession from the request obj
 		HttpSession session = request.getSession();
 		
-		// 4. and send the custom villain to the session
+		// 4. and send the custom character to the session
 		session.setAttribute("character", character);
 		
 		// 5. Print to the screen that the character object has been set to the session
