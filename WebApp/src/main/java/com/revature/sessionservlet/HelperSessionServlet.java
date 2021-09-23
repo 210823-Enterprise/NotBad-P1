@@ -32,9 +32,9 @@ public class HelperSessionServlet extends HttpServlet {
 		out.println("<html><body>");
 			
 			if(character != null) {
-				out.println("We have captured the villain from the session!");
+				out.println("Choose your character!");
 				
-				// print out html that shows the properties of the villain object captured
+				// print out html that shows the properties of the character object captured
 				out.println("<h1>Character Name: " + character.getName() + "</h1><br />");
 				out.println("<b>Gender: " + character.getGender() + " </b><br/>");
 				out.println("<i>Race: " + character.getRace() + " </i><br/>");
