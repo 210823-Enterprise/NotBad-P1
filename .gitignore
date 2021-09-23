@@ -26,3 +26,4 @@ hs_err_pid*
 **/.project
 **/.classpath
 **/*.lst
+WebApp/src/main/resources
