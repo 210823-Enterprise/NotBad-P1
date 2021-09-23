@@ -18,6 +18,8 @@ public class DIYORM {
 	private final ObjectUpdater objectUpdater;
 	private final ObjectRemover objectRemover;
 	
+	//TODO: move get connection to inside DAO methods instead of top level
+	
 	private DIYORM() {
 		this.connection = ConnectionFactory.getInstance().getConnection();
 		this.objectGetter = ObjectGetter.getInstance();
@@ -30,8 +32,20 @@ public class DIYORM {
 		return DIYORM;
 	}
 	
-	public boolean deleteObjFromDB(final Object obj) {
-		return this.objectRemover.removeObjectFromDb(obj, this.connection);
+	public boolean removeObjectFromDb(final Object object) {
+		return this.objectRemover.removeObjectFromDb(object, this.connection);
+	}
+	
+	public <T> T getObjectFromDb(final Class<T> clazz, final Object value) {
+		return clazz.cast( this.objectGetter.getObjectFromDb(clazz, value, this.connection) );
+	}
+	
+	public boolean updateObjectInDb(final Object object) {
+		return this.objectUpdater.updateObjectInDb(object, this.connection);
+	}
+	
+	public Object addObjectToDb(final Object object) {
+		return this.objectSaver.addObjectToDb(object, this.connection);
 	}
 
 }
