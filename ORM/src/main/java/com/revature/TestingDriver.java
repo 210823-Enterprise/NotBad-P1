@@ -37,7 +37,7 @@ public class TestingDriver {
 		test.setTestPassword("newPassword");
 		updater.updateObjectInDb(test, connection);
 		
-		final TestClass response = (TestClass) getter.getObjectFromDb(test.getClass(), id, connection);
+		final TestClass response = (TestClass) getter.getObjectFromDb(test.getClass(), id, "test_id", connection);
 		assert(response.getId() == test.getId());
 		System.out.println(response.toString());
 		

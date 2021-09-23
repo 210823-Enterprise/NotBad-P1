@@ -34,8 +34,8 @@ public class ORM {
 		return this.objectRemover.removeObjectFromDb(object, this.connection);
 	}
 	
-	public <T> T getObjectFromDb(final Class<T> clazz, final Object value) {
-		return clazz.cast( this.objectGetter.getObjectFromDb(clazz, value, this.connection) );
+	public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value) {
+		return clazz.cast( this.objectGetter.getObjectFromDb(clazz, value, columnName, this.connection) );
 	}
 	
 	public boolean updateObjectInDb(final Object object) {

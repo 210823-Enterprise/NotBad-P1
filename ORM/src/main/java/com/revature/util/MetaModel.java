@@ -42,18 +42,20 @@ public class MetaModel<T> {
     }
 
     private List<ColumnField> generateColumns() {
-
+    	
+    	final List<ColumnField> columnFields = new ArrayList<ColumnField>();
         final Field[] fields = this.clazz.getDeclaredFields();
+        
         for (final Field field : fields) {
             final Column column = field.getAnnotation(Column.class);
             if (column != null) {
-                this.columnFields.add(new ColumnField(field));
+            	columnFields.add(new ColumnField(field));
             }
         }
-        if (this.columnFields.isEmpty()) {
+        if (columnFields.isEmpty()) {
             throw new RuntimeException("No columns found in: " + this.clazz.getName());
         }
-        return this.columnFields;
+        return columnFields;
     }
 
     private List<ForeignKeyField> generateForeignKeys() {
