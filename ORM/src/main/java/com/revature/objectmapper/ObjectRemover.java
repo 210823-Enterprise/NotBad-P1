@@ -25,7 +25,6 @@ public class ObjectRemover extends ObjectMapper {
 			
 			setStatement(statement, parameter, object, primaryKey.getName(), 1);
 
-			System.out.println(statement);
 			statement.executeUpdate();
 			
 		} catch(final IllegalStateException e) {
