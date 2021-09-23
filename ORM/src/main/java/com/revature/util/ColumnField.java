@@ -9,9 +9,9 @@ public class ColumnField {
 //	@Column
 	//private String name; (// how do I determine if this is a VARCHAR or NUMERIC or SERIAL PRIMARY KEY?
 
-	private Field field;
+	private final Field field;
 	
-	public ColumnField(Field field) {
+	public ColumnField(final Field field) {
 		
 		if (field.getAnnotation(Column.class) == null) {
 			// If the field object that we pass through DOESN't have the column annotation, then it returns null
@@ -23,15 +23,15 @@ public class ColumnField {
 	}
 	
 	public String getName() {
-		return field.getName();
+		return this.field.getName();
 	}
 	
 	public Class<?> getType() {
-		return field.getType();
+		return this.field.getType();
 	}
 	
 	public String getColumnName() {
-		return field.getAnnotation(Column.class).columnName();
+		return this.field.getAnnotation(Column.class).columnName();
 		
 	}
 	

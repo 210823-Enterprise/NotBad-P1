@@ -6,9 +6,9 @@ import com.revature.annotations.JoinColumn;
 
 public class ForeignKeyField {
 
-    private Field field;
+    private final Field field;
 
-    public ForeignKeyField(Field field) {
+    public ForeignKeyField(final Field field) {
         if (field.getAnnotation(JoinColumn.class) == null) {
             throw new IllegalStateException("Cannot create ForeignKeyField object! Provided field, " + getName() + "is not annotated with @JoinColumn");
         }
@@ -16,15 +16,15 @@ public class ForeignKeyField {
     }
 
     public String getName() {
-        return field.getName();
+        return this.field.getName();
     }
 
     public Class<?> getType() {
-        return field.getType();
+        return this.field.getType();
     }
 
     public String getColumnName() {
-        return field.getAnnotation(JoinColumn.class).columnName();
+        return this.field.getAnnotation(JoinColumn.class).columnName();
     }
 
 }
