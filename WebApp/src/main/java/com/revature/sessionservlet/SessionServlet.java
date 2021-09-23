@@ -26,7 +26,7 @@ public class SessionServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		session.setAttribute("the-hero", hochiminh);
+		session.setAttribute("character", hochiminh);
 		
 		PrintWriter out = response.getWriter();
 		
@@ -55,9 +55,9 @@ public class SessionServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		// 4. and send the custom villain to the session
-		session.setAttribute("the-hero", character);
+		session.setAttribute("character", character);
 		
-		// 5. Print to the screen that the villain object has been set to the session
+		// 5. Print to the screen that the character object has been set to the session
 		PrintWriter out = response.getWriter();
 		out.write(new ObjectMapper().writeValueAsString(character));
 		out.println("A character has been created...(in the session)");
