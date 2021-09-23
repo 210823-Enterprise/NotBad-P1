@@ -16,7 +16,7 @@ public class HelperSessionServlet extends HttpServlet {
 	private static final long serialVersionUID = -7393813005277884981L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// when we trigger a get request at this servlet, it will return the villain
+		// when we trigger a get request at this servlet, it will return the character
 		// object that's saved to the session
 		
 		// 1. grab the session
@@ -36,7 +36,7 @@ public class HelperSessionServlet extends HttpServlet {
 				
 				// print out html that shows the properties of the character object captured
 				out.println("<h1>Character Name: " + character.getName() + "</h1><br />");
-				out.println("<b>Gender: " + character.getGender() + " </b><br/>");
+				out.println("<i>Gender: " + character.getGender() + " </i><br/>");
 				out.println("<i>Race: " + character.getRace() + " </i><br/>");
 				out.println("<i>Class: " + character.getClazz() + " </i><br/>");
 				out.println("<i>Special Ability: " + character.getSpecialAbility() + " </i><br/>");
