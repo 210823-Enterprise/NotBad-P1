@@ -8,20 +8,13 @@ import java.sql.SQLException;
 public abstract class ObjectMapper {
 	
 	protected void setStatement(final PreparedStatement statement, final ParameterMetaData pd, final Object object, final String fieldName, final int index) {
+		
 		try {
-			
-			//TODO: move get value to meta model, try to not use a dirty hack
-			final Field field = object.getClass().getDeclaredField(fieldName);
-			field.setAccessible(true);
-			final Object value = field.get(object);
-			field.setAccessible(false);
-			
+			final Object value = getValue(fieldName, object);
 			setPreparedStatementByType(statement, pd.getParameterTypeName(index), value.toString(), index);
-			
 		} catch (IllegalAccessException | IllegalArgumentException | SQLException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	protected void setPreparedStatementByType(final PreparedStatement statement, final String type, final String input, final int index) {
@@ -48,7 +41,31 @@ public abstract class ObjectMapper {
 		} catch (final SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
+	//TODO: move get value to meta model, try to not use a dirty hack
+	protected Object getValue(final String fieldName, final Object source) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		final Field field = source.getClass().getDeclaredField(fieldName);
+		if(field.isAccessible()) {
+			return field.get(source);
+		} else {
+			field.setAccessible(true);
+			final Object value = field.get(source);
+			field.setAccessible(false);
+			return value;
+		}
+	}
+
+	//TODO: move get value to meta model, try to not use a dirty hack
+	protected void setValue(final String fieldName, final Object source, final Object value) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		final Field field = source.getClass().getDeclaredField(fieldName);
+		if(field.isAccessible()) {
+			field.set(source, value);
+		} else {
+			field.setAccessible(true);
+			field.set(source, value);
+			field.setAccessible(false);
+		}
 	}
 
 }

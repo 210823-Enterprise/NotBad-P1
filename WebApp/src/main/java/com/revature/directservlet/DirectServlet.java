@@ -19,7 +19,7 @@ public class DirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		// This method will hand incoming HTTP request to the server and we can send back a request upon receiving a GET request
-		response.setContentType("text/html");
+		response.setContentType("option/html");
 
 		// PrintWriter is an object that prints text data to a character stream which we can call on the response object
 		PrintWriter out = response.getWriter();
