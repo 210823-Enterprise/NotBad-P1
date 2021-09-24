@@ -6,11 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
 public class ObjectUpdater extends ObjectMapper {
+	
+	private static final Logger LOG = Logger.getLogger(ObjectUpdater.class);
 	
 	private static final String SQL = "UPDATE %s SET %s WHERE %s = ?;";
 	
@@ -18,7 +23,7 @@ public class ObjectUpdater extends ObjectMapper {
 		
 		try {
 			
-			final MetaModel<?> model = MetaModel.of(object.getClass());
+			final MetaModel<?> model = Configuration.getInstance().getModel(object.getClass());
 			final IdField primaryKey = model.getPrimaryKey();
 			final List<ColumnField> fields = model.getColumns();
 
@@ -40,14 +45,11 @@ public class ObjectUpdater extends ObjectMapper {
 				setStatement(statement, parameter, object, fields.get(i).getName(), i+1);
 			setStatement(statement, parameter, object, primaryKey.getName(), fields.size()+1);
 			
-			//System.out.println(statement);
 			statement.executeUpdate();
-			
-		} catch(final IllegalStateException e) {
-			e.printStackTrace();
-			return false;
-		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOG.info("Updated " + object.toString() + ".");
+		} catch(final IllegalStateException | SQLException e) {
+			LOG.error("Failed to updated " + object.toString() + ".");
+			LOG.error(e.getLocalizedMessage());
 			return false;
 		}
 		return true;

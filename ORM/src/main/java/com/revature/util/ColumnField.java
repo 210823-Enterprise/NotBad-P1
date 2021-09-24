@@ -32,10 +32,15 @@ public class ColumnField {
 	
 	public String getColumnName() {
 		return this.field.getAnnotation(Column.class).columnName();
-		
 	}
 	
+	public boolean getNullable() {
+		return this.field.getAnnotation(Column.class).nullable();
+	}
 	
+	public boolean getUnique() {
+		return this.field.getAnnotation(Column.class).unique();
+	}
 	
 }
 

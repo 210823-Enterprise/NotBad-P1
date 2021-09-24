@@ -9,22 +9,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
+
+import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.MetaModel;
 
 public class ObjectGetter extends ObjectMapper{
 	
+	private static final Logger LOG = Logger.getLogger(ObjectGetter.class);
+	
 	private static final String GETSQL = "SELECT * from %s where %s = ?;";
+	private static final String GETALLSQL = "SELECT * from %s;";
 	
 	public <T> Optional<T> getObjectFromDb(final Class<T> clazz, final Object object, final Connection connection) {
-		final MetaModel<T> model = MetaModel.of(clazz);
+		final MetaModel<T> model = Configuration.getInstance().getModel(clazz);
 		return getObjectFromDb(clazz, object, model.getPrimaryKey().getColumnName(), connection);
 	}
 	
 	public <T> Optional<T> getObjectFromDb(final Class<T> clazz, final Object object, final String columnName, final Connection connection) {
+
+		final MetaModel<T> model = Configuration.getInstance().getModel(clazz);
+		final Optional<T> cache = ObjectCache.getInstance().get(model, columnName, object);
+		if(cache.isPresent()) {
+			LOG.info("Retrieved object " + object.getClass().getName() + " with " + columnName + " = " + object.toString() + " from cache.");
+			return cache;
+		}
 		
 		try {
-			final MetaModel<T> model = MetaModel.of(clazz);
 			final String sql 		 = String.format(GETSQL, model.getTableName(), columnName);
 			
 			final PreparedStatement statement = connection.prepareStatement(sql);
@@ -33,21 +45,22 @@ public class ObjectGetter extends ObjectMapper{
 			setPreparedStatementByType(statement, parameter.getParameterTypeName(1), object.toString(), 1);
 
 			final ResultSet result = statement.executeQuery();
-			if( result.next() )
-				return constructObject(model, result);
-			
+			if( result.next() ) {
+				final Optional<T> out = constructObject(model, result);
+				LOG.info("Retrieved object " + object.getClass().getName() + " with " + columnName + " = " + object.toString() + " from database.");
+				return out;
+			}
 		} catch(final IllegalStateException | IllegalArgumentException | SecurityException | SQLException e) {
-			e.printStackTrace();
+			LOG.error("Failed to retrieved object " + object.toString() + ".");
+			LOG.error(e.getLocalizedMessage());
 		}
-		return null;
+		return Optional.empty();
 	}
-	
-	private static final String GETALLSQL = "SELECT * from %s;";
 	
 	public <T> List<T> getAllObjectsFromDb(final Class<T> clazz, final Connection connection) {
 		final List<T> list = new ArrayList<T>();
 		try {	
-			final MetaModel<T> model = MetaModel.of(clazz);
+			final MetaModel<T> model = Configuration.getInstance().getModel(clazz);
 			final String sql 		 = String.format(GETALLSQL, model.getTableName());
 			
 			final PreparedStatement statement = connection.prepareStatement(sql);
@@ -58,9 +71,11 @@ public class ObjectGetter extends ObjectMapper{
 				if(construct.isPresent())
 					list.add(construct.get());
 			}
+			LOG.info("Retrieved all object of type " + clazz.getName() + ".");
 			return list;
 		} catch(final IllegalStateException | SQLException e) {
-			e.printStackTrace();
+			LOG.error("Failed to retrieved all object of type " + clazz.getName() + ".");
+			LOG.error(e.getLocalizedMessage());
 		}
 		return list;
 	}
