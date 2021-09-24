@@ -36,7 +36,7 @@ public class ObjectTable extends ObjectMapper {
 				context += ", " + field.getColumnName() + " " + getSqlType(field.getType());
 				if(!field.getNullable())
 					context += " NOT NULL";
-				if(!field.getUnique())
+				if(field.getUnique())
 					context += " UNIQUE";
 			}
 			
