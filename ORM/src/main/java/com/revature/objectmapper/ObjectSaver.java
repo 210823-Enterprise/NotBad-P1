@@ -15,7 +15,7 @@ public class ObjectSaver extends ObjectMapper {
 	
 	private static final String SQL = "INSERT INTO %s (%s) VALUES (%s) RETURNING %s.%s;";
 	
-	public Object addObjectToDb(final Object object, final Connection connection) {
+	public boolean addObjectToDb(final Object object, final Connection connection) {
 		
 		try {
 			final MetaModel<?> model = MetaModel.of(object.getClass());
@@ -45,18 +45,16 @@ public class ObjectSaver extends ObjectMapper {
 			//set each parameter
 			for(int i = 0; i < fields.size(); i++)
 				setStatement(statement, parameter, object, fields.get(i).getName(), i+1);
-
+			
 			final ResultSet result = statement.executeQuery();
-			if( result != null) {
-				result.next();
-				return result.getObject(1);
+			if( result.next() ) {
+				setValue(primaryKey.getName(), object, result.getObject(1));
+				return true;
 			}
-		} catch(final IllegalStateException e) {
-			e.printStackTrace();
-		} catch (final SQLException e) {
+		} catch(final IllegalStateException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException | SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 	
 	public static ObjectSaver getInstance() {
