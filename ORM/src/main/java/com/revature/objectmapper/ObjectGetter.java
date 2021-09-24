@@ -71,7 +71,7 @@ public class ObjectGetter extends ObjectMapper{
 				if(construct.isPresent())
 					list.add(construct.get());
 			}
-			LOG.error("Retrieved all object of type " + clazz.getName() + ".");
+			LOG.info("Retrieved all object of type " + clazz.getName() + ".");
 			return list;
 		} catch(final IllegalStateException | SQLException e) {
 			LOG.error("Failed to retrieved all object of type " + clazz.getName() + ".");
