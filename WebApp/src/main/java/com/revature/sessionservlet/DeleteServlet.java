@@ -12,13 +12,10 @@ import javax.servlet.http.HttpSession;
 import com.revature.models.Character;
 import com.revature.orm.ORM;
 
-public class HelperSessionServlet extends HttpServlet {
+public class DeleteServlet extends HttpServlet{
 
-	private static final long serialVersionUID = -7393813005277884981L;
+	private static final long serialVersionUID = -5658844687164616861L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// when we trigger a get request at this servlet, it will return the character
-		// object that's saved to the session
 		
 		// 1. grab the session
 		HttpSession session = request.getSession();
@@ -34,16 +31,18 @@ public class HelperSessionServlet extends HttpServlet {
 		/// let's generate an html page on the fly!
 		out.println("<html><body>");
 			
-		if(character != null) {
-			out.println("<h1>Which character do you want to delete?</h1>");
-			
-			// print out html that shows the properties of the character object captured
-			out.println("<h3>Character Name: " + character.getName() + "</h3><br />");
-			out.println("<i>Gender: " + character.getGender() + " </i><br/>");
-			out.println("<i>Race: " + character.getRace() + " </i><br/>");
-			out.println("<i>Class: " + character.getClazz() + " </i><br/>");
-			out.println("<i>Special Ability: " + character.getSpecialAbility() + " </i><br/>");
-			
+			if(character != null) {
+				out.println("<h1>Which character do you want to delete?</h1>");
+				
+				// print out html that shows the properties of the character object captured
+				out.println("<h3>Character Name: " + character.getName() + "</h3><br />");
+				out.println("<i>Gender: " + character.getGender() + " </i><br/>");
+				out.println("<i>Race: " + character.getRace() + " </i><br/>");
+				out.println("<i>Class: " + character.getClazz() + " </i><br/>");
+				out.println("<i>Special Ability: " + character.getSpecialAbility() + " </i><br/>");
+				
+				out.println("<button name=simple_button type=button>Delete</button>");
+				
 			} else {
 				out.println("<i>Couldn't find any characters.</i>");
 			}

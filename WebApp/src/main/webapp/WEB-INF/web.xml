@@ -37,6 +37,25 @@
     <url-pattern>/indirserv</url-pattern>
   </servlet-mapping>
   
+     <servlet>
+    <display-name>EditServlet</display-name>
+    <servlet-name>EditServlet</servlet-name>
+    <servlet-class>com.revature.sessionservlet.EditServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditServlet</servlet-name>
+    <url-pattern>/editserv</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <display-name>DeleteServlet</display-name>
+    <servlet-name>DeleteServlet</servlet-name>
+    <servlet-class>com.revature.sessionservlet.DeleteServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteServlet</servlet-name>
+    <url-pattern>/deleteserv</url-pattern>
+  </servlet-mapping>
   
   
   <servlet>
