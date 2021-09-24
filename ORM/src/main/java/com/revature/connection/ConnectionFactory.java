@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -16,21 +17,20 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class ConnectionFactory {
 	
+	private static final Logger LOG = Logger.getLogger(ConnectionFactory.class);
+	
 	private BasicDataSource ds;
 	private static final ConnectionFactory connection_factory = new ConnectionFactory();
 	
-	static { // static initalizer loads before the main method
-	
-			try {
-				Class.forName("org.postgresql.Driver");
-			} catch (final ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		
+	static {
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (final ClassNotFoundException e) {
+			LOG.error(e.getLocalizedMessage());
+		}
 	}
 	
 	private ConnectionFactory() {
-		
 		try {
 			final Properties props = new Properties();
 			props.load(new FileReader("src/main/resources/application.properties"));
@@ -41,10 +41,9 @@ public class ConnectionFactory {
 			this.ds.setMinIdle(5);
 			this.ds.setDefaultAutoCommit(false);
 			this.ds.setMaxOpenPreparedStatements(100);
-			
 		} catch (final IOException e) {
-			// log that the file can't be found 
-			// research into creating a custom loggers using a BufferedReader
+			LOG.error("Unable to load src/main/resources/application.properties. Connection aborted.");
+			LOG.error(e.getLocalizedMessage());
 		}
 	}
 	
@@ -61,11 +60,10 @@ public class ConnectionFactory {
 	 * @return connection object
 	 */
 	public Connection getConnection() {
-		
 		try {
 			return this.ds.getConnection();
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOG.error("failed to get connection " + e.getLocalizedMessage());
 		}
 		return null;
 		
