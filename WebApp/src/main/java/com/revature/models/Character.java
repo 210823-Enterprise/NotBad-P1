@@ -2,12 +2,27 @@ package com.revature.models;
 
 import java.util.Objects;
 
-public class Character {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="character")
+public class Character {
+	
+	@Column(name="name", unique=true,  nullable=false)
 	private String name;
+	
+	@Column(name="gender", nullable=false)
 	private String gender;
+	
+	@Column(name="race", nullable=false)
 	private String race;
+	
+	@Column(name="class", nullable=false)
 	private String clazz;
+
+	@Column(name="specialAbility", nullable=false)
 	private String specialAbility;
 	
 	public Character() {

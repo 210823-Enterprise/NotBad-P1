@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.revature.models.Character;
+import com.revature.orm.ORM;
 
 public class HelperSessionServlet extends HttpServlet {
 
@@ -24,6 +25,8 @@ public class HelperSessionServlet extends HttpServlet {
 		
 		// 2. save the object retrieved from the session to a character object
 		Character character = (Character) session.getAttribute("character"); 
+		
+		ORM.getInstance().addObjectToDb(character);
 		
 		// 3. after capturing the object, print the object's info to the screen
 		PrintWriter out = response.getWriter();
@@ -47,6 +50,8 @@ public class HelperSessionServlet extends HttpServlet {
 			
 			out.println("</body></html>");
 		
+			ORM.getInstance().getObjectFromDb(character.getClass(),"name", character.getName());
+			
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
