@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.revature.exceptions.UnsupportedTypeException;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
 public class ObjectTable extends ObjectMapper {
+	
+	private static final Logger LOG = Logger.getLogger(ObjectTable.class);
 	
 	private static final String SQL = "CREATE TABLE IF NOT EXISTS %s (%s);";
 	
@@ -46,7 +50,8 @@ public class ObjectTable extends ObjectMapper {
 				connection.commit();
 			return true;
 		} catch (final SQLException e) {
-			e.printStackTrace();
+			LOG.error("Failed to create table for " + model.getClazz().getName() + " to database.");
+			LOG.error(e.getLocalizedMessage());
 		}
 		return false;
 	}
