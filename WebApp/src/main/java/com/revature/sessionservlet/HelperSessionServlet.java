@@ -2,6 +2,7 @@ package com.revature.sessionservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,9 +25,9 @@ public class HelperSessionServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		// 2. save the object retrieved from the session to a character object
-		Character character = (Character) session.getAttribute("character"); 
+//		Character character = (Character) session.getAttribute("character"); 
 		
-		//ORM.getInstance().addObjectToDb(character);
+		List<Character> characterList = ORM.getInstance().getAllObjectsFromDb(Character.class);
 		
 		// 3. after capturing the object, print the object's info to the screen
 		PrintWriter out = response.getWriter();
@@ -34,8 +35,7 @@ public class HelperSessionServlet extends HttpServlet {
 		/// let's generate an html page on the fly!
 		out.println("<html><body>");
 			
-		if(character != null) {
-			out.println("<h1>Which character do you want to delete?</h1>");
+		for(Character character : characterList) {
 			
 			// print out html that shows the properties of the character object captured
 			out.println("<h3>Character Name: " + character.getName() + "</h3><br />");
@@ -44,10 +44,8 @@ public class HelperSessionServlet extends HttpServlet {
 			out.println("<i>Class: " + character.getClazz() + " </i><br/>");
 			out.println("<i>Special Ability: " + character.getSpecialAbility() + " </i><br/>");
 			
-			} else {
-				out.println("<i>Couldn't find any characters.</i>");
-			}
-			
+			} 
+
 			out.println("</body></html>");
 		
 			//ORM.getInstance().getObjectFromDb(character.getClass(),"name", character.getName());
