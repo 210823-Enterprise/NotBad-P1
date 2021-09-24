@@ -139,7 +139,7 @@ public class ORM {
 	/**
 	 * Removes all recorded queries.
 	 */
-	public void rollBack() {
+	public void rollback() {
 		if(this.connection != null) {
 			try {
 				this.connection.rollback(this.savepoint);
