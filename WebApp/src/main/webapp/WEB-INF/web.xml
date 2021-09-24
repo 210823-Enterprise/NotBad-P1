@@ -67,6 +67,8 @@
     <servlet-name>SessionServlet</servlet-name>
     <url-pattern>/sesserv</url-pattern>
   </servlet-mapping>
+  
+  
   <servlet>
     <description></description>
     <display-name>HelperSessionServlet</display-name>
