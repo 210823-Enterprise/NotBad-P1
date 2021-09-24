@@ -1,13 +1,17 @@
 package com.revature.connection;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
+
+import com.revature.TestingDriver;
 
 
 /**
@@ -32,8 +36,12 @@ public class ConnectionFactory {
 	
 	private ConnectionFactory() {
 		try {
+			final File classes = new File(TestingDriver.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+			final File target = new File(classes.getParent());
+			final File parent = new File(target.getParent());
+			
 			final Properties props = new Properties();
-			props.load(new FileReader("src/main/resources/application.properties"));
+			props.load(new FileReader(parent.getAbsolutePath() + "/src/main/resources/application.properties"));
 			this.ds = new BasicDataSource();
 			this.ds.setUrl(props.getProperty("url"));
 			this.ds.setUsername(props.getProperty("username"));
@@ -41,7 +49,7 @@ public class ConnectionFactory {
 			this.ds.setMinIdle(5);
 			this.ds.setDefaultAutoCommit(false);
 			this.ds.setMaxOpenPreparedStatements(100);
-		} catch (final IOException e) {
+		} catch (final IOException | URISyntaxException e) {
 			LOG.error("Unable to load src/main/resources/application.properties. Connection aborted.");
 			LOG.error(e.getLocalizedMessage());
 		}

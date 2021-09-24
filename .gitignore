@@ -28,3 +28,4 @@ hs_err_pid*
 **/*.lst
 WebApp/src/main/resources
 ORM/logs/log.txt
+WebApp/logs/log.txt
