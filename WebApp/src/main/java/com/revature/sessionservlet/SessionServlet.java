@@ -11,29 +11,21 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Character;
+import com.revature.orm.ORM;
 
 public class SessionServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7751372469078935199L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		Character hochiminh = new Character("Ho Chi Minh", "male", "human", "Jack-of-all-trades", "Leadership");
-		
+				
 		/*
 		 * HttpSession is an interface provides us with the functionality to store user information across out application
 		 */
 		
 		HttpSession session = request.getSession();
-		
-		session.setAttribute("character", hochiminh);
-		
 		PrintWriter out = response.getWriter();
-		
-		out.write(new ObjectMapper().writeValueAsString(hochiminh));
-		
-		out.println("Ho Chi Minh has unified Vietnam");
-		
+
 	}
 
 
@@ -60,12 +52,18 @@ public class SessionServlet extends HttpServlet {
 		// 5. Print to the screen that the character object has been set to the session
 		PrintWriter out = response.getWriter();
 		out.write(new ObjectMapper().writeValueAsString(character));
-		out.println("A character has been created...(in the session)");
+//		out.println("A character has been created...(in the session)");
 		
 		// now we have to create a servlet to retrieve the session
 		
+		ORM.getInstance().addObjectToDb(character);
 		
-		
+		if(ORM.getInstance().addObjectToDb(character)) {
+			out.println("Character successfully created!");
+		} else {
+			out.println("Character not created. Please try again.");
+		}
+				
 		
 		
 	}
