@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Character;
+import com.revature.models.CharacterModel;
 
 public class DirectServlet extends HttpServlet {
 
@@ -35,7 +35,7 @@ public class DirectServlet extends HttpServlet {
 		response.setContentType("application/json");
 	
 		// hard coded character
-		Character character = new Character("Ho Chi Minh", "male", "human", "Jack-of-all-trades", "Leadership");
+		CharacterModel character = new CharacterModel("Ho Chi Minh", "male", "human", "Jack-of-all-trades", "Leadership");
 		
 		// send character object in the form of JSON to the browser
 		response.getWriter().write(new ObjectMapper().writeValueAsString(character));		
