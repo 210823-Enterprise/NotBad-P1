@@ -5,6 +5,7 @@ import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.revature.orm.Configuration;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
@@ -16,7 +17,7 @@ public class ObjectRemover extends ObjectMapper {
 		
 		try {
 			
-			final MetaModel<?> model = MetaModel.of(object.getClass());
+			final MetaModel<?> model = Configuration.getInstance().getModel(object.getClass());
 			final IdField primaryKey = model.getPrimaryKey();
 			final String sql 		 = String.format(SQL, model.getTableName(), primaryKey.getColumnName());
 			

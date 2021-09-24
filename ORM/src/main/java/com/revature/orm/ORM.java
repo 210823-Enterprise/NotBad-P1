@@ -1,7 +1,9 @@
 package com.revature.orm;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import com.revature.connection.ConnectionFactory;
 import com.revature.objectmapper.ObjectGetter;
@@ -12,7 +14,7 @@ import com.revature.objectmapper.ObjectUpdater;
 public class ORM {
 	
 	private final static ORM DIYORM = new ORM();
-	
+
 	private final Connection connection;
 	private final ObjectGetter objectGetter;
 	private final ObjectSaver objectSaver;
@@ -53,7 +55,8 @@ public class ORM {
 	 * @return Retrieved Object
 	 */
 	public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value) {
-		return clazz.cast( this.objectGetter.getObjectFromDb(clazz, value, columnName, this.connection).get() );
+		final Optional<T> result = this.objectGetter.getObjectFromDb(clazz, value, columnName, this.connection);
+		return result.isPresent() ? clazz.cast( result.get() ) : null;
 	}
 	
 	/**
@@ -64,7 +67,8 @@ public class ORM {
 	 * @return Retrieved Object
 	 */
 	public <T> T getObjectFromDb(final Class<T> clazz, final Object value) {
-		return clazz.cast( this.objectGetter.getObjectFromDb(clazz, value, this.connection).get() );
+		final Optional<T> result = this.objectGetter.getObjectFromDb(clazz, value, this.connection);
+		return result.isPresent() ? clazz.cast( result.get() ) : null;
 	}
 	
 	/**
@@ -94,6 +98,39 @@ public class ORM {
 	 */
 	public boolean addObjectToDb(final Object object) {
 		return this.objectSaver.addObjectToDb(object, this.connection);
+	}
+	
+	public void setAutoCommit(final boolean setting) {
+		try {
+			this.connection.setAutoCommit(setting);
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean getAutoCommit() {
+		try {
+			return this.connection.getAutoCommit();
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public void commit() {
+		try {
+			this.connection.commit();
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void rollback() {
+		try {
+			this.connection.rollback();
+		} catch (final SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

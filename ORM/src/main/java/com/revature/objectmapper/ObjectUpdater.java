@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
@@ -18,7 +19,7 @@ public class ObjectUpdater extends ObjectMapper {
 		
 		try {
 			
-			final MetaModel<?> model = MetaModel.of(object.getClass());
+			final MetaModel<?> model = Configuration.getInstance().getModel(object.getClass());
 			final IdField primaryKey = model.getPrimaryKey();
 			final List<ColumnField> fields = model.getColumns();
 

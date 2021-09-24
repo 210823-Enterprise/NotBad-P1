@@ -4,18 +4,19 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.revature.dummymodels.TestClass;
+import com.revature.orm.Configuration;
 import com.revature.orm.ORM;
-import com.revature.util.Configuration;
 
 public class TestingDriver {
 
 	public static void main(final String[] args) throws SQLException {
 
-		final Configuration cfg = new Configuration();
+		final Configuration cfg = Configuration.getInstance();
 		cfg.addAnnotatedClass(TestClass.class);
 		
-		final TestClass test = new TestClass(14, "username", "password");
+		final TestClass test = new TestClass("username", "password");
 		final ORM orm = ORM.getInstance();
+		orm.setAutoCommit(true);
 		
 		assert orm.addObjectToDb(test) : "Failed to save object to database.";
 
