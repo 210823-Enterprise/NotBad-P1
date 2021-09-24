@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface Column {
 
 	String columnName();
+	boolean unique();
+	boolean nullable();
 	
 }

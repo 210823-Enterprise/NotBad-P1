@@ -27,3 +27,4 @@ hs_err_pid*
 **/.classpath
 **/*.lst
 WebApp/src/main/resources
+ORM/logs/log.txt

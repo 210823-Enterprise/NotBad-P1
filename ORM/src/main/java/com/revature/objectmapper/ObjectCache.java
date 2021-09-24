@@ -3,8 +3,10 @@ package com.revature.objectmapper;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
+import com.revature.orm.Configuration;
 import com.revature.util.MetaModel;
 
 /**
@@ -28,18 +30,26 @@ public class ObjectCache {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> Optional<T> get(final Class<T> clazz, final Object primaryKey) {
-		if(this.cache.containsKey(clazz)) {
-			final Map<Object, Object> subSet = this.cache.get(clazz);
-			if(subSet.containsKey(primaryKey))
-				return (Optional<T>) Optional.of(subSet.get(primaryKey));
+	public <T> Optional<T> get(final MetaModel<T> model, final String columnName, final Object primaryKey) {
+		if(this.cache.containsKey(model.getClazz())) {
+			final Map<Object, Object> subSet = this.cache.get(model.getClazz());
+			
+			if(model.getPrimaryKey().getColumnName().equals(columnName)) {
+				if(subSet.containsKey(primaryKey))
+					return (Optional<T>) Optional.of(subSet.get(primaryKey));
+			} else {
+				for(final Entry<Object, Object> set: subSet.entrySet()) {
+					if(set.getValue().getClass() == primaryKey.getClass() && set.getValue().equals(primaryKey))
+						return (Optional<T>) Optional.of(set.getValue());
+				}
+			}
 		}
 		return Optional.empty();
 	}
 	
 	public void put(final Object object) {
 		if(object != null) {
-			final MetaModel<?> model = MetaModel.of(object.getClass());
+			final MetaModel<?> model = Configuration.getInstance().getModel(object.getClass());
 			if(!this.cache.containsKey(object.getClass()))
 				this.cache.put(object.getClass(), new HashMap<Object,Object>());
 			final Map<Object, Object> subSet = this.cache.get(object.getClass());
@@ -50,8 +60,24 @@ public class ObjectCache {
 			}
 		}
 	}
+	
+	public void remove(final Object object) {
+		if(object != null) {
+			final MetaModel<?> model = Configuration.getInstance().getModel(object.getClass());
+			if(this.cache.containsKey(object.getClass())) {
+				final Map<Object, Object> subSet = this.cache.get(object.getClass());
+				try {
+					final Object value = getValue(model.getPrimaryKey().getName(), object);
+					if(subSet.containsKey(value))
+						subSet.remove(value);
+				} catch (final IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
-	//TODO: move get value to meta model, try to not use a dirty hack
+	//TODO: try to not use a dirty hack
 	protected Object getValue(final String fieldName, final Object source) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		final Field field = source.getClass().getDeclaredField(fieldName);
 		if(field.isAccessible()) {
