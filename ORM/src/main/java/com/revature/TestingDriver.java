@@ -1,14 +1,10 @@
 package com.revature;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
-import com.revature.connection.ConnectionFactory;
 import com.revature.dummymodels.TestClass;
-import com.revature.objectmapper.ObjectGetter;
-import com.revature.objectmapper.ObjectRemover;
-import com.revature.objectmapper.ObjectSaver;
-import com.revature.objectmapper.ObjectUpdater;
+import com.revature.orm.ORM;
 import com.revature.util.Configuration;
 
 public class TestingDriver {
@@ -18,30 +14,23 @@ public class TestingDriver {
 		final Configuration cfg = new Configuration();
 		cfg.addAnnotatedClass(TestClass.class);
 		
-		final Connection connection = ConnectionFactory.getInstance().getConnection();
-		connection.setAutoCommit(true);
+		final TestClass test = new TestClass(14, "username", "password");
+		final ORM orm = ORM.getInstance();
 		
-
-		final TestClass test = new TestClass("username", "password");
-
-		final ObjectSaver saver = new ObjectSaver();
-		final ObjectUpdater updater = new ObjectUpdater();
-		final ObjectGetter getter = new ObjectGetter();
-		final ObjectRemover remover = new ObjectRemover();
-		
-		
-		final int id = (int) saver.addObjectToDb(test, connection);
-		test.setId(id);
+		assert orm.addObjectToDb(test) : "Failed to save object to database.";
 
 		test.setTestUsername("newUsername");
 		test.setTestPassword("newPassword");
-		updater.updateObjectInDb(test, connection);
+		assert orm.updateObjectInDb(test) : "Failed to update object.";
 		
-		final TestClass response = (TestClass) getter.getObjectFromDb(test.getClass(), id, "test_id", connection);
-		assert(response.getId() == test.getId());
-		System.out.println(response.toString());
+		final TestClass response = orm.getObjectFromDb(TestClass.class, test.getId());
+		assert response != null && response.getId() == test.getId() : "Retrieved Object's Id does not match the expected id";
+		System.out.println(response.toString() + "\n----------------------------------------------------------------------------------");
 		
-		remover.removeObjectFromDb(test, connection);
+		final List<TestClass> list = orm.getAllObjectsFromDb(TestClass.class);
+		list.forEach(e -> System.out.println(e.toString()));
+		
+		assert orm.removeObjectFromDb(test) : "Failed to delete object from database.";
 	}
 
 }
