@@ -16,7 +16,6 @@ public class TestingDriver {
 		
 		final TestClass test = new TestClass("username", "password");
 		final ORM orm = ORM.getInstance();
-		orm.setAutoCommit(true);
 		
 		assert orm.addObjectToDb(test) : "Failed to save object to database.";
 

@@ -2,6 +2,7 @@ package com.revature.orm;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,9 @@ import com.revature.connection.ConnectionFactory;
 import com.revature.objectmapper.ObjectGetter;
 import com.revature.objectmapper.ObjectRemover;
 import com.revature.objectmapper.ObjectSaver;
+import com.revature.objectmapper.ObjectTable;
 import com.revature.objectmapper.ObjectUpdater;
+import com.revature.util.MetaModel;
 
 public class ORM {
 	
@@ -20,6 +23,9 @@ public class ORM {
 	private final ObjectSaver objectSaver;
 	private final ObjectUpdater objectUpdater;
 	private final ObjectRemover objectRemover;
+	private final ObjectTable objectTable;
+	
+	private Savepoint savepoint;
 	
 	private ORM() {
 		this.connection = ConnectionFactory.getInstance().getConnection();
@@ -27,6 +33,12 @@ public class ORM {
 		this.objectSaver = ObjectSaver.getInstance();
 		this.objectUpdater = ObjectUpdater.getInstance();
 		this.objectRemover = ObjectRemover.getInstance();
+		this.objectTable = ObjectTable.getInstance();
+		this.savepoint = null;
+		
+		try {
+			this.connection.setAutoCommit(true);
+		} catch (final SQLException e) {}
 	}
 	
 	/**
@@ -100,37 +112,77 @@ public class ORM {
 		return this.objectSaver.addObjectToDb(object, this.connection);
 	}
 	
-	public void setAutoCommit(final boolean setting) {
-		try {
-			this.connection.setAutoCommit(setting);
-		} catch (final SQLException e) {
-			e.printStackTrace();
+	/**
+	 * Creates a table for the specified model is none exists.
+	 * @param model to create a table for.
+	 */
+	boolean generateTable(final MetaModel<?> model) {
+		return this.objectTable.createTableInDb(model, this.connection);
+	}
+	
+	/**
+	 * Starts a transaction. Disabled auto-commit and logs database queries.
+	 */
+	public void startTransation() {
+		if(this.connection == null) {
+			try {
+				this.connection.setAutoCommit(false);
+				this.savepoint = this.connection.setSavepoint();
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new RuntimeException("A transaction has already been started.");
 		}
 	}
 	
-	public boolean getAutoCommit() {
-		try {
-			return this.connection.getAutoCommit();
-		} catch (final SQLException e) {
-			e.printStackTrace();
+	/**
+	 * Removes all recorded queries.
+	 */
+	public void rollBack() {
+		if(this.connection != null) {
+			try {
+				this.connection.rollback(this.savepoint);
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new RuntimeException("No transaction has been started.");
 		}
-		return false;
 	}
 	
+	/**
+	 * Removes all recorded queries and closes the transaction. Re-enables auto-commit.
+	 */
+	public void abort() {
+		if(this.connection != null) {
+			try {
+				this.connection.rollback(this.savepoint);
+				this.connection.setAutoCommit(true);
+				this.savepoint = null;
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new RuntimeException("No transaction has been started.");
+		}
+	}
+	/**
+	 * Commits all recorded queries and closes the transaction. Re-enables auto-commit.
+	 */
 	public void commit() {
-		try {
-			this.connection.commit();
-		} catch (final SQLException e) {
-			e.printStackTrace();
+		if(this.connection != null) {
+			try {
+				this.connection.commit();
+				this.connection.setAutoCommit(true);
+				this.savepoint = null;
+			} catch (final SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			throw new RuntimeException("No transaction has been started.");
 		}
 	}
 	
-	public void rollback() {
-		try {
-			this.connection.rollback();
-		} catch (final SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

@@ -22,11 +22,7 @@ public class Configuration {
 		if(this.metaModelList.contains(model))
 			throw new IllegalStateException(annotatedClass.getName() + " is already registered.");
 		this.metaModelList.add( model );
-		generateTable(model);
-	}
-	
-	private void generateTable(final MetaModel<?> model) {
-		
+		ORM.getInstance().generateTable(model);
 	}
 	
 	@SuppressWarnings("unchecked")
