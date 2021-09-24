@@ -4,12 +4,10 @@ import com.revature.orm.Configuration;
 
 public class ServletConfiguration {
 
-	static private final Configuration config = Configuration.getInstance();
+	private static final Configuration config = Configuration.getInstance();
 	
-	static {
-		config.addAnnotatedClass(Character.class);
-
+	public static void addClass(final Class<?> clazz) {
+		config.addAnnotatedClass(clazz);
 	}
-	
 	
 }
