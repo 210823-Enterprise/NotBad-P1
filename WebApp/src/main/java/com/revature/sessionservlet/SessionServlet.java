@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.Character;
+import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
+import com.revature.util.ServletConfiguration;
 
 public class SessionServlet extends HttpServlet {
 
@@ -19,6 +20,10 @@ public class SessionServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		
+		//triggers statically loaded data in servlet config
+		ServletConfiguration.setUp();
+		
 				
 		/*
 		 * HttpSession is an interface provides us with the functionality to store user information across out application
@@ -33,6 +38,9 @@ public class SessionServlet extends HttpServlet {
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		
+		//triggers statically loaded data in servlet config
+		ServletConfiguration.setUp();
+		
 		// Capture the input from the HTTP post request and create a java object
 		
 		final String name = request.getParameter("name");
@@ -43,7 +51,7 @@ public class SessionServlet extends HttpServlet {
 		
 		
 		// 2. Convert the capture params into an object by passing it thru the character Constructor
-		final Character character = new Character(name, gender, race, clazz, specialAbility);
+		final CharacterModel character = new CharacterModel(name, gender, race, clazz, specialAbility);
 		
 		// 3. Grab the HttpSession from the request obj
 		final HttpSession session = request.getSession();
