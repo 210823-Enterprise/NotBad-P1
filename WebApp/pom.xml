@@ -61,6 +61,14 @@
 
 	<dependencies>
 
+	<dependency>
+		<groupId>com.revature</groupId>
+		<artifactId>NotBadORM</artifactId>
+		<version>0.0.1</version>
+	</dependency>
+	
+	
+
 		<!-- The javax.servlet dependency is an api that gives us classes and interfaces 
 			that describe and define the contracts between a servlet class and the runtime 
 			environment provided for each instance of a class by a conforming servlet 

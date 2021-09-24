@@ -18,14 +18,15 @@
 			
 			<p>Create a Character</p>
 			<input type="text" name="name" placeholder="Enter your name"/> <br />
+			
 			<label for="gender">Gender:</label>
-			<select id="gender">
+			<select id="gender" name="gender">
 			<option value="male">male</option>
 			<option value="female">female</option>
 			</select>
 			
 			<label for="race">Race:</label>
-			<select id="race">
+			<select id="race" name="race">
 			<option value="human">human</option>
 			<option value="elf">elf</option>
 			<option value="orc">orc</option>
@@ -35,7 +36,7 @@
 			</select>
 			
 			<label for="class">Class:</label>
-			<select id="class">
+			<select id="class" name="class">
 			<option value="fighter">fighter</option>
 			<option value="assasian">assasian</option>
 			<option value="mage">mage</option>
@@ -44,8 +45,8 @@
 			<option value="marksman">marksman</option>
 			</select>
 			
-			<label for="special ability">Special Ability:</label>
-			<select id="special ability">
+			<label for="specialability">Special Ability:</label>
+			<select id="specialability" name="specialability">
 			<option value="leader">leader</option>
 			<option value="charisma">charisma</option>
 			<option value="jack-of-all-trades">jack-of-all-trades</option>
@@ -60,11 +61,25 @@
 		
 		<form method="GET" action="helperserv"> <!-- We will have to change the URL pattern which points to the particular servlet in web.xml -->
 
-			<p>List of Characters</p>
+			<p>Choose a character</p>
 			<input type="submit" value="List of Characters">
 
 		</form>
-
+		
+		<form method="POST" action="editserv">
+		
+		<p>Edit a Character</p>
+		<input type="submit" value="List of Characters">
+		
+		</form>
+		
+		<form method="POST" action="deleteserv">
+		
+		<p>Delete a Character</p>
+		<input type="submit" value="List of Characters">
+		
+		</form>
+		
 		<hr>
 
 	</div>
