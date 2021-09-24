@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
 import com.revature.util.MetaModel;
 
 public class ObjectSaver extends ObjectMapper {
+	
+	private static final Logger LOG = Logger.getLogger(ObjectSaver.class);
 	
 	private static final String SQL = "INSERT INTO %s (%s) VALUES (%s) RETURNING %s.%s;";
 	
@@ -57,10 +61,13 @@ public class ObjectSaver extends ObjectMapper {
 			final ResultSet result = statement.executeQuery();
 			if( result.next() ) {
 				setValue(primaryKey.getName(), object, result.getObject(1));
+				ObjectCache.getInstance().put(object);
+				LOG.info("Added object " + object.getClass().getName() + " to database.");
 				return true;
 			}
 		} catch(final IllegalStateException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException | SQLException e) {
-			e.printStackTrace();
+			LOG.error("Failed to add object " + object.getClass().getName() + " to database.");
+			LOG.error(e.getLocalizedMessage());
 		}
 		return false;
 	}
@@ -93,9 +100,14 @@ public class ObjectSaver extends ObjectMapper {
 				setStatement(statement, parameter, object, fields.get(i).getName(), i+2);
 			
 			final ResultSet result = statement.executeQuery();
-			return result.next();
+			if(result.next()) {
+				ObjectCache.getInstance().put(object);
+				LOG.info("Added object " + object.getClass().getName() + " to database.");
+				return true;
+			}
 		} catch(final IllegalStateException | IllegalArgumentException | SecurityException | SQLException e) {
-			e.printStackTrace();
+			LOG.error("Failed to add object " + object.getClass().getName() + " to database.");
+			LOG.error(e.getLocalizedMessage());
 		}
 		return false;
 	}

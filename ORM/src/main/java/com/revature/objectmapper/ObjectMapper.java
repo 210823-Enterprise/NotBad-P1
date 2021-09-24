@@ -23,29 +23,25 @@ public abstract class ObjectMapper {
 		}
 	}
 	
-	protected void setPreparedStatementByType(final PreparedStatement statement, final String type, final String input, final int index) {
+	protected void setPreparedStatementByType(final PreparedStatement statement, final String type, final String input, final int index) throws SQLException {
 
 		//TODO: smart type evaluation
-		try {
-			switch (type) {
-			case "boolean":
-				statement.setBoolean(index, Boolean.parseBoolean(input));
-				break;
-			case "varchar":
-				statement.setString(index, input);
-				break;
-			case "int":
-			case "int4":
-				statement.setInt(index, Integer.parseInt(input));
-				break;
-			case "double":
-				statement.setDouble(index, Double.parseDouble(input));
-				break;
-			default:
-				System.out.println("Unknown type " + type);
-			}
-		} catch (final SQLException e) {
-			e.printStackTrace();
+		switch (type) {
+		case "boolean":
+			statement.setBoolean(index, Boolean.parseBoolean(input));
+			break;
+		case "varchar":
+			statement.setString(index, input);
+			break;
+		case "int":
+		case "int4":
+			statement.setInt(index, Integer.parseInt(input));
+			break;
+		case "double":
+			statement.setDouble(index, Double.parseDouble(input));
+			break;
+		default:
+			throw new UnsupportedTypeException(type + " is not mapped to a prepared statement type.");
 		}
 	}
 
@@ -102,7 +98,7 @@ public abstract class ObjectMapper {
 	protected String getSqlType(final Class<?> clazz) {
 		if(TYPES.containsKey(clazz))
 			return TYPES.get(clazz);
-		throw new UnsupportedTypeException(clazz.getName() + " is not mapped to an SQL type.");
+		throw new UnsupportedTypeException(clazz.getName() + " is not mapped to a SQL type.");
 	}
 
 }

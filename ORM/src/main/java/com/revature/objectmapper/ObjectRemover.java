@@ -27,15 +27,12 @@ public class ObjectRemover extends ObjectMapper {
 			setStatement(statement, parameter, object, primaryKey.getName(), 1);
 
 			statement.executeUpdate();
-			
-		} catch(final IllegalStateException e) {
+			ObjectCache.getInstance().remove(object);
+			return true;
+		} catch(final IllegalStateException | SQLException e) {
 			e.printStackTrace();
-			return false;
-		} catch (final SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	public static ObjectRemover getInstance() {
