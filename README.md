@@ -78,9 +78,9 @@ Finally, inside your project structure you need a application.proprties file.
      - Saves an object to the database. Fails if the object already exists. If the primary key is set to auto generate, automatically sets the object's id to the generated id.
   - #### `public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value)`  
      - Retrieves and object from the database using the specified column name. If more then 1 column matches the provided value, one object is arbitrarily returned. 
-        - @param clazz The object's class.
-	      - @param columnName The column name to check for retrieving the value
-	      - @param value The value at the column
+        - @param clazz The object's class
+        - @param columnName The column name to check for retrieving the value.
+        - @param value The value at the column.
   - #### `public boolean removeObjectFromDB(final Object obj)`  
      - Removes the given object from the database.  
   - #### `public boolean addObjectToDB(final Object obj)`  
