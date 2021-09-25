@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.revature.annotations.Entity;
 import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
@@ -41,13 +42,24 @@ public class ObjectUpdater extends ObjectMapper {
 			final ParameterMetaData parameter = statement.getParameterMetaData();
 			
 			//set each parameter
-			for(int i = 0; i < fields.size(); i++)
-				setStatement(statement, parameter, object, fields.get(i).getName(), i+1);
-			setStatement(statement, parameter, object, primaryKey.getName(), fields.size()+1);
+			for(int i = 0; i < fields.size(); i++) {
+				
+				final Object value = getValue(fields.get(i).getName(), object);
+				
+				if(value.getClass().getAnnotation(Entity.class) != null) {
+					updateObjectInDb(value, connection);
+					final Object foreignValue = getValue(model.getPrimaryKey().getName(), value);
+					setStatement(statement, parameter, foreignValue, i+1);
+				} else {
+					setStatement(statement, parameter, value, i+1);
+				}
+			}
+			final Object primaryValue = getValue(primaryKey.getName(), object);
+			setStatement(statement, parameter, primaryValue, fields.size()+1);
 			
 			statement.executeUpdate();
 			LOG.info("Updated " + object.toString() + ".");
-		} catch(final IllegalStateException | SQLException e) {
+		} catch(final IllegalStateException | SQLException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			LOG.error("Failed to updated " + object.toString() + ".");
 			LOG.error(e.getLocalizedMessage());
 			return false;

@@ -15,6 +15,7 @@ public class Configuration {
 	
 	private static final Configuration config = new Configuration();
 	private final List<MetaModel<Class<?>>> metaModelList;
+	private boolean finalized = false;
 	
 	private Configuration() {
 		this.metaModelList = new LinkedList<>();
@@ -22,11 +23,13 @@ public class Configuration {
 	
 	@SuppressWarnings("unchecked")
 	public void addAnnotatedClass(final Class<?> annotatedClass) {
+		if(this.finalized)
+			throw new IllegalStateException("Configuation has already been finalized.");
+		
 		final MetaModel<Class<?>> model = (MetaModel<Class<?>>) MetaModel.of(annotatedClass);
 		if(this.metaModelList.contains(model))
 			throw new IllegalStateException(annotatedClass.getName() + " is already registered.");
 		this.metaModelList.add( model );
-		ORM.getInstance().generateTable(model);
 		LOG.info("Added " + annotatedClass.getName() + " to meta models.");
 	}
 	
@@ -40,6 +43,11 @@ public class Configuration {
 	
 	public List<MetaModel<Class<?>>> getMetaModels() {
 		return ((this.metaModelList == null) ? Collections.emptyList() : this.metaModelList);
+	}
+	
+	public void finalizeConfig() {
+		this.finalized = true;
+		this.metaModelList.forEach(m -> ORM.getInstance().generateTable(m));
 	}
 	
 	public static Configuration getInstance() {

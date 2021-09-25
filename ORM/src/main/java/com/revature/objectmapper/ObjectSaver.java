@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.revature.annotations.Entity;
 import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.IdField;
@@ -55,8 +56,18 @@ public class ObjectSaver extends ObjectMapper {
 			final ParameterMetaData parameter = statement.getParameterMetaData();
 			
 			//set each parameter
-			for(int i = 0; i < fields.size(); i++)
-				setStatement(statement, parameter, object, fields.get(i).getName(), i+1);
+			for(int i = 0; i < fields.size(); i++) {
+				
+				final Object value = getValue(fields.get(i).getName(), object);
+				
+				if(value.getClass().getAnnotation(Entity.class) != null) {
+					addObjectToDb(value, connection);
+					final Object foreignValue = getValue(model.getPrimaryKey().getName(), value);
+					setStatement(statement, parameter, foreignValue, i+1);
+				} else {
+					setStatement(statement, parameter, value, i+1);
+				}
+			}
 			
 			final ResultSet result = statement.executeQuery();
 			if( result.next() ) {
@@ -95,9 +106,26 @@ public class ObjectSaver extends ObjectMapper {
 			final ParameterMetaData parameter = statement.getParameterMetaData();
 			
 			//set each parameter
-			setStatement(statement, parameter, object, primaryKey.getName(), 1);
-			for(int i = 0; i < fields.size(); i++)
-				setStatement(statement, parameter, object, fields.get(i).getName(), i+2);
+			final Object primaryValue = getValue(primaryKey.getName(), object);
+			if(primaryValue.getClass().getAnnotation(Entity.class) != null) {
+				addObjectToDb(primaryValue, connection);
+				final Object foreignValue = getValue(model.getPrimaryKey().getName(), primaryValue);
+				setStatement(statement, parameter, foreignValue, 1);
+			} else {
+				setStatement(statement, parameter, primaryValue, 1);
+			}
+			
+			for(int i = 0; i < fields.size(); i++) {
+				final Object value = getValue(fields.get(i).getName(), object);
+				
+				if(value.getClass().getAnnotation(Entity.class) != null) {
+					addObjectToDb(value, connection);
+					final Object foreignValue = getValue(model.getPrimaryKey().getName(), value);
+					setStatement(statement, parameter, foreignValue, i+2);
+				} else {
+					setStatement(statement, parameter, value, i+2);
+				}
+			}
 			
 			final ResultSet result = statement.executeQuery();
 			if(result.next()) {
@@ -105,7 +133,7 @@ public class ObjectSaver extends ObjectMapper {
 				LOG.info("Added object " + object.getClass().getName() + " to database.");
 				return true;
 			}
-		} catch(final IllegalStateException | IllegalArgumentException | SecurityException | SQLException e) {
+		} catch(final IllegalStateException | IllegalArgumentException | SecurityException | SQLException | IllegalAccessException | NoSuchFieldException e) {
 			LOG.error("Failed to add object " + object.getClass().getName() + " to database.");
 			LOG.error(e.getLocalizedMessage());
 		}

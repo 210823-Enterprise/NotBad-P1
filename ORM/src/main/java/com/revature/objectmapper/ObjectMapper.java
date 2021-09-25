@@ -9,16 +9,19 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.revature.exceptions.ClassNotConfiguredException;
 import com.revature.exceptions.UnsupportedTypeException;
+import com.revature.orm.Configuration;
+import com.revature.util.ColumnField;
+import com.revature.util.IdField;
+import com.revature.util.MetaModel;
 
 public abstract class ObjectMapper {
 	
-	protected void setStatement(final PreparedStatement statement, final ParameterMetaData pd, final Object object, final String fieldName, final int index) {
-		
+	protected void setStatement(final PreparedStatement statement, final ParameterMetaData pd, final Object value, final int index) {
 		try {
-			final Object value = getValue(fieldName, object);
 			setPreparedStatementByType(statement, pd.getParameterTypeName(index), value.toString(), index);
-		} catch (IllegalAccessException | IllegalArgumentException | SQLException | NoSuchFieldException | SecurityException e) {
+		} catch (IllegalArgumentException | SQLException | SecurityException e) {
 			e.printStackTrace();
 		}
 	}
@@ -31,6 +34,8 @@ public abstract class ObjectMapper {
 			statement.setBoolean(index, Boolean.parseBoolean(input));
 			break;
 		case "varchar":
+		case "text":
+		case "string":
 			statement.setString(index, input);
 			break;
 		case "int":
@@ -95,10 +100,36 @@ public abstract class ObjectMapper {
 		TYPES.put(BigDecimal.class,"MONEY");
 	}
 	
-	protected String getSqlType(final Class<?> clazz) {
-		if(TYPES.containsKey(clazz))
-			return TYPES.get(clazz);
-		throw new UnsupportedTypeException(clazz.getName() + " is not mapped to a SQL type.");
+	private static final String FOREIGNKEY = "%s%s, FOREIGN KEY (%s) REFERENCES %s(%s)";
+	protected String getSqlType(final ColumnField field) {
+		String modifiers = "";
+		if(!field.getNullable())
+			modifiers += " NOT NULL";
+		if(field.getUnique())
+			modifiers += " UNIQUE";
+		
+		if(TYPES.containsKey(field.getType()))
+			return TYPES.get(field.getType()) + modifiers;
+		
+		try {
+			final MetaModel<?> model = Configuration.getInstance().getModel(field.getType());
+			return String.format(FOREIGNKEY, 
+					getSqlType(model.getPrimaryKey()),
+					modifiers,
+					field.getColumnName(),
+					model.getTableName(),
+					model.getPrimaryKey().getColumnName()
+				);
+		} catch(final ClassNotConfiguredException e) {
+			throw new UnsupportedTypeException(field.getName() + " is not mapped to a SQL type.");
+		}
+	}
+	
+	protected String getSqlType(final IdField field) {
+		if(TYPES.containsKey(field.getType())) {
+			return TYPES.get(field.getType());
+		}
+		throw new UnsupportedTypeException(field.getName() + " is not mapped to a SQL type.");
 	}
 
 }

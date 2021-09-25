@@ -12,6 +12,7 @@ public class ServletConfiguration {
 		if(!setup) {
 			setup = true;
 			config.addAnnotatedClass(CharacterModel.class);
+			config.finalizeConfig();
 		}
 	}
 	
