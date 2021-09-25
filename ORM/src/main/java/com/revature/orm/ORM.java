@@ -6,7 +6,10 @@ import java.sql.Savepoint;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
+
 import com.revature.connection.ConnectionFactory;
+import com.revature.exceptions.TransactionException;
 import com.revature.objectmapper.ObjectGetter;
 import com.revature.objectmapper.ObjectRemover;
 import com.revature.objectmapper.ObjectSaver;
@@ -15,6 +18,8 @@ import com.revature.objectmapper.ObjectUpdater;
 import com.revature.util.MetaModel;
 
 public class ORM {
+	
+	private static final Logger LOG = Logger.getLogger(ORM.class);
 	
 	private final static ORM DIYORM = new ORM();
 
@@ -129,8 +134,10 @@ public class ORM {
 				this.connection.setAutoCommit(false);
 				this.savepoint = this.connection.setSavepoint();
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				LOG.error("Error occured trying to start sql transaction.");
+				LOG.error(e.getLocalizedMessage());
 			}
+			LOG.info("Started sql transaction.");
 		} else {
 			throw new RuntimeException("A transaction has already been started.");
 		}
@@ -144,10 +151,12 @@ public class ORM {
 			try {
 				this.connection.rollback(this.savepoint);
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				LOG.error("Error occured trying to rollback an sql transaction.");
+				LOG.error(e.getLocalizedMessage());
 			}
+			LOG.info("Rolledback sql transaction.");
 		} else {
-			throw new RuntimeException("No transaction has been started.");
+			throw new TransactionException("No transaction has been started.");
 		}
 	}
 	
@@ -161,10 +170,12 @@ public class ORM {
 				this.connection.setAutoCommit(true);
 				this.savepoint = null;
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				LOG.error("Error occured trying to abort an sql transaction.");
+				LOG.error(e.getLocalizedMessage());
 			}
+			LOG.info("Aborted sql transaction.");
 		} else {
-			throw new RuntimeException("No transaction has been started.");
+			throw new TransactionException("No transaction has been started.");
 		}
 	}
 	/**
@@ -177,10 +188,12 @@ public class ORM {
 				this.connection.setAutoCommit(true);
 				this.savepoint = null;
 			} catch (final SQLException e) {
-				e.printStackTrace();
+				LOG.error("Error occured trying to commit an sql transaction.");
+				LOG.error(e.getLocalizedMessage());
 			}
+			LOG.info("Committed sql transaction.");
 		} else {
-			throw new RuntimeException("No transaction has been started.");
+			throw new TransactionException("No transaction has been started.");
 		}
 	}
 	

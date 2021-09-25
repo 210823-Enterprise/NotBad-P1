@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.apache.log4j.Logger;
 
+import com.revature.annotations.Entity;
 import com.revature.orm.Configuration;
 import com.revature.util.ColumnField;
 import com.revature.util.MetaModel;
@@ -37,7 +38,7 @@ public class ObjectGetter extends ObjectMapper{
 		}
 		
 		try {
-			final String sql 		 = String.format(GETSQL, model.getTableName(), columnName);
+			final String sql = String.format(GETSQL, model.getTableName(), columnName);
 			
 			final PreparedStatement statement = connection.prepareStatement(sql);
 			final ParameterMetaData parameter = statement.getParameterMetaData();
@@ -46,7 +47,7 @@ public class ObjectGetter extends ObjectMapper{
 
 			final ResultSet result = statement.executeQuery();
 			if( result.next() ) {
-				final Optional<T> out = constructObject(model, result);
+				final Optional<T> out = constructObject(model, result, connection);
 				LOG.info("Retrieved object " + object.getClass().getName() + " with " + columnName + " = " + object.toString() + " from database.");
 				return out;
 			}
@@ -67,7 +68,7 @@ public class ObjectGetter extends ObjectMapper{
 			final ResultSet result = statement.executeQuery();
 			
 			while( result.next() ) {
-				final Optional<T> construct = constructObject(model, result);
+				final Optional<T> construct = constructObject(model, result, connection);
 				if(construct.isPresent())
 					list.add(construct.get());
 			}
@@ -81,18 +82,30 @@ public class ObjectGetter extends ObjectMapper{
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> Optional<T> constructObject(final MetaModel<T> model, final ResultSet result) {
+	private <T> Optional<T> constructObject(final MetaModel<T> model, final ResultSet result, final Connection connection) {
 		//TODO: fix requiring a defined empty constructor
 		try {
 			final Object out = model.getClazz().newInstance();
 			setValue( model.getPrimaryKey().getName(), out, result.getObject(model.getPrimaryKey().getColumnName()) );
 			
-			for(final ColumnField field: model.getColumns())
-				setValue( field.getName(), out, result.getObject(field.getColumnName()) );
+			for(final ColumnField field: model.getColumns()) {
+				final Object value = result.getObject(field.getColumnName());
+				
+				if(field.getType().getAnnotation(Entity.class) != null) {
+					final Optional<?> object = getObjectFromDb(field.getType(), value, connection);
+					setValue( field.getName(), out, object.get() );
+				} else {
+					setValue( field.getName(), out, value );
+				}
+			}
 			
 			return (Optional<T>) Optional.of(out);
+			
+		} catch (final InstantiationException e) {
+			throw new RuntimeException("class " + model.getClassName() + " does not have a nullary constructor.");
 		} catch (final Exception e) {
-			e.printStackTrace();
+			LOG.error("Failed to construct class " + model.getClassName() + ".");
+			LOG.error(e.getLocalizedMessage());
 			return Optional.empty();
 		}
 	}

@@ -20,6 +20,9 @@ public class TestClass {
 	
 	@Column(columnName="test_password", nullable = false, unique = false)
 	private String testPassword;
+	
+	@Column(columnName="test_sub_class", nullable = false, unique = false)
+	private SubTestClass subClass;
 
 	public TestClass() {
 		super();
@@ -30,13 +33,15 @@ public class TestClass {
 		this.id = -1;
 		this.testUsername = testUsername;
 		this.testPassword = testPassword;
+		this.subClass = new SubTestClass("subclass");
 	}
 
-	public TestClass(final int id, final String testUsername, final String testPassword) {
+	public TestClass(final int id, final String testUsername, final String testPassword, final SubTestClass subTestClass) {
 		super();
 		this.id = id;
 		this.testUsername = testUsername;
 		this.testPassword = testPassword;
+		this.subClass = subTestClass;
 	}
 	
 	public boolean setId(final int id) {
@@ -60,6 +65,10 @@ public class TestClass {
 
 	public String getTestPassword() {
 		return this.testPassword;
+	}
+
+	public SubTestClass getSubclass() {
+		return this.subClass;
 	}
 
 	public void setTestPassword(final String testPassword) {

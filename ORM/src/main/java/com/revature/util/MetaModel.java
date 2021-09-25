@@ -8,6 +8,7 @@ import com.revature.annotations.Column;
 import com.revature.annotations.Entity;
 import com.revature.annotations.Id;
 import com.revature.annotations.JoinColumn;
+import com.revature.exceptions.ClassNotAnnotatedException;
 
 public class MetaModel<T> {
 
@@ -18,9 +19,9 @@ public class MetaModel<T> {
 	
 	public static <T> MetaModel<T> of(final Class<T> clazz) {
 		if (clazz.getAnnotation(Entity.class) == null) {
-			throw new IllegalStateException("Cannot create Metamodel object! Provided class " + clazz.getName() + " is not annotated with @Entity");
+			throw new ClassNotAnnotatedException("Failed to create Metamodel for " + clazz.getName() + "- class is not annotated with @Entity.");
 		}
-		return new MetaModel<>(clazz);		
+		return new MetaModel<T>(clazz);		
 	}
 	
 	public MetaModel(final Class<T> clazz) {
@@ -38,7 +39,7 @@ public class MetaModel<T> {
                 return new IdField(field);
             }
         }
-        throw new RuntimeException("Did not find a field annotated with @Id in: " + this.clazz.getName());
+        throw new ClassNotAnnotatedException("Failed to create Metamodel for " + this.clazz.getName() + "- no fields are annotated with @Id.");
     }
 
     private List<ColumnField> generateColumns() {
@@ -48,14 +49,18 @@ public class MetaModel<T> {
         
         for (final Field field : fields) {
             final Column column = field.getAnnotation(Column.class);
+            final Id id = field.getAnnotation(Id.class);
             if (column != null) {
             	columnFields.add(new ColumnField(field));
+            	if(id != null)
+            		throw new ClassNotAnnotatedException("Failed to create Metamodel for " + this.clazz.getName() + "- field " + field.getName() + " is annotated with @Id and @Column.");
             }
         }
-        if (columnFields.isEmpty()) {
-            throw new RuntimeException("No columns found in: " + this.clazz.getName());
-        }
-        return columnFields;
+        
+        if (columnFields.isEmpty())
+            throw new ClassNotAnnotatedException("Failed to create Metamodel for " + this.clazz.getName() + "- no fields are annotated with @Column.");
+        else
+        	return columnFields;
     }
 
     private List<ForeignKeyField> generateForeignKeys() {
