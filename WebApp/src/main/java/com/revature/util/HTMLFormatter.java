@@ -4,6 +4,8 @@ public class HTMLFormatter {
 	
 	public String format(final String format, final String str) {
 		String out = str;
+		if(format.contains("by"))
+			out = body(out);
 		if(format.contains("h1"))
 			out = header1(out);
 		if(format.contains("h2"))
@@ -16,7 +18,13 @@ public class HTMLFormatter {
 			out = italic(out);
 		if(format.contains("B"))
 			out = bold(out);
+		if(format.contains("P"))
+			out = paragraph(out);
 		return out;
+	}
+	
+	public String body(final String str) {
+		return "<html><body>" + str + "</body></html>";
 	}
 	
 	public String header3(final String str) {
@@ -41,6 +49,10 @@ public class HTMLFormatter {
 	
 	public String bold(final String str) {
 		return "<b>" + str + "</b>";
+	}
+	
+	public String paragraph(final String str) {
+		return "<p>" + str + "</p>";
 	}
 	
 }
