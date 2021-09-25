@@ -10,6 +10,16 @@
   		<param-value>Global Pizza Chain</param-value>
   </context-param>
   
+    <servlet>
+    <display-name>PlayServlet</display-name>
+    <servlet-name>PlayServlet</servlet-name>
+    <servlet-class>com.revature.sessionservlet.PlayServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PlayServlet</servlet-name>
+    <url-pattern>/playserv</url-pattern>
+  </servlet-mapping>
+  
   
      <servlet>
     <display-name>EditServlet</display-name>

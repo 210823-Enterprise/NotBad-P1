@@ -31,7 +31,7 @@ public class HelperSessionServlet extends HttpServlet {
 		
 		// 2. save the object retrieved from the session to a character object
 		CharacterModel characterUsername = new CharacterModel();
-		CharacterModel characterPassword = new CharacterModel();
+		session.setAttribute("username", characterUsername.getUsername());
 		
 		final List<CharacterModel> characterList = ORM.getInstance().getAllObjectsFromDb(CharacterModel.class);
 		
