@@ -66,11 +66,10 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the annotated field is a serial key.
 
   ### User API  
-  
-  - #### `public static Something getInstance()`  
-     - returns the singleton instance of the class. It is the starting point to calling any of the below methods.  
-  - #### `public HashMap<Class<?>, HashSet<Object>> getCache()`  
-     - returns the cache as a HashMap.  
+  - #### `public void addAnnotatedClass(final Class<?> annotatedClass)`  
+     - Registers a class to be added to the ORM and database. Must be properly annotated with the class marked as @Entity, and at least 1 variable marked with @Id, and another with @Column.  Throws 'IllegalStateException' if the configuration has been finalized, or the provided class is not properly annotated.
+  - #### `public static ORM getInstance()`  
+     - returns the singleton instance of the class. This is the starting point to calling any of the below methods.  
   - #### `public boolean addClass(final Class<?> clazz)`  
      - Adds a class to the ORM. This is the method to use to declare a Class is an object inside of the database.  
   - #### `public boolean UpdateObjectInDB(final Object obj,final String update_columns)`  
