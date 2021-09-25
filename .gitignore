@@ -29,3 +29,4 @@ hs_err_pid*
 WebApp/src/main/resources
 ORM/logs/log.txt
 WebApp/logs/log.txt
+ORM/target/classes/META-INF/MANIFEST.MF
