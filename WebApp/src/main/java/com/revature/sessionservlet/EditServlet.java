@@ -30,33 +30,18 @@ public class EditServlet extends HttpServlet{
 		final HttpSession session = request.getSession();
 		
 		// 2. save the object retrieved from the session to a character object
-//		Character character = (Character) session.getAttribute("character"); 
+		CharacterModel characterGenetics = (CharacterModel)session.getAttribute("username");
 		
-		final List<CharacterModel> characterList = ORM.getInstance().getAllObjectsFromDb(CharacterModel.class);
+		ORM.getInstance().updateObjectInDb(characterGenetics);
 		
 		// 3. after capturing the object, print the object's info to the screen
 		final PrintWriter out = response.getWriter();
 		
 		/// let's generate an html page on the fly!
 		out.println("<html><body>");
-			
-		for(final CharacterModel character : characterList) {
-			
-			// print out html that shows the properties of the character object captured
-			out.println("<h3>Character Name: " + character.getUsername() + "</h3><br />");
-			out.println("<i>Gender: " + character.getGender() + " </i><br/>");
-			out.println("<i>Race: " + character.getRace() + " </i><br/>");
-			out.println("<i>Class: " + character.getClazz() + " </i><br/>");
-			out.println("<i>Special Ability: " + character.getSpecialAbility() + " </i><br/>");
-			
-			out.println("<button name=simple_button type=button>Edit</button>");
-			
-			} 
-
-			out.println("</body></html>");
+		out.println("Character Updated! :D");
+		out.println("</body></html>");
 		
-			//ORM.getInstance().getObjectFromDb(character.getClass(),"name", character.getName());
-			
 	}
 
 	@Override
@@ -64,9 +49,6 @@ public class EditServlet extends HttpServlet{
 		
 		//triggers statically loaded data in servlet config
 		ServletConfiguration.setUp();
-		
-		
-		
 		doGet(request, response);
 	}
 
