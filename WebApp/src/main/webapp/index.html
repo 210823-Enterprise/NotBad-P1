@@ -2,6 +2,22 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+
+<style>
+
+@font-face
+{
+    font-family: 'warcraft';
+  src: url('warcraft.woff') format('woff'),
+
+}
+
+* {
+   font-family: warcraft;
+}
+
+</style>
+
 <title>World of ORMcraft</title>
 
 <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -17,8 +33,8 @@
 		<form method="POST" action="sesserv">
 			
 			<p>Create a Character</p>
-			<input type="text" name="username" placeholder="Enter your username"/> <br />
-			<input type="text" name="password" placeholder="Enter your password"/> <br />
+			<input type="text" name="username" placeholder="Desired username"/> <br />
+			<input type="password" name="password" placeholder="Desired password" maxlength="24"/> <br />
 			
 			<label for="gender">Gender:</label>
 			<select id="gender" name="gender">
@@ -64,37 +80,11 @@
 
 			<p>Login</p>
 			<input type="text" name="username" placeholder="Enter your username"/> <br />
-			<input type="text" name="password" placeholder="Enter your password"/> <br />
+			<input type="password" name="password" placeholder="Desired password" maxlength="24"/> <br />
 			<input type="submit" value="Login">
 
 		</form>
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		<form method="POST" action="editserv">
-		
-		<p>Edit a Character</p>
-		<input type="submit" value="List of Characters">
-		
-		</form>
-		
-		<form method="POST" action="deleteserv">
-		
-		<p>Delete a Character</p>
-		<input type="submit" value="List of Characters">
-		
-		</form>
 		
 		<hr>
 
