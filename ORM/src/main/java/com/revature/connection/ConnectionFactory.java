@@ -41,7 +41,6 @@ public class ConnectionFactory {
 			this.ds.setUsername(props.getProperty("username"));
 			this.ds.setPassword(props.getProperty("password"));
 			this.ds.setMinIdle(5);
-			this.ds.setDefaultAutoCommit(false);
 			this.ds.setMaxOpenPreparedStatements(100);
 		} catch (final IOException e) {
 			LOG.error("Unable to load src/main/resources/application.properties. Connection aborted.");

@@ -91,8 +91,11 @@ public class ObjectGetter extends ObjectMapper{
 				setValue( field.getName(), out, result.getObject(field.getColumnName()) );
 			
 			return (Optional<T>) Optional.of(out);
+		} catch (final InstantiationException e) {
+			throw new RuntimeException("class " + model.getClassName() + " does not have a nullary constructor.");
 		} catch (final Exception e) {
-			e.printStackTrace();
+			LOG.error("Failed to construct class " + model.getClassName() + ".");
+			LOG.error(e.getLocalizedMessage());
 			return Optional.empty();
 		}
 	}

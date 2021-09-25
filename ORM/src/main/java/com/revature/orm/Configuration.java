@@ -4,10 +4,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.revature.exceptions.ClassNotConfiguredException;
 import com.revature.util.MetaModel;
 
 public class Configuration {
+	
+	private static final Logger LOG = Logger.getLogger(Configuration.class);
 	
 	private static final Configuration config = new Configuration();
 	private final List<MetaModel<Class<?>>> metaModelList;
@@ -23,6 +27,7 @@ public class Configuration {
 			throw new IllegalStateException(annotatedClass.getName() + " is already registered.");
 		this.metaModelList.add( model );
 		ORM.getInstance().generateTable(model);
+		LOG.info("Added " + annotatedClass.getName() + " to meta models.");
 	}
 	
 	@SuppressWarnings("unchecked")
