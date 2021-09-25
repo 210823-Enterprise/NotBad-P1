@@ -43,7 +43,7 @@ public class HelperSessionServlet extends HttpServlet {
 		for(final CharacterModel character : characterList) {
 			
 			// print out html that shows the properties of the character object captured
-			out.println("<h3>Character Name: " + character.getName() + "</h3><br />");
+			out.println("<h3>Character Name: " + character.getUsername() + "</h3><br />");
 			out.println("<i>Gender: " + character.getGender() + " </i><br/>");
 			out.println("<i>Race: " + character.getRace() + " </i><br/>");
 			out.println("<i>Class: " + character.getClazz() + " </i><br/>");

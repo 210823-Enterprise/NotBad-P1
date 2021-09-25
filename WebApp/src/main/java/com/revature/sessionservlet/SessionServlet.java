@@ -43,7 +43,8 @@ public class SessionServlet extends HttpServlet {
 		
 		// Capture the input from the HTTP post request and create a java object
 		
-		final String name = request.getParameter("name");
+		final String username = request.getParameter("username");
+		final String password = request.getParameter("password");
 		final String gender = request.getParameter("gender");
 		final String race = request.getParameter("race");
 		final String clazz = request.getParameter("class");
@@ -51,7 +52,7 @@ public class SessionServlet extends HttpServlet {
 		
 		
 		// 2. Convert the capture params into an object by passing it thru the character Constructor
-		final CharacterModel character = new CharacterModel(name, gender, race, clazz, specialAbility);
+		final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility);
 		
 		// 3. Grab the HttpSession from the request obj
 		final HttpSession session = request.getSession();
