@@ -66,11 +66,11 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the annotated field is a serial key.
 
   ### User API  
-  - #### 'public static Configuration getInstance()'
+  - #### `public static Configuration getInstance()`
      - Returns a static instance of the configuration class.
   - #### `public void addAnnotatedClass(final Class<?> annotatedClass)`  
      - Registers a class to be added to the ORM and database. Must be properly annotated with the class marked as @Entity, and at least 1 variable marked with @Id, and another with @Column.  Throws 'IllegalStateException' if the configuration has been finalized, or the provided class is not properly annotated.
-  - #### 'public void finalizeConfig()'
+  - #### `public void finalizeConfig()`
      - Marks a configuration as complete. Creates tables in the database for all registered class (if needed), and prevents adding of additional classes to the configuration.
   - #### `public static ORM getInstance()`  
      - returns the singleton instance of the class. This is the starting point to calling any of the below methods.  
