@@ -43,24 +43,24 @@
   
   
   <servlet>
-    <display-name>SessionServlet</display-name>
-    <servlet-name>SessionServlet</servlet-name>
-    <servlet-class>com.revature.sessionservlet.SessionServlet</servlet-class>
+    <display-name>HomeServlet</display-name>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>com.revature.sessionservlet.HomeServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>SessionServlet</servlet-name>
-    <url-pattern>/sesserv</url-pattern>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/homeserv</url-pattern>
   </servlet-mapping>
   
   
   <servlet>
     <description></description>
-    <display-name>HelperSessionServlet</display-name>
-    <servlet-name>HelperSessionServlet</servlet-name>
-    <servlet-class>com.revature.sessionservlet.HelperSessionServlet</servlet-class>
+    <display-name>LoginServlet</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.revature.sessionservlet.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>HelperSessionServlet</servlet-name>
-    <url-pattern>/helperserv</url-pattern>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/loginserv</url-pattern>
   </servlet-mapping>
 </web-app>
