@@ -58,9 +58,9 @@ public class HelperSessionServlet extends HttpServlet {
 					+ "\r\n"
 					+ "</style><title>Welcome Player</title><link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><body><div class=\"character-container\">");
 			out.println("<h1>Welcome Player</h1>");
-			out.println("<form method=POST action=editserv><p>Play</p><input type=submit value=Start></form>");
+			out.println("<form method=POST action=playserv><p>Play</p><input type=submit value=Start></form>");
 			out.println("<br>");
-			out.println("		<form method=\"POST\" action=\"sesserv\">\r\n"
+			out.println("		<form method=\"POST\" action=\"editserv\">\r\n"
 					+ "			\r\n"
 					+ "			<p>Edit Character</p>\r\n"
 					+ "			<input type=\"text\" name=\"username\" placeholder=\"Edit your username\"/> <br />\r\n"
@@ -101,11 +101,11 @@ public class HelperSessionServlet extends HttpServlet {
 					+ "			<option value=\"banker\">banker</option>\r\n"
 					+ "			</select>\r\n"
 					+ "			\r\n"
-					+ "			<input type=\"submit\" value=\"create your character\">\r\n"
+					+ "			<input type=\"submit\" value=\"Save Changes\">\r\n"
 					+ "		\r\n"
 					+ "		</form>");
 			out.println("<br>");
-			out.println("<form method=POST action=editserv><p>Delete Character :c</p><input type=submit value=Delete></form>");
+			out.println("<form method=POST action=deleteserv><p>Delete Character :c</p><input type=submit value=Delete></form>");
 			out.println("</body></html>");
 		} else {
 			out.println("Incorrect username/password. Please try again.");
