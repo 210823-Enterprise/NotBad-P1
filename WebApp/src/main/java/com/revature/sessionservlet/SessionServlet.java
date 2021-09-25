@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.CharacterModel;
+import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
 import com.revature.util.ServletConfiguration;
 
@@ -52,7 +53,7 @@ public class SessionServlet extends HttpServlet {
 		
 		
 		// 2. Convert the capture params into an object by passing it thru the character Constructor
-		final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility);
+		final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats());
 		
 		// 3. Grab the HttpSession from the request obj
 		final HttpSession session = request.getSession();
