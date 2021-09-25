@@ -54,19 +54,14 @@ public class DeleteServlet extends HttpServlet{
 			} 
 
 			out.println("</body></html>");
-		
-			//ORM.getInstance().getObjectFromDb(character.getClass(),"name", character.getName());
-			
+
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		
 		//triggers statically loaded data in servlet config
-		ServletConfiguration.setUp();
-		
-		
-		
+		ServletConfiguration.setUp();	
 		doGet(request, response);
 	}
 
