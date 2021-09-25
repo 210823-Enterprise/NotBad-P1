@@ -20,19 +20,12 @@ public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 7751372469078935199L;
 	
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		
-		//triggers statically loaded data in servlet config
-		ServletConfiguration.setUp();
-		
-				
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {		
 		/*
 		 * HttpSession is an interface provides us with the functionality to store user information across out application
 		 */
-		
 		final HttpSession session = request.getSession();
 		final PrintWriter out = response.getWriter();
-
 	}
 
 

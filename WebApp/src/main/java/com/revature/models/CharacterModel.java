@@ -64,8 +64,8 @@ public class CharacterModel {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return this.password;
+	public boolean equalsPassword(final String password) {
+		return this.password.equals(password);
 	}
 
 	public void setPassword(final String password) {
