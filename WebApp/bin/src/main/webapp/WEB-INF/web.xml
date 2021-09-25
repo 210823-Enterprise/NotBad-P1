@@ -1,61 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://JAVA.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>NotBadServlets</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
-  
-  <context-param>
-  		<param-name>contextExample</param-name>
-  		<param-value>Global Pizza Chain</param-value>
-  </context-param>
-  
-  
-  <servlet>
-    <servlet-name>DirServ</servlet-name>
-    <servlet-class>com.revature.directservlet.DirectServlet</servlet-class>
-    <load-on-startup>1</load-on-startup> <!-- The servlet is already loaded when we run the server -->
-    <!-- default behavior is lazy loading (unless otherwise specified) -->
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>DirServ</servlet-name>
-    <url-pattern>/dirserv</url-pattern>
-  </servlet-mapping>
-  
-  
-  
-  <servlet>
-    <servlet-name>IndirectServlet</servlet-name>
-    <servlet-class>com.revature.indirectservlet.IndirectServlet</servlet-class>  
-    <init-param>
-    	<param-name>configExample</param-name>
-    	<param-value>Local Pizza Chains</param-value> 
-    </init-param>    
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>IndirectServlet</servlet-name>
-    <url-pattern>/indirserv</url-pattern>
-  </servlet-mapping>
-  
-  
-  
-  <servlet>
-    <display-name>SessionServlet</display-name>
-    <servlet-name>SessionServlet</servlet-name>
-    <servlet-class>com.revature.sessionservlet.SessionServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SessionServlet</servlet-name>
-    <url-pattern>/sesserv</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>HelperSessionServlet</display-name>
-    <servlet-name>HelperSessionServlet</servlet-name>
-    <servlet-class>com.revature.sessionservlet.HelperSessionServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>HelperSessionServlet</servlet-name>
-    <url-pattern>/helperserv</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://JAVA.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>NotBadServlets</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<context-param>
+		<param-name>contextExample</param-name>
+		<param-value>Global Pizza Chain</param-value>
+	</context-param>
+
+	<servlet>
+		<display-name>PlayServlet</display-name>
+		<servlet-name>PlayServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.PlayServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PlayServlet</servlet-name>
+		<url-pattern>/playserv</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<display-name>EditServlet</display-name>
+		<servlet-name>EditServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.EditServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditServlet</servlet-name>
+		<url-pattern>/editserv</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>DeleteServlet</display-name>
+		<servlet-name>DeleteServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.DeleteServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteServlet</servlet-name>
+		<url-pattern>/deleteserv</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<display-name>ConfimDeleteServlet</display-name>
+		<servlet-name>ConfimDeleteServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.ConfimDeleteServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteServlet</servlet-name>
+		<url-pattern>/confirmdeleteserv</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<display-name>HomeServlet</display-name>
+		<servlet-name>HomeServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeServlet</servlet-name>
+		<url-pattern>/homeserv</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<description></description>
+		<display-name>LoginServlet</display-name>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.LoginServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/loginserv</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>
+			com.revature.util.ServletInitilizer
+		</listener-class>
+	</listener>
+	
 </web-app>

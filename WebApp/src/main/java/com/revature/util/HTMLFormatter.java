@@ -2,7 +2,7 @@ package com.revature.util;
 
 public class HTMLFormatter {
 	
-	public String format(final String format, final String str) {
+	public static String format(final String format, final String str) {
 		String out = str;
 		if(format.contains("by"))
 			out = body(out);
@@ -23,36 +23,44 @@ public class HTMLFormatter {
 		return out;
 	}
 	
-	public String body(final String str) {
+	public static String body(final String str) {
 		return "<html><body>" + str + "</body></html>";
 	}
 	
-	public String header3(final String str) {
+	public static String header3(final String str) {
 		return "<h3>" + str + "</h3>";
 	}
 	
-	public String header2(final String str) {
+	public static String header2(final String str) {
 		return "<h2>" + str + "</h2>";
 	}
 	
-	public String header1(final String str) {
+	public static String header1(final String str) {
 		return "<h1>" + str + "</h1>";
 	}
 	
-	public String newLine(final String str) {
+	public static String newLine(final String str) {
 		return str + "</br>";
 	}
 	
-	public String italic(final String str) {
+	public static String italic(final String str) {
 		return "<i>" + str + "</i>";
 	}
 	
-	public String bold(final String str) {
+	public static String bold(final String str) {
 		return "<b>" + str + "</b>";
 	}
 	
-	public String paragraph(final String str) {
+	public static String paragraph(final String str) {
 		return "<p>" + str + "</p>";
+	}
+	
+	public static String createForm(final String content, final String postServlet) {
+		return String.format("<form method=POST action=%s>%s</form>", postServlet, content);
+	}
+	
+	public static String createButton(final String label) {
+		return String.format("<input type=submit value=%s>", label);
 	}
 	
 }

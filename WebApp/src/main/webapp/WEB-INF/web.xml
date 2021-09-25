@@ -45,6 +45,18 @@
 		<url-pattern>/deleteserv</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<display-name>ConfirmDeleteServlet</display-name>
+		<servlet-name>ConfirmDeleteServlet</servlet-name>
+		<servlet-class>com.revature.sessionservlet.ConfirmDeleteServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConfirmDeleteServlet</servlet-name>
+		<url-pattern>/confirmdeleteserv</url-pattern>
+	</servlet-mapping>
+	
+
 
 	<servlet>
 		<display-name>HomeServlet</display-name>

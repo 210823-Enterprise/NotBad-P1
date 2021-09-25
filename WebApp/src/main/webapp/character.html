@@ -1,0 +1,71 @@
+
+<html>
+<style>
+@font-face {
+	font-family: 'warcraft';
+	src: url('warcraft.woff') format('woff')
+}
+{
+	font-family: warcraft;
+}
+
+</style>
+
+<title>Welcome Player</title>
+<link rel=\ "stylesheet\" type=\ "text/css\" href=\"css/styles.css\">
+
+<body>
+	<div class=\"character-container\">
+		");
+		<h1>Welcome</h1>
+		");
+		<h1>"+character.getUsername()+"</h1>
+		");
+		<h3>"+character+"</h3>
+		");
+		<form method=POST action=playserv>
+			<p>Play</p>
+			<input type=submit value=Start>
+		</form>
+		"); <br>");
+		<form method=\ "POST\" action=\"editserv\">
+
+			<p>Edit Character</p>
+			<input type=\ "text\" name=\ "username\" placeholder=\ "Edit your username\"/>
+			<br /> <label for=\"gender\">Gender:</label> <select id=\
+				"gender\" name=\"gender\">
+				<option value=\"male\">male</option>
+				<option value=\"female\">female</option>
+			</select> <label for=\"race\">Race:</label> <select id=\ "race\" name=\"race\">
+				<option value=\"human\">human</option>
+				<option value=\"elf\">elf</option>
+				<option value=\"orc\">orc</option>
+				<option value=\"dwarf\">dwarf</option>
+				<option value=\"fairy\">fairy</option>
+				<option value=\"undead\">undead</option>
+			</select> <label for=\"class\">Class:</label> <select id=\ "class\" name=\"class\">
+				<option value=\"fighter\">fighter</option>
+				<option value=\"assasian\">assasian</option>
+				<option value=\"mage\">mage</option>
+				<option value=\"tank\">tank</option>
+				<option value=\"healer\">healer</option>
+				<option value=\"marksman\">marksman</option>
+			</select> <label for=\"specialability\">Special Ability:</label> <select id=\
+				"specialability\" name=\"specialability\">
+				<option value=\"leader\">leader</option>
+				<option value=\"charisma\">charisma</option>
+				<option value=\"jack-of-all-trades\">jack-of-all-trades</option>
+				<option value=\"blacksmith\">blacksmith</option>
+				<option value=\"farmer\">farmer</option>
+				<option value=\"banker\">banker</option>
+			</select> <input type=\ "submit\" value=\ "SaveChanges\"> + " + "
+		</form>
+		"); <br>");
+		<form method=POST action=confirmdeleteserv>
+			<p>Delete Character :c</p>
+			<input type=submit value=Delete>
+		</form>
+		");
+</body>
+</html>
+");

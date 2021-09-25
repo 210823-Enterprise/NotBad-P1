@@ -4,18 +4,14 @@
 <meta charset="ISO-8859-1">
 
 <style>
-
-@font-face
-{
-    font-family: 'warcraft';
-  src: url('warcraft.woff') format('woff'),
-
+@font-face {
+	font-family: 'warcraft';
+	src: url('warcraft.woff') format('woff'),
 }
 
 * {
-   font-family: warcraft;
+	font-family: warcraft;
 }
-
 </style>
 
 <title>World of ORMcraft</title>
@@ -27,65 +23,56 @@
 
 	<div class="character-container">
 
-	<img src="logo.png" alt="logo" class="center">
+		<img src="logo.png" alt="logo" class="center">
 
 
 		<form method="POST" action="homeserv">
-			
+
 			<p>Create a Character</p>
-			<input type="text" name="username" placeholder="Desired username"/> <br />
-			<input type="password" name="password" placeholder="Desired password" maxlength="24"/> <br />
-			
-			<label for="gender">Gender:</label>
-			<select id="gender" name="gender">
-			<option value="male">male</option>
-			<option value="female">female</option>
-			</select>
-			
-			<label for="race">Race:</label>
-			<select id="race" name="race">
-			<option value="human">human</option>
-			<option value="elf">elf</option>
-			<option value="orc">orc</option>
-			<option value="dwarf">dwarf</option>
-			<option value="fairy">fairy</option>
-			<option value="undead">undead</option>
-			</select>
-			
-			<label for="class">Class:</label>
-			<select id="class" name="class">
-			<option value="fighter">fighter</option>
-			<option value="assasian">assasian</option>
-			<option value="mage">mage</option>
-			<option value="tank">tank</option>
-			<option value="healer">healer</option>
-			<option value="marksman">marksman</option>
-			</select>
-			
-			<label for="specialability">Special Ability:</label>
-			<select id="specialability" name="specialability">
-			<option value="leader">leader</option>
-			<option value="charisma">charisma</option>
-			<option value="jack-of-all-trades">jack-of-all-trades</option>
-			<option value="blacksmith">blacksmith</option>
-			<option value="farmer">farmer</option>
-			<option value="banker">banker</option>
-			</select>
-			
-			<input type="submit" value="create your character">
-		
+			<input type="text" name="username" placeholder="Desired username" />
+			<br /> <input type="password" name="password"
+				placeholder="Desired password" maxlength="24" /> <br /> <label
+				for="gender">Gender:</label> <select id="gender" name="gender">
+				<option value="male">male</option>
+				<option value="female">female</option>
+			</select> <label for="race">Race:</label> <select id="race" name="race">
+				<option value="human">human</option>
+				<option value="elf">elf</option>
+				<option value="orc">orc</option>
+				<option value="dwarf">dwarf</option>
+				<option value="fairy">fairy</option>
+				<option value="undead">undead</option>
+			</select> <label for="class">Class:</label> <select id="class" name="class">
+				<option value="fighter">fighter</option>
+				<option value="assasian">assasian</option>
+				<option value="mage">mage</option>
+				<option value="tank">tank</option>
+				<option value="healer">healer</option>
+				<option value="marksman">marksman</option>
+			</select> <label for="specialability">Special Ability:</label> <select
+				id="specialability" name="specialability">
+				<option value="leader">leader</option>
+				<option value="charisma">charisma</option>
+				<option value="jack-of-all-trades">jack-of-all-trades</option>
+				<option value="blacksmith">blacksmith</option>
+				<option value="farmer">farmer</option>
+				<option value="banker">banker</option>
+			</select> <input type="submit" value="create your character">
+
 		</form>
-		
-		<form method="GET" action="loginserv"> <!-- We will have to change the URL pattern which points to the particular servlet in web.xml -->
+
+		<form method="GET" action="loginserv">
+			<!-- We will have to change the URL pattern which points to the particular servlet in web.xml -->
 
 			<p>Login</p>
-			<input type="text" name="username" placeholder="Enter your username"/> <br />
-			<input type="password" name="password" placeholder="Desired password" maxlength="24"/> <br />
-			<input type="submit" value="Login">
+			<input type="text" name="username" placeholder="Enter your username" />
+			<br /> <input type="password" name="password"
+				placeholder="Desired password" maxlength="24" /> <br /> <input
+				type="submit" value="Login">
 
 		</form>
-		
-		
+
+
 		<hr>
 
 	</div>
