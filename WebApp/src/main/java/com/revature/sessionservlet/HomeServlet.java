@@ -13,30 +13,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.CharacterModel;
 import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
-import com.revature.util.ServletConfiguration;
 
 public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7751372469078935199L;
 	
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {		
-		/*
-		 * HttpSession is an interface provides us with the functionality to store user information across out application
-		 */
-		final HttpSession session = request.getSession();
-		final PrintWriter out = response.getWriter();
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		response.sendRedirect("index.html");
 	}
 
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		
-		//triggers statically loaded data in servlet config
-		ServletConfiguration.setUp();
-		
-		// Capture the input from the HTTP post request and create a java object
-		
 		final String username = request.getParameter("username");
 		final String password = request.getParameter("password");
 		final String gender = request.getParameter("gender");
@@ -65,9 +54,6 @@ public class HomeServlet extends HttpServlet {
 		} else {
 			out.println("Character not created. Please try again.");
 		}
-				
-		
-		
 	}
 
 }

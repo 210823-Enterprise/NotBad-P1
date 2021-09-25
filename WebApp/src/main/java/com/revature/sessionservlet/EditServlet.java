@@ -24,7 +24,9 @@ public class EditServlet extends HttpServlet{
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
 		
 		//retrieve fields
-		characterModel.setPassword(request.getParameter("password"));
+		final String password = request.getParameter("password");
+		if(password.length() > 1)
+			characterModel.setPassword(request.getParameter("password"));
 		characterModel.setGender(request.getParameter("gender"));
 		characterModel.setRace(request.getParameter("race"));
 		characterModel.setClazz(request.getParameter("class"));

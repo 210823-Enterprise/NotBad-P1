@@ -17,19 +17,23 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -7393813005277884981L;
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		// 1. grab the session
 		final HttpSession session = request.getSession();
+		CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
 		
-		// 2. store the username and password
-		final String username = request.getParameter("username");
-		final String password = request.getParameter("password");
+		if(characterModel == null) {
+			
+			final String username = request.getParameter("username");
+			final String password = request.getParameter("password");
+			
+			characterModel = ORM.getInstance().getObjectFromDb(CharacterModel.class, "username", username);
+			if(characterModel != null && !characterModel.equalsPassword(password))
+				characterModel = null;
+		}
 		
-		// 3. load object from bd
-		final CharacterModel characterModel = ORM.getInstance().getObjectFromDb(CharacterModel.class, "username", username);
-
 		final PrintWriter out = response.getWriter();
-		if(characterModel != null && characterModel.equalsPassword(password)) {
+		if(characterModel != null) {
 			session.setAttribute("character_model", characterModel);
+			//response.sendRedirect("character.html");
 			printCharacterPage(out, characterModel);
 		} else {
 			out.println("Incorrect username/password. Please try again.");
@@ -106,7 +110,7 @@ public class LoginServlet extends HttpServlet {
 				+ "		\r\n"
 				+ "		</form>");
 		out.println("<br>");
-		out.println("<form method=POST action=deleteserv><p>Delete Character :c</p><input type=submit value=Delete></form>");
+		out.println("<form method=POST action=confirmdeleteserv><p>Delete Character :c</p><input type=submit value=Delete></form>");
 		out.println("</body></html>");
 	}
 
