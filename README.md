@@ -66,14 +66,21 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the annotated field is a serial key.
 
   ### User API  
+  - #### 'public static Configuration getInstance()'
+     - Returns a static instance of the configuration class.
   - #### `public void addAnnotatedClass(final Class<?> annotatedClass)`  
      - Registers a class to be added to the ORM and database. Must be properly annotated with the class marked as @Entity, and at least 1 variable marked with @Id, and another with @Column.  Throws 'IllegalStateException' if the configuration has been finalized, or the provided class is not properly annotated.
+  - #### 'public void finalizeConfig()'
+     - Marks a configuration as complete. Creates tables in the database for all registered class (if needed), and prevents adding of additional classes to the configuration.
   - #### `public static ORM getInstance()`  
      - returns the singleton instance of the class. This is the starting point to calling any of the below methods.  
-  - #### `public boolean addClass(final Class<?> clazz)`  
-     - Adds a class to the ORM. This is the method to use to declare a Class is an object inside of the database.  
-  - #### `public boolean UpdateObjectInDB(final Object obj,final String update_columns)`  
-     - Updates the given object in the databse. Update columns is a comma seperated lsit fo all columns in the onject which need to be updated  
+  - #### `public boolean addObjectToDb(final Object object)`  
+     - Saves an object to the database. Fails if the object already exists. If the primary key is set to auto generate, automatically sets the object's id to the generated id.
+  - #### `public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value)`  
+     - Retrieves and object from the database using the specified column name. If more then 1 column matches the provided value, one object is arbitrarily returned. 
+        - @param clazz The object's class.
+	      - @param columnName The column name to check for retrieving the value
+	      - @param value The value at the column
   - #### `public boolean removeObjectFromDB(final Object obj)`  
      - Removes the given object from the database.  
   - #### `public boolean addObjectToDB(final Object obj)`  
