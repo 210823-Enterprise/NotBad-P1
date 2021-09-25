@@ -51,7 +51,7 @@ public class ObjectTable extends ObjectMapper {
 				connection.commit();
 			return true;
 		} catch (final SQLException e) {
-			LOG.error("Failed to create table for " + model.getClazz().getName() + " to database.");
+			LOG.error("Failed to create table for " + model.getType().getName() + " to database.");
 			LOG.error(e.getLocalizedMessage());
 		}
 		return false;

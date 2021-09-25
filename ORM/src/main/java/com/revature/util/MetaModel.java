@@ -93,7 +93,7 @@ public class MetaModel<T> {
 		return this.clazz.getSimpleName();
 	}
 
-	public Class<T> getClazz() {
+	public Class<T> getType() {
 		return this.clazz;
 	}
 
