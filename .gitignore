@@ -30,3 +30,4 @@ WebApp/src/main/resources
 ORM/logs/log.txt
 WebApp/logs/log.txt
 ORM/target/classes/META-INF/MANIFEST.MF
+WebApp/target/m2e-wtp/web-resources/META-INF/maven/com.revature/NotBadServlets/pom.properties
