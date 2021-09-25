@@ -30,8 +30,10 @@ public class EditServlet extends HttpServlet{
 		final HttpSession session = request.getSession();
 		
 		// 2. save the object retrieved from the session to a character object
-		CharacterModel characterGenetics = (CharacterModel)session.getAttribute("username");
+		CharacterModel characterGenetics = new CharacterModel();
 		
+		characterGenetics.getClass();
+
 		ORM.getInstance().updateObjectInDb(characterGenetics);
 		
 		// 3. after capturing the object, print the object's info to the screen

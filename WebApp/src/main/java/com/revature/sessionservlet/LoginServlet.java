@@ -14,7 +14,7 @@ import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
 import com.revature.util.ServletConfiguration;
 
-public class HelperSessionServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7393813005277884981L;
 	@Override

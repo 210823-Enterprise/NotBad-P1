@@ -15,7 +15,7 @@ import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
 import com.revature.util.ServletConfiguration;
 
-public class SessionServlet extends HttpServlet {
+public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7751372469078935199L;
 	
