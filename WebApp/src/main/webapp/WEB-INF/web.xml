@@ -11,32 +11,6 @@
   </context-param>
   
   
-  <servlet>
-    <servlet-name>DirServ</servlet-name>
-    <servlet-class>com.revature.directservlet.DirectServlet</servlet-class>
-    <load-on-startup>1</load-on-startup> <!-- The servlet is already loaded when we run the server -->
-    <!-- default behavior is lazy loading (unless otherwise specified) -->
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>DirServ</servlet-name>
-    <url-pattern>/dirserv</url-pattern>
-  </servlet-mapping>
-  
-  
-  
-  <servlet>
-    <servlet-name>IndirectServlet</servlet-name>
-    <servlet-class>com.revature.indirectservlet.IndirectServlet</servlet-class>  
-    <init-param>
-    	<param-name>configExample</param-name>
-    	<param-value>Local Pizza Chains</param-value> 
-    </init-param>    
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>IndirectServlet</servlet-name>
-    <url-pattern>/indirserv</url-pattern>
-  </servlet-mapping>
-  
      <servlet>
     <display-name>EditServlet</display-name>
     <servlet-name>EditServlet</servlet-name>
