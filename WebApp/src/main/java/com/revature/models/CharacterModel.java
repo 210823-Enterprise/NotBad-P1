@@ -29,12 +29,15 @@ public class CharacterModel {
 
 	@Column(columnName="specialAbility", nullable=false, unique = false)
 	private String specialAbility;
+
+	@Column(columnName="game_data", nullable=false, unique = false)
+	private CharacterStats gameData;
 	
 	public CharacterModel() {
 		super();
 	}
 
-	public CharacterModel(final String username, final String password, final String gender, final String race, final String clazz, final String specialAbility) {
+	public CharacterModel(final String username, final String password, final String gender, final String race, final String clazz, final String specialAbility, final CharacterStats gameData) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -42,87 +45,88 @@ public class CharacterModel {
 		this.race = race;
 		this.clazz = clazz;
 		this.specialAbility = specialAbility;
+		this.gameData = gameData;
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
 	public String getGender() {
-		return gender;
+		return this.gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(final String gender) {
 		this.gender = gender;
 	}
 
 	public String getRace() {
-		return race;
+		return this.race;
 	}
 
-	public void setRace(String race) {
+	public void setRace(final String race) {
 		this.race = race;
 	}
 
 	public String getClazz() {
-		return clazz;
+		return this.clazz;
 	}
 
-	public void setClazz(String clazz) {
+	public void setClazz(final String clazz) {
 		this.clazz = clazz;
 	}
 
 	public String getSpecialAbility() {
-		return specialAbility;
+		return this.specialAbility;
 	}
 
-	public void setSpecialAbility(String specialAbility) {
+	public void setSpecialAbility(final String specialAbility) {
 		this.specialAbility = specialAbility;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(clazz, gender, id, password, race, specialAbility, username);
+		return Objects.hash(this.clazz, this.gender, this.id, this.password, this.race, this.specialAbility, this.username);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CharacterModel other = (CharacterModel) obj;
-		return Objects.equals(clazz, other.clazz) && Objects.equals(gender, other.gender) && id == other.id
-				&& Objects.equals(password, other.password) && Objects.equals(race, other.race)
-				&& Objects.equals(specialAbility, other.specialAbility) && Objects.equals(username, other.username);
+		final CharacterModel other = (CharacterModel) obj;
+		return Objects.equals(this.clazz, other.clazz) && Objects.equals(this.gender, other.gender) && this.id == other.id
+				&& Objects.equals(this.password, other.password) && Objects.equals(this.race, other.race)
+				&& Objects.equals(this.specialAbility, other.specialAbility) && Objects.equals(this.username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "CharacterModel [id=" + id + ", username=" + username + ", password=" + password + ", gender=" + gender
-				+ ", race=" + race + ", clazz=" + clazz + ", specialAbility=" + specialAbility + "]";
+		return "CharacterModel [id=" + this.id + ", username=" + this.username + ", gender=" + this.gender
+				+ ", race=" + this.race + ", clazz=" + this.clazz + ", specialAbility=" + this.specialAbility + "]";
 	}
 
 	
