@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 		characterUsername = ORM.getInstance().getObjectFromDb(CharacterModel.class, "username", request.getParameter("username"));
 		System.out.println(characterUsername == null);
 		
-		if(request.getParameter("password").equals(characterUsername.getPassword())) {
+		if(characterUsername != null && request.getParameter("password").equals(characterUsername.getPassword())) {
 			out.println("<html><style>\r\n"
 					+ "\r\n"
 					+ "@font-face\r\n"
@@ -57,7 +57,9 @@ public class LoginServlet extends HttpServlet {
 					+ "}\r\n"
 					+ "\r\n"
 					+ "</style><title>Welcome Player</title><link rel=\"stylesheet\" type=\"text/css\" href=\"css/styles.css\"><body><div class=\"character-container\">");
-			out.println("<h1>Welcome Player</h1>");
+			out.println("<h1>Welcome</h1>");
+			out.println("<h1>"+characterUsername.getUsername()+"</h1>");
+			out.println("<h3>"+characterUsername+"</h3>");
 			out.println("<form method=POST action=playserv><p>Play</p><input type=submit value=Start></form>");
 			out.println("<br>");
 			out.println("		<form method=\"POST\" action=\"editserv\">\r\n"

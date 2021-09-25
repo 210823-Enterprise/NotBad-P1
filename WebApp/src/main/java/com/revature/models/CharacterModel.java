@@ -125,8 +125,8 @@ public class CharacterModel {
 
 	@Override
 	public String toString() {
-		return "CharacterModel [id=" + this.id + ", username=" + this.username + ", gender=" + this.gender
-				+ ", race=" + this.race + ", clazz=" + this.clazz + ", specialAbility=" + this.specialAbility + "]";
+		return "[Character Name = " + this.username + "| gender= " + this.gender
+				+ "| race= " + this.race + "| class= " + this.clazz + "| Special Ability= " + this.specialAbility + "]";
 	}
 
 	
