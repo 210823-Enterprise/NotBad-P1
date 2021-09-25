@@ -26,26 +26,92 @@ public abstract class ObjectMapper {
 		}
 	}
 	
+	private static final Map<String,Evaluation> STATEMENT_TYPES;
+	static {
+		final Evaluation boolType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws SQLException {
+				statement.setBoolean(index, Boolean.parseBoolean(input));
+			}
+		};
+		final Evaluation byteType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setByte(index, Byte.parseByte(input));
+			}
+		};
+		final Evaluation shortType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setShort(index, Short.parseShort(input));
+			}
+		};
+		final Evaluation intType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setInt(index, Integer.parseInt(input));
+			}
+		};
+		final Evaluation longType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setLong(index, Long.parseLong(input));
+			}
+		};
+		final Evaluation floatType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setFloat(index, Float.parseFloat(input));
+			}
+		};
+		final Evaluation doubleType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException {
+				statement.setDouble(index, Double.parseDouble(input));
+			}
+		};
+		final Evaluation stringType = new Evaluation() {
+			@Override
+			public void updateStatement(final PreparedStatement statement, final String input, final int index) throws SQLException {
+				statement.setString(index, input);
+			}
+		};
+		STATEMENT_TYPES = new HashMap<>();
+		STATEMENT_TYPES.put("bool",     boolType);
+		STATEMENT_TYPES.put("boolean",  boolType );
+		STATEMENT_TYPES.put("bit",      byteType );
+		STATEMENT_TYPES.put("byte",     byteType );
+		STATEMENT_TYPES.put("int1",     byteType );
+		STATEMENT_TYPES.put("tinyint",  shortType );
+		STATEMENT_TYPES.put("int2",     shortType );
+		STATEMENT_TYPES.put("int",      intType );
+		STATEMENT_TYPES.put("integer",  intType );
+		STATEMENT_TYPES.put("mediumint",intType );
+		STATEMENT_TYPES.put("int4",     intType );
+		STATEMENT_TYPES.put("bigint",     longType );
+		STATEMENT_TYPES.put("int8",     longType );
+		STATEMENT_TYPES.put("float",    floatType );
+		STATEMENT_TYPES.put("double",   doubleType );
+		STATEMENT_TYPES.put("char",      stringType );
+		STATEMENT_TYPES.put("varchar",   stringType );
+		STATEMENT_TYPES.put("text",      stringType );
+		STATEMENT_TYPES.put("string",    stringType );
+		STATEMENT_TYPES.put("tinytext",  stringType );
+		STATEMENT_TYPES.put("mediumtext",stringType );
+		STATEMENT_TYPES.put("longtext",  stringType );
+		STATEMENT_TYPES.put("blob",      stringType );
+		STATEMENT_TYPES.put("longblob",  stringType );
+	}
+	
+	interface Evaluation {
+		void updateStatement(final PreparedStatement statement, final String input, final int index) throws NumberFormatException, SQLException;
+	}
+	
 	protected void setPreparedStatementByType(final PreparedStatement statement, final String type, final String input, final int index) throws SQLException {
-
-		//TODO: smart type evaluation
-		switch (type) {
-		case "boolean":
-			statement.setBoolean(index, Boolean.parseBoolean(input));
-			break;
-		case "varchar":
-		case "text":
-		case "string":
-			statement.setString(index, input);
-			break;
-		case "int":
-		case "int4":
-			statement.setInt(index, Integer.parseInt(input));
-			break;
-		case "double":
-			statement.setDouble(index, Double.parseDouble(input));
-			break;
-		default:
+		if(STATEMENT_TYPES.containsKey(type.toLowerCase())) {
+			final Evaluation eval = STATEMENT_TYPES.get(type.toLowerCase());
+			eval.updateStatement(statement, input, index);
+		} else {
 			throw new UnsupportedTypeException(type + " is not mapped to a prepared statement type.");
 		}
 	}
@@ -133,3 +199,4 @@ public abstract class ObjectMapper {
 	}
 
 }
+

@@ -1,6 +1,7 @@
 package com.revature.util;
 
 import com.revature.models.CharacterModel;
+import com.revature.models.CharacterStats;
 import com.revature.orm.Configuration;
 
 public class ServletConfiguration {
@@ -12,6 +13,7 @@ public class ServletConfiguration {
 		if(!setup) {
 			setup = true;
 			config.addAnnotatedClass(CharacterModel.class);
+			config.addAnnotatedClass(CharacterStats.class);
 			config.finalizeConfig();
 		}
 	}

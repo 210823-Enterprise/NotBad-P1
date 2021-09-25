@@ -31,8 +31,8 @@ public class ObjectCache {
 	
 	@SuppressWarnings("unchecked")
 	public <T> Optional<T> get(final MetaModel<T> model, final String columnName, final Object primaryKey) {
-		if(this.cache.containsKey(model.getClazz())) {
-			final Map<Object, Object> subSet = this.cache.get(model.getClazz());
+		if(this.cache.containsKey(model.getType())) {
+			final Map<Object, Object> subSet = this.cache.get(model.getType());
 			
 			if(model.getPrimaryKey().getColumnName().equals(columnName)) {
 				if(subSet.containsKey(primaryKey))

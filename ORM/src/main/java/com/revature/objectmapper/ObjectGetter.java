@@ -85,7 +85,7 @@ public class ObjectGetter extends ObjectMapper{
 	private <T> Optional<T> constructObject(final MetaModel<T> model, final ResultSet result, final Connection connection) {
 		//TODO: fix requiring a defined empty constructor
 		try {
-			final Object out = model.getClazz().newInstance();
+			final Object out = model.getType().newInstance();
 			setValue( model.getPrimaryKey().getName(), out, result.getObject(model.getPrimaryKey().getColumnName()) );
 			
 			for(final ColumnField field: model.getColumns()) {
