@@ -53,10 +53,12 @@ Finally, inside your project structure you need a application.proprties file.
       - Indicates that the class is to be used as the table name.
    - #### @Table(tableName = "table_name")  
       - Indicates that this class is associated with table 'table_name'  
-   - #### @Id(name = "column_name")
+   - #### @Id(columnName = "column_name")
       - Indicates that the annotated field represents a primary key for the table.
-   - #### @Column(name = "column_name")  
+   - #### @Column(columnName = "column_name")  
       - Indicates that the annotated field is a column in the table with the name 'column_name'  
+   - #### @JoinColumn(columnName = "column_name")
+      - Indicates that the anootated field is a join column.
 
   ### User API  
   - #### `public static Configuration getInstance()`
