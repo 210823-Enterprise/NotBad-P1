@@ -79,6 +79,8 @@ public class HTMLFormatter {
 				app = new FileInputStream(new File("src/main/webapp/" + html));
 			} catch (final FileNotFoundException e) {
 				System.out.println("File not found");
+				final File file = new File("");
+				writer.println(body(file.getAbsolutePath()));
 				return;
 			}
 		}
