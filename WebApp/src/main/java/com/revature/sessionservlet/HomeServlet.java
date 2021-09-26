@@ -13,6 +13,7 @@ import com.revature.models.CharacterModel;
 import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
 import com.revature.util.HTMLFormatter;
+import com.revature.util.ServletConfiguration;
 
 public class HomeServlet extends HttpServlet {
 
@@ -20,6 +21,8 @@ public class HomeServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		ServletConfiguration.setUp();
+		
 		request.getSession().removeAttribute("character_model");
 		response.sendRedirect("index.html");
 	}
