@@ -49,9 +49,11 @@ Finally, inside your project structure you need a application.proprties file.
 ## Usage  
   ### Annotating classes  
   All classes which represent objects in database must be annotated.
-   - #### @Table(name = "table_name)  
+   - #### @Entity(tableName = "table_name")
+      - Indicates that the class is to be used as the table name.
+   - #### @Table(tableName = "table_name")  
       - Indicates that this class is associated with table 'table_name'  
-   - #### @Id(name = "column_name)
+   - #### @Id(name = "column_name")
       - Indicates that the annotated field represents a primary key for the table.
    - #### @Column(name = "column_name")  
       - Indicates that the annotated field is a column in the table with the name 'column_name'  
