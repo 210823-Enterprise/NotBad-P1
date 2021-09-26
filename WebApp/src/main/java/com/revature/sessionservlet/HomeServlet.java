@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.CharacterModel;
 import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
@@ -33,26 +32,18 @@ public class HomeServlet extends HttpServlet {
 		final String clazz = request.getParameter("class");
 		final String specialAbility = request.getParameter("specialability");
 		
-		
-		// 2. Convert the capture params into an object by passing it thru the character Constructor
 		final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats());
 		
-		// 3. Grab the HttpSession from the request obj
 		final HttpSession session = request.getSession();
-		
-		// 4. and send the custom character to the session
-		session.setAttribute("character", character);
-		
-		// 5. Print to the screen that the character object has been set to the session
+		session.setAttribute("character_model", character);
+
 		final PrintWriter out = response.getWriter();
-		out.write(new ObjectMapper().writeValueAsString(character));
-		//out.println("A character has been created...(in the session)");
-		
-		// now we have to create a servlet to retrieve the session
 		if(ORM.getInstance().addObjectToDb(character)) {
 			out.println("Character successfully created!");
+			response.sendRedirect("loginserv");
 		} else {
 			out.println("Character not created. Please try again.");
+			response.sendRedirect("index_create_error.html");
 		}
 	}
 
