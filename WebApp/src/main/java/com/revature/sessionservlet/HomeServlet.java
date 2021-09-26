@@ -30,6 +30,8 @@ public class HomeServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		ServletConfiguration.setUp();
+		
 		final String username = request.getParameter("username");
 		final String password = request.getParameter("password");
 		final String gender = request.getParameter("gender");
