@@ -20,6 +20,7 @@ public class HomeServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		request.getSession().removeAttribute("character_model");
 		response.sendRedirect("index.html");
 	}
 
