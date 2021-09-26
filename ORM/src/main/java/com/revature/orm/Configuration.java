@@ -72,6 +72,7 @@ public class Configuration {
 	public void finalizeConfig() {
 		this.finalized = true;
 		this.metaModelList.forEach(m -> ORM.getInstance().generateTable(m));
+		LOG.info("Finalized configuration and generated tables");
 	}
 	
 	/**
