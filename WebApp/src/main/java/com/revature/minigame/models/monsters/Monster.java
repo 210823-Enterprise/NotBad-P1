@@ -1,4 +1,4 @@
-package com.revature.minigame.models;
+package com.revature.minigame.models.monsters;
 
 import java.util.Random;
 
@@ -10,14 +10,28 @@ public abstract class Monster {
 	protected final String image;
 	protected final int maxHealth;
 	protected final int level;
+	protected final int minDamage;
+	protected final int maxDamage;
+	public Monster(final String name, final String image, final int level) {
+		this.angry = false;
+		this.name = name;
+		this.image = image;
+		this.level = level;
+		this.maxHealth = 10 + level * 10;
+		this.health = this.maxHealth;
+		this.minDamage = level * 4;
+		this.maxDamage = level * 6;
+	}
 	
-	public Monster(final String name, final String image, final int maxHealth, final int level) {
+	public Monster(final String name, final String image, final int level, final int maxHealth, final int minDamage, final int maxDamage) {
 		this.angry = false;
 		this.name = name;
 		this.image = image;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
 		this.level = level;
+		this.minDamage = minDamage;
+		this.maxDamage = maxDamage;
 	}
 	
 	public int damage(final int amount) {
@@ -43,7 +57,8 @@ public abstract class Monster {
 	}
 	
 	public int getDamage() {
-		return 0;
+		final Random random = new Random();
+		return this.minDamage + random.nextInt(this.maxDamage - this.minDamage + 1);
 	}
 	
 	public String getName() {

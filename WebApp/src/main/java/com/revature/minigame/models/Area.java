@@ -1,5 +1,11 @@
 package com.revature.minigame.models;
 
+import com.revature.minigame.models.monsters.Goblin;
+import com.revature.minigame.models.monsters.Monster;
+import com.revature.minigame.models.monsters.Reaper;
+import com.revature.minigame.models.monsters.Skeleton;
+import com.revature.minigame.models.monsters.Zombie;
+
 public class Area {
 	
 	private Monster monster;
@@ -19,6 +25,18 @@ public class Area {
 		switch(level) {
 		case 0:
 			this.monster = null;
+			break;
+		case 1:
+			this.monster = new Goblin();
+			break;
+		case 2:
+			this.monster = new Zombie();
+			break;
+		case 3:
+			this.monster = new Skeleton();
+			break;
+		case 4:
+			this.monster = new Reaper();
 			break;
 		default:
 			this.monster = new Goblin();

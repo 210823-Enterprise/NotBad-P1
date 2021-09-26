@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<title>Welcome Player</title>
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+<body>
+
+	<div>
+		<h1>Welcome %s</h1>
+		<table border="1"
+			style="border: 2px solid black; margin-left: auto; margin-right: auto; width: 350px;">
+			<tbody>
+				<tr>
+					<td><label>Gender:</label></td>
+					<td><label>%s</label></td>
+					<td><label>Class:</label></td>
+					<td><label>%s</label></td>
+				</tr>
+				<tr>
+					<td><label>Race:&nbsp;</label></td>
+					<td><label>%s</label></td>
+					<td><label>Special Ability:</label></td>
+					<td><label>%s</label></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<table border="1" style="border: 2px solid black; margin-left: auto; margin-right: auto;">
+			<tbody>
+				<tr>
+					<td>Launch World of ORMCraft:</td>
+					<td>
+						<form action="playserv" method="POST" style="border: none; padding: 0px; margin: 0px;">
+							<input type="submit" value="Start Game"/>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>Delete Character :c</td>
+					<td>
+						<form action="confirmdeleteserv" method="POST" style="border: none; padding: 0px; margin: 0px;">
+							<input type="submit" value="Delete Character" />
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>Logout</td>
+					<td>
+						<form action="homeserv" method="GET" style="border: none; padding: 0px; margin: 0px;">
+							<input type="submit" value="Logout" />
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<form action="editserv" method="POST">
+			<p>Edit Character</p>
+			<table border="1">
+				<tbody>
+					<tr>
+						<td>Current Password:</td>
+						<td><input name="password" type="text" placeholder="Password" /></td>
+						<td><label for="gender">Gender:</label></td>
+						<td><select name="gender">
+								<option value="male">male</option>
+								<option value="female">female</option>
+								<option value="other">other</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Edit Password:</td>
+						<td><input name="edit_password" type="text"
+							placeholder="Edit Password" /></td>
+						<td><label for="class">Class:</label></td>
+						<td><select name="class">
+								<option value="fighter">fighter</option>
+								<option value="assasian">assasian</option>
+								<option value="mage">mage</option>
+								<option value="tank">tank</option>
+								<option value="healer">healer</option>
+								<option value="marksman">marksman</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td><label for="specialability">Special Ability:</label></td>
+						<td><select name="specialability">
+								<option value="leader">leader</option>
+								<option value="charisma">charisma</option>
+								<option value="jack-of-all-trades">jack-of-all-trades</option>
+								<option value="blacksmith">blacksmith</option>
+								<option value="farmer">farmer</option>
+								<option value="banker">banker</option>
+						</select></td>
+						<td><label for="race">Race:</label></td>
+						<td><select name="race">
+								<option value="human">human</option>
+								<option value="elf">elf</option>
+								<option value="orc">orc</option>
+								<option value="dwarf">dwarf</option>
+								<option value="fairy">fairy</option>
+								<option value="undead">undead</option>
+						</select></td>
+					</tr>
+				</tbody>
+			</table>
+			<br /> <input type="submit" value="SaveChanges" />
+		</form>
+	</div>
+
+</body>
+</html>

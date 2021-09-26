@@ -35,6 +35,7 @@ public class CharacterModel {
 	
 	public CharacterModel() {
 		super();
+		this.id = -1;
 	}
 
 	public CharacterModel(final String username, final String password, final String gender, final String race, final String clazz, final String specialAbility, final CharacterStats gameData) {

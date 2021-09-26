@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.revature.minigame.models.Monster;
+import com.revature.minigame.models.monsters.Monster;
 import com.revature.models.CharacterModel;
 
 public class Response {

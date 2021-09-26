@@ -16,6 +16,8 @@ public class Minigame {
 	private static Map<CharacterModel,Position> positions;
 	
 	public static Response generateResponse(final CharacterModel player, final String action) {
+		if(player == null)
+			return new Response();
 
 		final Response response = new Response();
 		
@@ -35,6 +37,9 @@ public class Minigame {
 		final Area area = gameBoard.getArea(pos);
 		
 		for(final Map.Entry<CharacterModel, Position> entry: positions.entrySet()) {
+			System.out.println(entry.getValue());
+			System.out.println(entry.getKey());
+			System.out.println(player);
 			if(entry.getValue().equals(pos) && entry.getKey().getId() != player.getId())
 				response.addPlayer(entry.getKey().getUsername());
 		}
