@@ -78,14 +78,15 @@ Finally, inside your project structure you need a application.proprties file.
      - Saves an object to the database. Fails if the object already exists. If the primary key is set to auto generate, automatically sets the object's id to the generated id.
   - #### `public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value)`  
      - Retrieves and object from the database using the specified column name. If more then 1 column matches the provided value, one object is arbitrarily returned. 
-        - @param clazz The object's class
+        - @param clazz The object's class.
         - @param columnName The column name to check for retrieving the value.
         - @param value The value at the column.
-  - #### `public boolean removeObjectFromDB(final Object obj)`  
-     - Removes the given object from the database.  
-  - #### `public boolean addObjectToDB(final Object obj)`  
-     - Adds the given object to the database.  
-  - #### `public Optional<List<Object>> getListObjectFromDB(final Class <?> clazz, final String columns, final String conditions)`  
+  - #### `public <T> List<T> getAllObjectsFromDb(final Class<T> clazz)`  
+     - Returns all objects in the database of the specified class.  
+  - #### `public boolean updateObjectInDb(final Object object)`  
+     - Updates an existing entry in the database using the provided object. Fails if the provided object does not already exist in the database.
+  - #### `public boolean removeObjectFromDb(final Object object)`
+     - Removes provided object from the database, assuming an object in the database has a matching primary key.
   - #### `public Optional<List<Object>> getListObjectFromDB(final Class <?> clazz, final String columns, final String conditions,final String operators)`  
   - #### `public Optional<List<Object>> getListObjectFromDB(final Class<?> clazz)`  
      - Gets a list of all objects in the database which match the included search criteria  
