@@ -1,7 +1,7 @@
 # !Bad ORM Framework
 
 ## Project Description
-Something like: A java based ORM for simplifying connecting to and from an SQL database without the need for SQL or connection management. 
+Something like: A not-too-shabby (or at least not totally awful) minimalist Java-based ORM framework for simplifying your persistence layer without need for SQL or connection management.
 
 ## Technologies Used
 
