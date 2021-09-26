@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 import com.revature.annotations.Column;
@@ -14,6 +16,9 @@ public class CharacterStats {
 
 	@Column(columnName="characterLevel", nullable=false, unique = false)
 	private int characterLevel;
+
+	@Column(columnName="characterLevel", nullable=false, unique = false)
+	private int exp;
 	
 	@Column(columnName="health", nullable=false, unique = false)
 	private int health;
@@ -24,31 +29,49 @@ public class CharacterStats {
 	@Column(columnName="stamina", nullable=false, unique = false)
 	private int stamina;
 	
-	@Column(columnName="speed", nullable=false, unique = false)
-	private int speed;
+	private final List<String> statusEffects;
 
 	public CharacterStats() {
 		super();
+		this.statusEffects = new LinkedList<String>();
 	}
 
-	public CharacterStats(final int characterLevel, final int health, final int mana, final int stamina, final int speed) {
+	public CharacterStats(final int characterLevel) {
+		super();
+		this.id = -1;
+		this.characterLevel = characterLevel;
+		this.health = maxHealth();
+		this.mana = maxMana();
+		this.stamina = maxStamina();
+		this.statusEffects = new LinkedList<String>();
+	}
+
+	public CharacterStats(final int characterLevel, final int health, final int mana, final int stamina) {
 		super();
 		this.id = -1;
 		this.characterLevel = characterLevel;
 		this.health = health;
 		this.mana = mana;
 		this.stamina = stamina;
-		this.speed = speed;
+		this.statusEffects = new LinkedList<String>();
 	}
 
-	public CharacterStats(final int id, final int characterLevel, final int health, final int mana, final int stamina, final int speed) {
+	public CharacterStats(final int id, final int characterLevel, final int health, final int mana, final int stamina) {
 		super();
 		this.id = id;
 		this.characterLevel = characterLevel;
 		this.health = health;
 		this.mana = mana;
 		this.stamina = stamina;
-		this.speed = speed;
+		this.statusEffects = new LinkedList<String>();
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public int getExp() {
+		return this.exp;
 	}
 
 	public int getCharacterLevel() {
@@ -63,45 +86,87 @@ public class CharacterStats {
 		return this.health;
 	}
 
-	public void setHealth(final int health) {
-		this.health = health;
+	public int getStamina() {
+		return this.stamina;
 	}
 
 	public int getMana() {
 		return this.mana;
 	}
-
-	public void setMana(final int mana) {
-		this.mana = mana;
-	}
-
-	public int getStamina() {
-		return this.stamina;
-	}
-
-	public void setStamina(final int stamina) {
-		this.stamina = stamina;
-	}
-
-	public int getSpeed() {
-		return this.speed;
-	}
-
-	public void setSpeed(final int speed) {
-		this.speed = speed;
-	}
-
-	public int getId() {
-		return this.id;
+	
+	public void addEffect(final String string) {
+		this.statusEffects.add(string);
 	}
 
 	public void setId(final int id) {
 		this.id = id;
 	}
 
+	public boolean modifyExp(final int exp) {
+		this.exp += exp;
+		if(this.exp >= levelupExp()) {
+			this.exp -= levelupExp();
+			levelUp();
+			return true;
+		}
+		if(this.exp < 0)
+			this.exp = 0;
+		return false;
+	}
+
+	public void modifyHealth(final int health) {
+		this.health += health;
+		if(this.health > maxHealth())
+			this.health = maxHealth();
+		if(this.health < 0)
+			this.health = 0;
+	}
+
+	public void modifyMana(final int mana) {
+		this.mana += mana;
+		if(this.mana > maxMana())
+			this.mana = maxMana();
+		if(this.mana < 0)
+			this.mana = 0;
+	}
+
+	public void modifyStamina(final int stamina) {
+		this.stamina += stamina;
+		if(this.stamina > maxStamina())
+			this.stamina = maxStamina();
+		if(this.stamina < 0)
+			this.stamina = 0;
+	}
+	
+	public void levelUp() {
+		final int maxHealth = maxHealth();
+		this.characterLevel++;
+		modifyHealth(this.health + maxHealth() - maxHealth);
+	}
+	
+	public List<String> getEffects() {
+		return this.statusEffects;
+	}
+
+	public int maxHealth() {
+		return 90 + (10*this.characterLevel);
+	}
+
+	public int maxMana() {
+		return 45 + (5*this.characterLevel);
+	}
+
+	public int maxStamina() {
+		return 45 + (5*this.characterLevel);
+	}
+
+	private int levelupExp() {
+		return (this.characterLevel * 2) - 1;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.characterLevel, this.health, this.id, this.mana, this.speed, this.stamina);
+		return Objects.hash(this.characterLevel, this.health, this.id, this.mana, this.stamina);
 	}
 
 	@Override
@@ -114,13 +179,13 @@ public class CharacterStats {
 			return false;
 		final CharacterStats other = (CharacterStats) obj;
 		return this.characterLevel == other.characterLevel && this.health == other.health && this.id == other.id && this.mana == other.mana
-				&& this.speed == other.speed && this.stamina == other.stamina;
+				&& this.stamina == other.stamina;
 	}
 
 	@Override
 	public String toString() {
 		return "CharacterStats [id=" + this.id + ", characterLevel=" + this.characterLevel + ", health=" + this.health + ", mana="
-				+ this.mana + ", stamina=" + this.stamina + ", speed=" + this.speed + "]";
+				+ this.mana + ", stamina=" + this.stamina + "]";
 	}	
 	
 }

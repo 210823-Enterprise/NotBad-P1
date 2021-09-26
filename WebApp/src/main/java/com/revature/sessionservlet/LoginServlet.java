@@ -39,8 +39,8 @@ public class LoginServlet extends HttpServlet {
 			HTMLFormatter.writeFile("character.html", out, new String[] {
 					characterModel.getUsername(),
 					characterModel.getGender(),
-					characterModel.getRace(),
 					characterModel.getClazz(),
+					characterModel.getRace(),
 					characterModel.getSpecialAbility()
 				});
 		} else {

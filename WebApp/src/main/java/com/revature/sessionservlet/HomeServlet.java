@@ -34,6 +34,8 @@ public class HomeServlet extends HttpServlet {
 		final String clazz = request.getParameter("class");
 		final String specialAbility = request.getParameter("specialability");
 		
+
+		final HttpSession session = request.getSession();
 		final PrintWriter out = response.getWriter();
 		
 		if(username.length() < 2) {
@@ -41,11 +43,10 @@ public class HomeServlet extends HttpServlet {
 		} else if(password.length() < 2) {
 			HTMLFormatter.writeFile("index_create_error.html", out, new String[] { "Password too short" });
 		} else {
-			final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats());
+			final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats(1));
 			
 			if(ORM.getInstance().addObjectToDb(character)) {
 				response.sendRedirect("loginserv");
-				final HttpSession session = request.getSession();
 				session.setAttribute("character_model", character);
 			} else {
 				HTMLFormatter.writeFile("index_create_error.html", out, new String[] { "Username is already taken, try another" });

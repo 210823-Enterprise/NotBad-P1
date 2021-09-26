@@ -35,6 +35,7 @@ public class CharacterModel {
 	
 	public CharacterModel() {
 		super();
+		this.id = -1;
 	}
 
 	public CharacterModel(final String username, final String password, final String gender, final String race, final String clazz, final String specialAbility, final CharacterStats gameData) {
@@ -104,9 +105,13 @@ public class CharacterModel {
 		this.specialAbility = specialAbility;
 	}
 
+	public CharacterStats getGameData() {
+		return this.gameData;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.clazz, this.gender, this.id, this.password, this.race, this.specialAbility, this.username);
+		return Objects.hash(this.id);
 	}
 
 	@Override
@@ -118,15 +123,17 @@ public class CharacterModel {
 		if (getClass() != obj.getClass())
 			return false;
 		final CharacterModel other = (CharacterModel) obj;
-		return Objects.equals(this.clazz, other.clazz) && Objects.equals(this.gender, other.gender) && this.id == other.id
-				&& Objects.equals(this.password, other.password) && Objects.equals(this.race, other.race)
-				&& Objects.equals(this.specialAbility, other.specialAbility) && Objects.equals(this.username, other.username);
+		return this.id == other.id;
 	}
 
 	@Override
 	public String toString() {
 		return "[Character Name = " + this.username + "| gender= " + this.gender
 				+ "| race= " + this.race + "| class= " + this.clazz + "| Special Ability= " + this.specialAbility + "]";
+	}
+
+	public void resetGameData() {
+		this.gameData = new CharacterStats(1);
 	}
 
 	
