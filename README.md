@@ -5,10 +5,10 @@ Something like: A java based ORM for simplifying connecting to and from an SQL d
 
 ## Technologies Used
 
-* PostgreSQL - version 42.2.12  
-* Java - version 8.0  
-* Apache commons - version 2.1  
-* JUnit
+* PostgreSQL - version 42.2.12
+* Java - version 8.0
+* Apache commons - version 2.1
+* Log4J
 
 ## Features
 
@@ -16,27 +16,24 @@ List of features ready and TODOs for future development
 * Easy to use and straightforward user API.  
 * No need for SQL, HQL, or any databse specific language.  
 * Straightforward and simple Annotation based for ease of use. 
-* etc...
 
 To-do list: [`for future iterations`]
 * Mapping of join columns inside of entities.    
-* Implement of aggregate functions.  
-* Allow ORM to build table based on Annotations in Entities.  
-* etc...
+* Loading objects to cache from the API.
 
 ## Getting Started  
 Currently project must be included as local dependency. to do so:
 ```shell
-  git clone https://github.com/210517-Enterprise/*your-repo*_p1.git
-  cd *your-repo*_p1
+  git clone https://github.com/210517-Enterprise/NotBad-P1.git
+  cd NotBad_p1
   mvn install
 ```
 Next, place the following inside your project pom.xml file:
 ```XML
   <dependency>
     <groupId>com.revature</groupId>
-    <artifactId>*your-repo*_p1</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>NotBadORM</artifactId>
+    <version>0.0.1</version>
   </dependency>
 
 ```
@@ -54,16 +51,10 @@ Finally, inside your project structure you need a application.proprties file.
   All classes which represent objects in database must be annotated.
    - #### @Table(name = "table_name)  
       - Indicates that this class is associated with table 'table_name'  
-   - #### @Column(name = "column_name)  
-      - Indicates that the Annotated field is a column in the table with the name 'column_name'  
-   - #### @Setter(name = "column_name")  
-      - Indicates that the anotated method is a setter for 'column_name'.  
-   - #### @Getter(name = "column_name")  
-      - Indicates that the anotated method is a getter for 'column_name'.  
-   - #### @PrimaryKey(name = "column_name") 
-      - Indicates that the annotated field is the primary key for the table.
-   - #### @SerialKey(name = "column_name") 
-      - Indicates that the annotated field is a serial key.
+   - #### @Id(name = "column_name)
+      - Indicates that the annotated field represents a primary key for the table.
+   - #### @Column(name = "column_name")  
+      - Indicates that the annotated field is a column in the table with the name 'column_name'  
 
   ### User API  
   - #### `public static Configuration getInstance()`
@@ -80,9 +71,9 @@ Finally, inside your project structure you need a application.proprties file.
      - Saves an object to the database. Fails if the object already exists. If the primary key is set to auto generate, automatically sets the object's id to the generated id.
   - #### `public <T> T getObjectFromDb(final Class<T> clazz, final String columnName, final Object value)`
      - Retrieves an object from the database using the specified column name. If more then 1 column matches the provided value, one object is arbitrarily returned. 
-        - @param clazz The object's class.
-        - @param columnName The column name to check for retrieving the value.
-        - @param value The value at the column.
+        - @param clazz : The object's class.
+        - @param columnName : The column name to check for retrieving the value.
+        - @param value : The value at the column.
   - #### `public <T> List<T> getAllObjectsFromDb(final Class<T> clazz)`  
      - Returns all objects in the database of the specified class.  
   - #### `public boolean updateObjectInDb(final Object object)`  
