@@ -77,10 +77,12 @@
 		<url-pattern>/loginserv</url-pattern>
 	</servlet-mapping>
 
+	<!--
 	<listener>
 		<listener-class>
 			com.revature.util.ServletInitilizer
 		</listener-class>
 	</listener>
+	-->
 	
 </web-app>
