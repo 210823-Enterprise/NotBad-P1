@@ -9,28 +9,36 @@
 </head>
 <body>
 
-	<div style="width: 400px;">
-		<p>
-			<img src="goblin.gif" width="350" height="350" />
-		</p>
-		<p>%s</p>
-		<table border="1" style="width: 350px;">
+	<div style="width: 600px;">
+		<table style="border-collapse: collapse; width: 100%;" border="1">
 			<tbody>
 				<tr>
-					<td style="width: 50%;">
-						<p style="margin: 2px; margin-left: 8px;">Health: %s</p>
-						<p style="margin: 2px; margin-left: 8px;">Mana: %s</p>
-						<p style="margin: 2px; margin-left: 8px;">Stamina: %s</p>
-						<p style="margin: 2px; margin-left: 8px;">Level: %s</p>
-						<form action="loginserv" method="POST">
-							<input type="submit" value="Leave Game" />
-						</form>
+					<td style="width: 80%; text-align: center;"><p>
+							<img src="%s" width="350" height="350" />
+						</p>
+						<p>%s</p>
+						<table style="width: 350px;" border="1">
+							<tbody>
+								<tr>
+									<td style="width: 50%;">
+										<p style="margin: 2px; margin-left: 8px;">Health: %s</p>
+										<p style="margin: 2px; margin-left: 8px;">Mana: %s</p>
+										<p style="margin: 2px; margin-left: 8px;">Stamina: %s</p>
+										<p style="margin: 2px; margin-left: 8px;">Level: %s</p>
+										<form action="loginserv" method="POST">
+											<input type="submit" value="Leave Game" />
+										</form>
+									</td>
+									<td style="width: 50%;"><form action="playserv"
+											method="POST">
+											%s <br /> <input type="submit" value="%s" />
+										</form></td>
+								</tr>
+							</tbody>
+						</table></td>
+					<td style="width: 20%; text-align: center;">Local Players:<br>%s
 					</td>
-					<td style="width: 50%;">
-						<form action="playserv" method="POST">
-							%s <br /> <input type="submit" value="Select" />
-						</form>
-					</td>
+
 				</tr>
 			</tbody>
 		</table>
