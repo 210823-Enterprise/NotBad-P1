@@ -3,46 +3,61 @@
 */
 
 @font-face {
-	font-family: 'warcraft';
 	src: url('warcraft.woff') format('woff');
+	font-family: 'warcraft';
 }
 
 * {
-	font-family: warcraft;
+	font-family: 'warcraft';
+	fallback: fantasy;
+	color: white;
 }
 
 body {	
-	
 	display: flex;
 	flex-direction: column;
 	align-items: center;
     margin: auto;
-    margin-top: 2%;
+    margin-top: 1%;
 	
-	border: 10px outset rgb(255, 255, 128);
-	text-align: left;
+	text-align: center;
 	box-sizing: content-box;
-	width: 40%;
 	
+	background-color: rgba(0, 0, 0, 255);
+}
+
+div {
+	border: 10px outset rgb(255, 255, 128);
 	background-color: rgba(4, 99, 7, 255);
 }
 
 form {
-	
 	border: 2px solid black;
 	padding: 10px;
 	margin: 10px;
-	text-align: center;
-
 }
 
 input {
-	
 	margin: 3px;
-	
 }
 
 table, th, td {
-  text-align: left;
-  border: 0px solid black;
+	align-items: center;
+	text-align: right;
+	border: 0px solid black;
+}
+
+input {
+	background-color: rgb(50, 50, 50);
+	border: 2px outset rgb(0, 0, 0);
+}
+
+select {
+	width: 150px;
+	background-color: rgb(50, 50, 50);
+	border: 4px inset rgb(0, 0, 0);
+}
+
+img {
+	align-items: center;
 }

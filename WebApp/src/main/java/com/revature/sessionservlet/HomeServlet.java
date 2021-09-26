@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import com.revature.models.CharacterModel;
 import com.revature.models.CharacterStats;
 import com.revature.orm.ORM;
+import com.revature.util.HTMLFormatter;
 
 public class HomeServlet extends HttpServlet {
 
@@ -32,19 +33,22 @@ public class HomeServlet extends HttpServlet {
 		final String clazz = request.getParameter("class");
 		final String specialAbility = request.getParameter("specialability");
 		
-		final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats());
-		
-		final HttpSession session = request.getSession();
-		session.setAttribute("character_model", character);
-
 		final PrintWriter out = response.getWriter();
-		if(ORM.getInstance().addObjectToDb(character)) {
-			out.println("Character successfully created!");
-			response.sendRedirect("loginserv");
+		
+		if(username.length() < 2) {
+			HTMLFormatter.writeFile("index_create_error.html", out, new String[] { "Username too short" });
+		} else if(password.length() < 2) {
+			HTMLFormatter.writeFile("index_create_error.html", out, new String[] { "Password too short" });
 		} else {
-			out.println("Character not created. Please try again.");
-			response.sendRedirect("index_create_error.html");
-		}
+			final CharacterModel character = new CharacterModel(username, password, gender, race, clazz, specialAbility, new CharacterStats());
+			
+			if(ORM.getInstance().addObjectToDb(character)) {
+				response.sendRedirect("loginserv");
+				final HttpSession session = request.getSession();
+				session.setAttribute("character_model", character);
+			} else {
+				HTMLFormatter.writeFile("index_create_error.html", out, new String[] { "Username is already taken, try another" });
+			}
+		}	
 	}
-
 }
