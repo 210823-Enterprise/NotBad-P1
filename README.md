@@ -12,10 +12,10 @@ Something like: A java based ORM for simplifying connecting to and from an SQL d
 
 ## Features
 
-List of features ready and TODOs for future development  
+List of features: 
 * Easy to use and straightforward user API.  
 * No need for SQL, HQL, or any databse specific language.  
-* Straightforward and simple Annotation based for ease of use. 
+* Straightforward and simple annotations for ease of use. 
 
 To-do list: [`for future iterations`]
 * Mapping of join columns inside of entities.    
@@ -25,7 +25,7 @@ To-do list: [`for future iterations`]
 Currently project must be included as local dependency. to do so:
 ```shell
   git clone https://github.com/210517-Enterprise/NotBad-P1.git
-  cd NotBad_p1
+  cd NotBad-p1
   mvn install
 ```
 Next, place the following inside your project pom.xml file:
