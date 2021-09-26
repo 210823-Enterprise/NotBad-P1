@@ -13,18 +13,21 @@
 	<div>
 		<img src="logo.png" alt="logo" />
 		<form action="homeserv" method="POST">
-			<p>Create a Character</p>
+			<h3>Create a Character</h3>
 			<table border="1">
 				<tbody>
 					<tr>
+						<td>Username:</td>
 						<td><input name="username" type="text"
 							placeholder="Desired username" /></td>
-						<td><label for="gender">Gender:</label><select name="gender">
+						<td><label for="gender">Gender:</label></td>
+						<td><select name="gender">
 								<option value="male">male</option>
 								<option value="female">female</option>
 								<option value="other">other</option>
 						</select></td>
-						<td><label for="race">Race:</label><select name="race">
+						<td><label for="race">Race:</label></td>
+						<td><select name="race">
 								<option value="human">human</option>
 								<option value="elf">elf</option>
 								<option value="orc">orc</option>
@@ -34,9 +37,11 @@
 						</select></td>
 					</tr>
 					<tr>
+						<td>Password:</td>
 						<td><input maxlength="24" name="password" type="password"
 							placeholder="Desired password" /></td>
-						<td><label for="class">Class:</label><select name="class">
+						<td><label for="class">Class:</label></td>
+						<td><select name="class">
 								<option value="fighter">fighter</option>
 								<option value="assasian">assasian</option>
 								<option value="mage">mage</option>
@@ -44,8 +49,8 @@
 								<option value="healer">healer</option>
 								<option value="marksman">marksman</option>
 						</select></td>
-						<td><label for="specialability">Special Ability:</label><select
-							name="specialability">
+						<td><label for="specialability">Special Ability:</label></td>
+						<td><select name="specialability">
 								<option value="leader">leader</option>
 								<option value="charisma">charisma</option>
 								<option value="jack-of-all-trades">jack-of-all-trades</option>
@@ -59,7 +64,7 @@
 			<input type="submit" value="create your character" />
 		</form>
 		<form action="loginserv" method="GET">
-			<p style="text-align: center;">Login</p>
+			<p>Login</p>
 			<input name="username" type="text" placeholder="Enter Username" /> <br />
 			<input maxlength="24" name="password" type="password"
 				placeholder="Enter Password" /> <br />

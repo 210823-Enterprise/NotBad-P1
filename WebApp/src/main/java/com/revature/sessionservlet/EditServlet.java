@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
+import com.revature.util.HTMLFormatter;
 
 public class EditServlet extends HttpServlet{
 
@@ -22,22 +23,31 @@ public class EditServlet extends HttpServlet{
 		
 		// grab stored character model
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
-		
-		//retrieve fields
 		final String password = request.getParameter("password");
-		if(password.length() > 1)
-			characterModel.setPassword(request.getParameter("password"));
-		characterModel.setGender(request.getParameter("gender"));
-		characterModel.setRace(request.getParameter("race"));
-		characterModel.setClazz(request.getParameter("class"));
-		characterModel.setSpecialAbility(request.getParameter("specialability"));
 		
-		//update model
-		ORM.getInstance().updateObjectInDb(characterModel);
-		
-		// 3. after capturing the object, print the object's info to the screen
-		final PrintWriter out = response.getWriter();
-		response.sendRedirect("loginserv");
+		if(characterModel.equalsPassword(password)) {
+			//retrieve fields
+			final String edit_password = request.getParameter("edit_password");
+			if(edit_password.length() > 2)
+				characterModel.setPassword(request.getParameter("password"));
+			characterModel.setGender(request.getParameter("gender"));
+			characterModel.setRace(request.getParameter("race"));
+			characterModel.setClazz(request.getParameter("class"));
+			characterModel.setSpecialAbility(request.getParameter("specialability"));
+			
+			ORM.getInstance().updateObjectInDb(characterModel);
+			response.sendRedirect("loginserv");
+		} else {
+			final PrintWriter out = response.getWriter();
+			HTMLFormatter.writeFile("character_edit_error.html", out, new String[] {
+					characterModel.getUsername(),
+					characterModel.getGender(),
+					characterModel.getRace(),
+					characterModel.getClazz(),
+					characterModel.getSpecialAbility(),
+					"Incorrect password"
+				});
+		}
 	}
 
 	@Override

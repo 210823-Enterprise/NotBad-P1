@@ -19,16 +19,18 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final HttpSession session = request.getSession();
-		CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
+		CharacterModel characterModel;
 		
-		if(characterModel == null) {
-			
-			final String username = request.getParameter("username");
-			final String password = request.getParameter("password");
-			
+		final String username = request.getParameter("username");
+		final String password = request.getParameter("password");
+		
+		if(username != null && password != null) {
 			characterModel = ORM.getInstance().getObjectFromDb(CharacterModel.class, "username", username);
+			
 			if(characterModel != null && !characterModel.equalsPassword(password))
 				characterModel = null;
+		} else {
+			characterModel = (CharacterModel) session.getAttribute("character_model");
 		}
 		
 		final PrintWriter out = response.getWriter();
@@ -42,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 					characterModel.getSpecialAbility()
 				});
 		} else {
-			out.println("Incorrect username/password. Please try again.");
+			HTMLFormatter.writeFile("index_login_error.html", out, new String[] { "Incorrect Username or Password" });
 		}
 	}
 		

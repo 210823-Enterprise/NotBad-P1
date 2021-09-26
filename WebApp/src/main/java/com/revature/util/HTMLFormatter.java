@@ -99,5 +99,10 @@ public class HTMLFormatter {
 			e.printStackTrace();
 		}
 	}
+
+	public static String createRadioButtion(final String str) {
+		final String modified = str.toLowerCase().replaceAll(" ", "_");
+		return String.format("<label>%s</label><input type=radio value=\"%s\" name=\"action\">", str, modified, modified);
+	}
 	
 }
