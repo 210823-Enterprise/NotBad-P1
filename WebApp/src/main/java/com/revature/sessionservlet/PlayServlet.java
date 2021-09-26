@@ -34,7 +34,14 @@ public class PlayServlet extends HttpServlet{
 		
 		final PrintWriter out = response.getWriter();
 		ORM.getInstance().updateObjectInDb(characterModel);
-		HTMLFormatter.writeFile("game.html", out, new String[] {result.getEncounter(),actions});
+		HTMLFormatter.writeFile("game.html", out, new String[] {
+				result.getEncounter(),
+				characterModel.getGameData().getHealth() + "/" + characterModel.getGameData().maxHealth(),
+				characterModel.getGameData().getMana() + "/" + characterModel.getGameData().maxMana(),
+				characterModel.getGameData().getStamina() + "/" + characterModel.getGameData().maxStamina(),
+				characterModel.getGameData().getCharacterLevel() + "",
+				actions
+			});
 	}
 
 	@Override

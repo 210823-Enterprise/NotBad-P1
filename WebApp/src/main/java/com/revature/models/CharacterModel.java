@@ -104,6 +104,10 @@ public class CharacterModel {
 		this.specialAbility = specialAbility;
 	}
 
+	public CharacterStats getGameData() {
+		return this.gameData;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.clazz, this.gender, this.id, this.password, this.race, this.specialAbility, this.username);

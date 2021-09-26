@@ -31,6 +31,15 @@ public class CharacterStats {
 		super();
 	}
 
+	public CharacterStats(final int characterLevel) {
+		super();
+		this.id = -1;
+		this.characterLevel = characterLevel;
+		this.health = maxHealth();
+		this.mana = maxMana();
+		this.stamina = maxStamina();
+	}
+
 	public CharacterStats(final int characterLevel, final int health, final int mana, final int stamina, final int speed) {
 		super();
 		this.id = -1;
@@ -97,6 +106,18 @@ public class CharacterStats {
 
 	public void setId(final int id) {
 		this.id = id;
+	}
+
+	public int maxHealth() {
+		return 90 + (10*this.characterLevel);
+	}
+
+	public int maxMana() {
+		return 45 + (5*this.characterLevel);
+	}
+
+	public int maxStamina() {
+		return 45 + (5*this.characterLevel);
 	}
 
 	@Override
