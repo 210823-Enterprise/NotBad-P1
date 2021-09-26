@@ -1,5 +1,14 @@
 package com.revature.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
 public class HTMLFormatter {
 	
 	public static String format(final String format, final String str) {
@@ -61,6 +70,34 @@ public class HTMLFormatter {
 	
 	public static String createButton(final String label) {
 		return String.format("<input type=submit value=%s>", label);
+	}
+	
+	public static void writeFile(final String html, final PrintWriter writer, final String[] replace) {
+		InputStream app = ClassLoader.getSystemResourceAsStream("/" + html);
+		if(app == null) {
+			try {
+				app = new FileInputStream(new File("src/main/webapp/" + html));
+			} catch (final FileNotFoundException e) {
+				System.out.println("File not found");
+				return;
+			}
+		}
+		
+		try(final InputStreamReader reader = new InputStreamReader(app,"UTF-8"); final BufferedReader buffReader = new BufferedReader(reader)) {
+			int index = 0;
+			String line = "";
+			while(line != null) {
+				writer.write(line);
+				line = buffReader.readLine();
+				
+				while(replace != null && index < replace.length && line.contains("%s")) {
+					line = line.replaceFirst("%s", replace[index]);
+					index += 1;
+				}
+			}
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

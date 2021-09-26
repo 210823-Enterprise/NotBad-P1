@@ -37,9 +37,7 @@ public class EditServlet extends HttpServlet{
 		
 		// 3. after capturing the object, print the object's info to the screen
 		final PrintWriter out = response.getWriter();
-		out.println("<html><body>");
-		out.println("Character Updated! :D");
-		out.println("</body></html>");
+		response.sendRedirect("loginserv");
 	}
 
 	@Override

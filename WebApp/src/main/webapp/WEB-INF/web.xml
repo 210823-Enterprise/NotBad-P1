@@ -37,8 +37,7 @@
 	<servlet>
 		<display-name>DeleteServlet</display-name>
 		<servlet-name>DeleteServlet</servlet-name>
-		<servlet-class>com.revature.sessionservlet.DeleteServlet
-		</servlet-class>
+		<servlet-class>com.revature.sessionservlet.DeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteServlet</servlet-name>
@@ -48,8 +47,7 @@
 	<servlet>
 		<display-name>ConfirmDeleteServlet</display-name>
 		<servlet-name>ConfirmDeleteServlet</servlet-name>
-		<servlet-class>com.revature.sessionservlet.ConfirmDeleteServlet
-		</servlet-class>
+		<servlet-class>com.revature.sessionservlet.ConfirmDeleteServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ConfirmDeleteServlet</servlet-name>
@@ -70,11 +68,9 @@
 
 
 	<servlet>
-		<description></description>
 		<display-name>LoginServlet</display-name>
 		<servlet-name>LoginServlet</servlet-name>
-		<servlet-class>com.revature.sessionservlet.LoginServlet
-		</servlet-class>
+		<servlet-class>com.revature.sessionservlet.LoginServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginServlet</servlet-name>
