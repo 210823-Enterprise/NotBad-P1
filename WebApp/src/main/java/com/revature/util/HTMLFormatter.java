@@ -79,10 +79,15 @@ public class HTMLFormatter {
 				app = new FileInputStream(new File("src/main/webapp/" + html));
 			} catch (final FileNotFoundException e) {}
 		}
+		
 		if(app == null) {
 			try {
 				app = new FileInputStream(new File("webapps/NotBadServlets/" + html));
 			} catch (final FileNotFoundException e) {}
+		}
+		
+		if(app == null) {
+			writer.println("File " + html + " not found at " + new File("").getAbsolutePath());
 		}
 		
 		try(final InputStreamReader reader = new InputStreamReader(app,"UTF-8"); final BufferedReader buffReader = new BufferedReader(reader)) {
