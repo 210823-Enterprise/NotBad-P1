@@ -23,14 +23,18 @@ public class ObjectGetter extends ObjectMapper{
 	private static final String GETSQL = "SELECT * from %s where %s = ?;";
 	private static final String GETALLSQL = "SELECT * from %s;";
 	
+	//wrapper for getting the primary key
 	public <T> Optional<T> getObjectFromDb(final Class<T> clazz, final Object object, final Connection connection) {
 		final MetaModel<T> model = Configuration.getInstance().getModel(clazz);
 		return getObjectFromDb(clazz, object, model.getPrimaryKey().getColumnName(), connection);
 	}
 	
 	public <T> Optional<T> getObjectFromDb(final Class<T> clazz, final Object object, final String columnName, final Connection connection) {
-
+		
+		//get model
 		final MetaModel<T> model = Configuration.getInstance().getModel(clazz);
+		
+		//check cache
 		final Optional<T> cache = ObjectCache.getInstance().get(model, columnName, object);
 		if(cache.isPresent()) {
 			LOG.info("Retrieved object " + object.getClass().getName() + " with " + columnName + " = " + object.toString() + " from cache.");
@@ -38,15 +42,19 @@ public class ObjectGetter extends ObjectMapper{
 		}
 		
 		try {
+			//generate prepared statement
 			final String sql = String.format(GETSQL, model.getTableName(), columnName);
 			
 			final PreparedStatement statement = connection.prepareStatement(sql);
 			final ParameterMetaData parameter = statement.getParameterMetaData();
 			
+			//set the value of the prepared statement
 			setPreparedStatementByType(statement, parameter.getParameterTypeName(1), object.toString(), 1);
-
+			
+			//run query
 			final ResultSet result = statement.executeQuery();
 			if( result.next() ) {
+				//return result
 				final Optional<T> out = constructObject(model, result, connection);
 				LOG.info("Retrieved object " + object.getClass().getName() + " with " + columnName + " = " + object.toString() + " from database.");
 				return out;

@@ -88,7 +88,7 @@ public abstract class ObjectMapper {
 		STATEMENT_TYPES.put("integer",  intType );
 		STATEMENT_TYPES.put("mediumint",intType );
 		STATEMENT_TYPES.put("int4",     intType );
-		STATEMENT_TYPES.put("bigint",     longType );
+		STATEMENT_TYPES.put("bigint",   longType );
 		STATEMENT_TYPES.put("int8",     longType );
 		STATEMENT_TYPES.put("float",    floatType );
 		STATEMENT_TYPES.put("double",   doubleType );

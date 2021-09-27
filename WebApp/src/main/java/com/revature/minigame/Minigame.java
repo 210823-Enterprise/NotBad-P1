@@ -15,7 +15,7 @@ public class Minigame {
 	private static GameBoard gameBoard;
 	private static Map<Integer,CharacterModel> positions;
 	
-	public static Response generateResponse(final CharacterModel player, final String action) {
+	public static synchronized Response generateResponse(final CharacterModel player, final String action) {
 		if(player == null)
 			return new Response();
 
@@ -291,11 +291,6 @@ public class Minigame {
 			break;
 			
 		//generic
-		case "recover":
-			response.addEncounter("You do nothing to recover additional mana and stamina.");
-			player.getGameData().modifyMana(8);
-			player.getGameData().modifyStamina(8);
-			break;
 		case "run_away":
 			area.getMonster().damage(1);
 			if(player.getGameData().getStamina() >= 20) {
@@ -314,6 +309,11 @@ public class Minigame {
 			} else {
 				response.addEncounter("You are too tired to escape!");
 			}
+			break;
+		default:
+			response.addEncounter("You do nothing to recover additional mana and stamina.");
+			player.getGameData().modifyMana(8);
+			player.getGameData().modifyStamina(8);
 			break;
 		}
 		
