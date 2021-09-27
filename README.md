@@ -37,7 +37,7 @@ Next, place the following inside your project pom.xml file:
   </dependency>
 
 ```
-You will also need to run the build script, build.sh, to add the JAR to your local maven repository.
+You will also need to run the build script from the main porject folder, 'build.sh', to add the JAR to your local maven repository.
 
 Finally, inside your project structure you need an application.proprties file. 
  (typically located src/main/resources/)
