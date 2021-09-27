@@ -133,8 +133,9 @@ public class CharacterModel {
 	}
 
 	public void resetGameData() {
+		final int id = this.gameData.getId();
 		final int level = this.gameData.getCharacterLevel();
-		this.gameData = new CharacterStats(level);
+		this.gameData = new CharacterStats(id,level);
 	}
 
 	

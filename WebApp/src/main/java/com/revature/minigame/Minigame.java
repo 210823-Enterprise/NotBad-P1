@@ -80,7 +80,7 @@ public class Minigame {
 			}
 		} else {
 			if(area.isSafe())
-				movePlayer(action, player, response, pos);
+				movePlayer(action, player, area, response, pos);
 			else
 				attackResult(action, player, response, pos, area);
 		}
@@ -303,7 +303,7 @@ public class Minigame {
 		}
 	}
 
-	private static void movePlayer(final String action, final CharacterModel player, final Response response, final Position pos) {
+	private static void movePlayer(final String action, final CharacterModel player, final Area area, final Response response, final Position pos) {
 		switch(action) {
 		case "go_north":
 			response.addEncounter("You head north, wondering what's just up ahead...");
@@ -331,6 +331,13 @@ public class Minigame {
 				player.getGameData().modifyMana(-25);
 			} else {
 				response.addEncounter("You do not have enough mana to Cast Healing!");
+			}
+			break;
+		default:
+			if(area.getMonster() != null) {
+				response.addEncounter("With your help, the monster has been slain!");
+				if(player.getGameData().modifyExp(area.getMonster().getLevel()))
+						response.addEncounter("You have leveled up!");
 			}
 			break;
 		}
