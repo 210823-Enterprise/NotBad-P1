@@ -73,16 +73,21 @@ public class HTMLFormatter {
 	}
 	
 	public static void writeFile(final String html, final PrintWriter writer, final String[] replace) {
-		InputStream app = ClassLoader.getSystemResourceAsStream("/" + html);
+		InputStream app = null;
 		if(app == null) {
 			try {
 				app = new FileInputStream(new File("src/main/webapp/" + html));
-			} catch (final FileNotFoundException e) {
-				System.out.println("File not found");
-				final File file = new File("");
-				writer.println(body(file.getAbsolutePath()));
-				return;
-			}
+			} catch (final FileNotFoundException e) {}
+		}
+		
+		if(app == null) {
+			try {
+				app = new FileInputStream(new File("webapps/NotBadServlets/" + html));
+			} catch (final FileNotFoundException e) {}
+		}
+		
+		if(app == null) {
+			writer.println("File " + html + " not found at " + new File("").getAbsolutePath());
 		}
 		
 		try(final InputStreamReader reader = new InputStreamReader(app,"UTF-8"); final BufferedReader buffReader = new BufferedReader(reader)) {
