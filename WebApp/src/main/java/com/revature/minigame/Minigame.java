@@ -38,7 +38,7 @@ public class Minigame {
 		final Area area = gameBoard.getArea(pos);
 		
 		for(final Map.Entry<Integer, CharacterModel> entry: positions.entrySet()) {
-			if(Integer.valueOf(entry.getKey()) != player.getId())
+			if(entry.getValue().getGameData().getPos().equals(pos) && Integer.valueOf(entry.getKey()) != player.getId())
 				response.addPlayer(entry.getValue().getUsername());
 		}
 		
