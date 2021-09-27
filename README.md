@@ -37,8 +37,9 @@ Next, place the following inside your project pom.xml file:
   </dependency>
 
 ```
+You will also need to run the build script from the main project folder,`build.sh`, to add the JAR to your local maven repository.
 
-Finally, inside your project structure you need a application.proprties file. 
+Finally, inside your project structure you need an application.proprties file. 
  (typically located src/main/resources/)
  ``` 
   url=path/to/database
@@ -67,8 +68,6 @@ Finally, inside your project structure you need a application.proprties file.
      - Registers a class to be added to the ORM and database. Must be properly annotated with the class marked as @Entity, and at least 1 variable marked with @Id, and another with @Column.  Throws 'IllegalStateException' if the configuration has been finalized, or the provided class is not properly annotated.
   - #### `public void finalizeConfig()`
      - Marks a configuration as complete. Creates tables in the database for all registered class (if needed), and prevents adding of additional classes to the configuration.
-  - #### `boolean generateTable(final MetaModel<?> model)`
-     - Creates a table for the specified model is none exists.
   - #### `public static ORM getInstance()`
      - Returns the singleton instance of the class. This is the starting point to calling any of the below methods.  
   - #### `public boolean addObjectToDb(final Object object)`
@@ -78,6 +77,8 @@ Finally, inside your project structure you need a application.proprties file.
         - @param clazz : The object's class.
         - @param columnName : The column name to check for retrieving the value.
         - @param value : The value at the column.
+  - #### `public <T> T getObjectFromDb(final Class<T> clazz, final Object value)`
+     - Retrieves an object from the database, matching the provided value to the primary key.
   - #### `public <T> List<T> getAllObjectsFromDb(final Class<T> clazz)`  
      - Returns all objects in the database of the specified class.  
   - #### `public boolean updateObjectInDb(final Object object)`  
