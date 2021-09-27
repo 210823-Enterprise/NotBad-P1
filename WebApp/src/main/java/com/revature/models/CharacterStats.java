@@ -38,6 +38,16 @@ public class CharacterStats {
 		this.statusEffects = new LinkedList<String>();
 	}
 
+	public CharacterStats(final int id, final int characterLevel) {
+		super();
+		this.id = id;
+		this.characterLevel = characterLevel;
+		this.health = maxHealth();
+		this.mana = maxMana();
+		this.stamina = maxStamina();
+		this.statusEffects = new LinkedList<String>();
+	}
+
 	public CharacterStats(final int characterLevel) {
 		super();
 		this.id = -1;
