@@ -14,12 +14,15 @@ import com.revature.minigame.Response;
 import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
 import com.revature.util.HTMLFormatter;
+import com.revature.util.ServletConfiguration;
 
 public class PlayServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 3907504483070371578L;
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		ServletConfiguration.setUp();
+		
 		final HttpSession session = request.getSession();
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
 		

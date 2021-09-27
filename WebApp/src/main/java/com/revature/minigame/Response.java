@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.revature.minigame.models.monsters.Monster;
+import com.revature.minigame.models.MonsterInstance;
 import com.revature.models.CharacterModel;
 
 public class Response {
@@ -62,31 +62,46 @@ public class Response {
 	}
 	
 	private static String[] encounterMessages = new String[] {
-		"A %s blocks your path, do you:",
-		"A %s is guarding a door, do you:",
-		"A %s stands ominously in the center of the room, do you:",
-		"A %s stares at you menacingly, do you:",
-		"A %s is looking for a fight, do you:"
+		"A %s blocks your path.",
+		"A %s is guarding a door.",
+		"A %s stands ominously in the center of the room.",
+		"A %s stares at you menacingly.",
+		"A %s is looking for a fight.",
+		"A %s beckons for you to step up.",
+		"A %s challenges you to a fight.",
+		"A %s is looking for a fight.",
+		"A %s steps out of the shadows.",
+		"A %s is ready to pounce.",
+		"A %s roars in defiance.",
+		"A %s flexes thies mussles."
 	};
 	
-	public void generateEncounter(final CharacterModel player, final Monster monster) {
+	public void generateEncounter(final CharacterModel player, final MonsterInstance monster) {
 		monster.setAngry(true);
 		final Random random = new Random();
 		final int index = random.nextInt(encounterMessages.length);
-		setImage(monster.getImage());
+		setImage(monster.getType().getImage());
 		addEncounter( String.format(encounterMessages[index], monster.getName()) );
 	}
 	
 	private static String[] attackMessages = new String[] {
-		"The %s punches you in the face, dealing %s damage. Do you:",
-		"The %s waits no time getting all up in your buisness, dealing %s damage. Do you:",
-		"The %s rushes into the action, dealing %s damage. Do you:",
-		"The %s gets really angry, dealing %s damage. Do you:"
+		"The %s punches you in the face, dealing %s damage.",
+		"The %s waits no time getting all up in your buisness, dealing %s damage.",
+		"The %s rushes into the action, dealing %s damage.",
+		"The %s gets really angry, dealing %s damage.",
+		"The %s lashes out, dealing %s damage.",
+		"The %s is way stronger then they look, dealing %s damage.",
+		"The %s gets inside your guard, dealing %s damage.",
+		"The %s lands a hit, dealing %s damage.",
+		"The %s can't be stopped, dealing %s damage.",
+		"The %s sees right throw your defense, dealing %s damage.",
+		"The %s darts forward, dealing %s damage.",
+		"The %s quickly lunges, dealing %s damage."
 	};
 
-	public void generateAttack(final CharacterModel player, final Monster monster) {
+	public void generateAttack(final CharacterModel player, final MonsterInstance monster) {
 		final Random random = new Random();
-		setImage(monster.getImage());
+		setImage(monster.getType().getImage());
 		
 		float damageModifier = 1.0f;
 		if(damageModifier > 0.5f && player.getGameData().getEffects().contains("parry")) {
