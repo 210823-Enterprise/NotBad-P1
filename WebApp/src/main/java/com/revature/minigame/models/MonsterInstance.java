@@ -59,6 +59,10 @@ public class MonsterInstance {
 		return this.attribute + " " + this.monsterType.getName();
 	}
 	
+	public String printHealth() {
+		return this.getName() + "'s Health: " + this.health + "/" + maxHealth();
+	}
+	
 	public Monster getType() {
 		return this.monsterType;
 	}
