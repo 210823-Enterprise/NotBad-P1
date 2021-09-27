@@ -41,7 +41,7 @@ public class Minigame {
 			final CharacterModel value = entry.getValue();
 			if(value != null && value.getGameData().getPos() != null
 					&& value.getGameData().getPos().equals(pos) && Integer.valueOf(entry.getKey()) != player.getId())
-				response.addPlayer(entry.getValue().getUsername());
+				response.addPlayer(entry.getValue());
 		}
 		
 		player.getGameData().modifyMana(2);
@@ -54,26 +54,18 @@ public class Minigame {
 				else
 					response.generateEncounter(player,area.getMonster());
 				response.generatePlayerAttacks(player);
+				response.addEncounter(area.getMonster().printHealth());
 			} else {
 				if(pos.equals(gameBoard.getStart())) {
 					response.addEncounter("You stand at the entrance of the dungeon. Where do you go?");
-					if(area.getDirection(EDirection.north)) response.addAction("Go North");
-					if(area.getDirection(EDirection.south)) response.addAction("Go South");
-					if(area.getDirection(EDirection.east)) response.addAction("Go East");
-					if(area.getDirection(EDirection.west)) response.addAction("Go West");
+					createDirections(area, pos, response);
 				} else if(pos.equals(gameBoard.getFinish())) {
 					response.addEncounter("Congratulations, you have reached the end of the dungeon!");
 					response.addAction("Leave Dungeon");
-					if(area.getDirection(EDirection.north)) response.addAction("Go North");
-					if(area.getDirection(EDirection.south)) response.addAction("Go South");
-					if(area.getDirection(EDirection.east)) response.addAction("Go East");
-					if(area.getDirection(EDirection.west)) response.addAction("Go West");
+					createDirections(area, pos, response);
 				} else {
 					response.addEncounter("Adventure awaits, where do you go?");
-					if(area.getDirection(EDirection.north)) response.addAction("Go North");
-					if(area.getDirection(EDirection.south)) response.addAction("Go South");
-					if(area.getDirection(EDirection.east)) response.addAction("Go East");
-					if(area.getDirection(EDirection.west)) response.addAction("Go West");
+					createDirections(area, pos, response);
 					
 					if(player.getClazz().equals("healer")) {
 						response.addAction("Cast Healing");
@@ -103,6 +95,33 @@ public class Minigame {
 		return response;
 	}
 	
+	private static void createDirections(final Area area, final Position pos, final Response response) {
+		if(area.getDirection(EDirection.north)) {
+			if(gameBoard.getArea(pos.transform(0, 1)).isSafe())
+				response.addAction("Go North*");
+			else
+				response.addAction("Go North");
+		}
+		if(area.getDirection(EDirection.south)) {
+			if(gameBoard.getArea(pos.transform(0, -1)).isSafe())
+				response.addAction("Go South*");
+			else
+				response.addAction("Go South");
+		}
+		if(area.getDirection(EDirection.east)) {
+			if(gameBoard.getArea(pos.transform(-1, 0)).isSafe())
+				response.addAction("Go East*");
+			else
+				response.addAction("Go East");
+		}
+		if(area.getDirection(EDirection.west)) {
+			if(gameBoard.getArea(pos.transform(1, 0)).isSafe())
+				response.addAction("Go West*");
+			else
+				response.addAction("Go West");
+		}
+	}
+
 	private static void attackResult(final String action, final CharacterModel player, final Response response, final Position pos, final Area area) {
 		final Random random = new Random();
 		response.setImage(area.getMonster().getType().getImage());

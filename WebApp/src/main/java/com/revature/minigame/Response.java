@@ -53,6 +53,10 @@ public class Response {
 		this.localPlayers.add(id);
 	}
 
+	public void addPlayer(final CharacterModel model) {
+		this.localPlayers.add(String.format("%s - lv %s %s %s", model.getUsername(),model.getGameData().getCharacterLevel(), model.getRace(), model.getClazz()));
+	}
+
 	public String getImage() {
 		return this.image;
 	}
@@ -73,7 +77,7 @@ public class Response {
 		"A %s steps out of the shadows.",
 		"A %s is ready to pounce.",
 		"A %s roars in defiance.",
-		"A %s flexes thies mussles."
+		"A %s flexes their mussels."
 	};
 	
 	public void generateEncounter(final CharacterModel player, final MonsterInstance monster) {
