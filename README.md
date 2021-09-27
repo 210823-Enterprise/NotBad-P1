@@ -58,8 +58,6 @@ Finally, inside your project structure you need an application.proprties file.
       - Indicates that the annotated field represents a primary key for the table.
    - #### @Column(columnName = "column_name")  
       - Indicates that the annotated field is a column in the table with the name 'column_name'  
-   - #### @JoinColumn(columnName = "column_name")
-      - Indicates that the anootated field is a join column.
 
   ### User API  
   - #### `public static Configuration getInstance()`
@@ -98,4 +96,4 @@ Finally, inside your project structure you need an application.proprties file.
 
 ## License
 
-This project uses the following license: [GNU Public License 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+This project uses the MIT License.
