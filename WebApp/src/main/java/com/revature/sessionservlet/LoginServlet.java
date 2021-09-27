@@ -12,12 +12,15 @@ import javax.servlet.http.HttpSession;
 import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
 import com.revature.util.HTMLFormatter;
+import com.revature.util.ServletConfiguration;
 
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7393813005277884981L;
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		ServletConfiguration.setUp();
+		
 		final HttpSession session = request.getSession();
 		CharacterModel characterModel;
 		

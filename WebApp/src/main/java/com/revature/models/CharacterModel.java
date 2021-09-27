@@ -27,7 +27,7 @@ public class CharacterModel {
 	@Column(columnName="class", nullable=false, unique = false)
 	private String clazz;
 
-	@Column(columnName="specialAbility", nullable=false, unique = false)
+	@Column(columnName="special_ability", nullable=false, unique = false)
 	private String specialAbility;
 
 	@Column(columnName="game_data", nullable=false, unique = false)
@@ -133,7 +133,8 @@ public class CharacterModel {
 	}
 
 	public void resetGameData() {
-		this.gameData = new CharacterStats(1);
+		final int level = this.gameData.getCharacterLevel();
+		this.gameData = new CharacterStats(level);
 	}
 
 	

@@ -12,17 +12,24 @@ import javax.servlet.http.HttpSession;
 import com.revature.models.CharacterModel;
 import com.revature.orm.ORM;
 import com.revature.util.HTMLFormatter;
+import com.revature.util.ServletConfiguration;
 
 public class EditServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 8375387335881044255L;
 	
 	@Override
-	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {	
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+		ServletConfiguration.setUp();
+		
 		final HttpSession session = request.getSession();
 		
 		// grab stored character model
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
+		if(characterModel == null || characterModel.getId() == -1) {
+			response.sendRedirect("homeserv");
+			return;
+		}	
 		final String password = request.getParameter("password");
 		
 		if(characterModel.equalsPassword(password)) {

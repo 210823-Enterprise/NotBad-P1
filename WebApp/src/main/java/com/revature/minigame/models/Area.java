@@ -1,14 +1,25 @@
 package com.revature.minigame.models;
 
-import com.revature.minigame.models.monsters.Goblin;
-import com.revature.minigame.models.monsters.Monster;
-import com.revature.minigame.models.monsters.Reaper;
-import com.revature.minigame.models.monsters.Skeleton;
-import com.revature.minigame.models.monsters.Zombie;
+import java.util.Random;
 
 public class Area {
 	
-	private Monster monster;
+	private static final Monster[] MONSTERS = new Monster[] {
+		new Monster("Goblin",		"goblin.gif",		0, 0),
+		new Monster("Zombie",		"zombie.png",		0, 0),
+		new Monster("Skeleton",		"skeleton.png",		0, 0),
+		new Monster("Orc",			"orc.png",			0, 0),
+		new Monster("Creeper",		"creeper.png",		40, -40),
+		new Monster("Robo-Spider",	"spider.png",		0, 0),
+		new Monster("Repear",		"repear.png",		0, 0),
+		new Monster("Dwarf",		"dwarf.png",		0, 0),
+		new Monster("Ice Dragon",	"ice_dragon.png",	3, 10),
+		new Monster("Fire Dragon",	"fire_dragon.png",	6, 20),
+		new Monster("Death Dragon",	"death_dragon.png",	9, 30),
+		new Monster("Charged Creeper","charged_creeper.png", 80, -80)
+	};
+	
+	private final MonsterInstance monster;
 	private Item item;
 	
 	private boolean north;
@@ -22,25 +33,11 @@ public class Area {
 		this.east = false;
 		this.west = false;
 		
-		switch(level) {
-		case 0:
+		if(level == 0) {
 			this.monster = null;
-			break;
-		case 1:
-			this.monster = new Goblin();
-			break;
-		case 2:
-			this.monster = new Zombie();
-			break;
-		case 3:
-			this.monster = new Skeleton();
-			break;
-		case 4:
-			this.monster = new Reaper();
-			break;
-		default:
-			this.monster = new Goblin();
-			break;
+		} else {
+			final Random random = new Random();
+			this.monster = new MonsterInstance(MONSTERS[ random.nextInt(Math.min(level, MONSTERS.length)) ], level);
 		}
 	}
 	
@@ -98,7 +95,7 @@ public class Area {
 		return String.format("[monster=%s,item=%s,directions=%s]", this.monster, this.item, direction);
 	}
 
-	public Monster getMonster() {
+	public MonsterInstance getMonster() {
 		return this.monster;
 	}
 

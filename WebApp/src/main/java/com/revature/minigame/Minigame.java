@@ -13,7 +13,7 @@ import com.revature.models.CharacterModel;
 public class Minigame {
 	
 	private static GameBoard gameBoard;
-	private static Map<CharacterModel,Position> positions;
+	private static Map<Integer,CharacterModel> positions;
 	
 	public static Response generateResponse(final CharacterModel player, final String action) {
 		if(player == null)
@@ -24,24 +24,22 @@ public class Minigame {
 		if(gameBoard == null)
 			reset();
 		
-		if(!positions.containsKey(player)) {
-			positions.put(player, gameBoard.getStart());
+		if(!positions.containsKey(player.getId()) || player.getGameData().getPos() == null) {
 			player.resetGameData();
+			player.getGameData().setPos(gameBoard.getStart());
+			positions.put(player.getId(), player);
 			if(player.getGameData().getCharacterLevel() > 1) {
 				response.addEncounter("The dungeon has been completed by another player, better luck next time.");
 				return response;
 			}
 		}
 		
-		final Position pos = positions.get(player);
+		final Position pos = player.getGameData().getPos();
 		final Area area = gameBoard.getArea(pos);
 		
-		for(final Map.Entry<CharacterModel, Position> entry: positions.entrySet()) {
-			System.out.println(entry.getValue());
-			System.out.println(entry.getKey());
-			System.out.println(player);
-			if(entry.getValue().equals(pos) && entry.getKey().getId() != player.getId())
-				response.addPlayer(entry.getKey().getUsername());
+		for(final Map.Entry<Integer, CharacterModel> entry: positions.entrySet()) {
+			if(Integer.valueOf(entry.getKey()) != player.getId())
+				response.addPlayer(entry.getValue().getUsername());
 		}
 		
 		player.getGameData().modifyMana(2);
@@ -97,14 +95,15 @@ public class Minigame {
 			response.resetActions();
 			response.addEncounter("You have died :(. Better luck next time!");
 			response.setImage("gravestone.png");
-			positions.remove(player);
+			player.getGameData().setPos(gameBoard.getStart());
+			player.resetGameData();
 		}
 		return response;
 	}
 	
 	private static void attackResult(final String action, final CharacterModel player, final Response response, final Position pos, final Area area) {
 		final Random random = new Random();
-		response.setImage(area.getMonster().getImage());
+		response.setImage(area.getMonster().getType().getImage());
 		
 		float damageModifier = 1.0f;
 		if(player.getGameData().getEffects().contains("inspire")) {
@@ -281,13 +280,13 @@ public class Minigame {
 			if(player.getGameData().getStamina() >= 20) {
 				response.addEncounter("You make a 'tactical retreat.'");
 				if(area.getDirection(EDirection.north) && gameBoard.getArea(pos.transform(0, 1)).isSafe())
-					positions.put(player, pos.transform(0, 1));
+					player.getGameData().movePos(0, 1);
 				if(area.getDirection(EDirection.south) && gameBoard.getArea(pos.transform(0, -1)).isSafe())
-					positions.put(player, pos.transform(0, -1));
+					player.getGameData().movePos(0, -1);
 				if(area.getDirection(EDirection.east) && gameBoard.getArea(pos.transform(-1, 0)).isSafe())
-					positions.put(player, pos.transform(-1, 0));
+					player.getGameData().movePos(-1, 0);
 				if(area.getDirection(EDirection.west) && gameBoard.getArea(pos.transform(1, 0)).isSafe())
-					positions.put(player, pos.transform(1, 0));
+					player.getGameData().movePos(1, 0);
 				player.getGameData().modifyStamina(-20);
 				if(!area.isSafe())
 					area.getMonster().setAngry(false);
@@ -308,19 +307,19 @@ public class Minigame {
 		switch(action) {
 		case "go_north":
 			response.addEncounter("You head north, wondering what's just up ahead...");
-			positions.put(player, pos.transform(0, 1));
+			player.getGameData().movePos(0, 1);
 			break;
 		case "go_south":
 			response.addEncounter("You head south, pushing deeper into the dungeon...");
-			positions.put(player, pos.transform(0, -1));
+			player.getGameData().movePos(0, -1);
 			break;
 		case "go_east":
 			response.addEncounter("You head east, vigilant for the next threat...");
-			positions.put(player, pos.transform(-1, 0));
+			player.getGameData().movePos(-1, 0);
 			break;
 		case "go_west":
 			response.addEncounter("You head west, onwards to adventure...");
-			positions.put(player, pos.transform(1, 0));
+			player.getGameData().movePos(1, 0);
 			break;
 		case "leave_dungeon":
 			reset();
@@ -338,9 +337,9 @@ public class Minigame {
 	}
 	
 	private static void addEffectToPlayers(final Position pos, final String effect) {
-		for(final Map.Entry<CharacterModel, Position> entry: positions.entrySet()) {
-			if(entry.getValue().equals(pos)) {
-				entry.getKey().getGameData().addEffect(effect);
+		for(final Map.Entry<Integer, CharacterModel> entry: positions.entrySet()) {
+			if(entry.getValue().getGameData().getPos().equals(pos)) {
+				entry.getValue().getGameData().addEffect(effect);
 			}
 		}
 	}
