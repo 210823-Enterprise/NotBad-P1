@@ -23,6 +23,10 @@ public class EditServlet extends HttpServlet{
 		
 		// grab stored character model
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
+		if(characterModel == null || characterModel.getId() == -1) {
+			response.sendRedirect("homeserv");
+			return;
+		}	
 		final String password = request.getParameter("password");
 		
 		if(characterModel.equalsPassword(password)) {

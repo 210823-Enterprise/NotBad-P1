@@ -23,8 +23,10 @@ public class PlayServlet extends HttpServlet{
 		final HttpSession session = request.getSession();
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
 		
-		if(characterModel == null || characterModel.getId() == -1)
+		if(characterModel == null || characterModel.getId() == -1) {
 			response.sendRedirect("homeserv");
+			return;
+		}
 		
 		final Response result = Minigame.generateResponse(characterModel,request.getParameter("action"));
 		String players = "";

@@ -18,6 +18,10 @@ public class DeleteServlet extends HttpServlet{
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		final HttpSession session = request.getSession();
 		final CharacterModel characterModel = (CharacterModel) session.getAttribute("character_model");
+		if(characterModel == null || characterModel.getId() == -1) {
+			response.sendRedirect("homeserv");
+			return;
+		}
 
 		ORM.getInstance().removeObjectFromDb(characterModel);
 		session.removeAttribute("character_model");
