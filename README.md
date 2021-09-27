@@ -1,7 +1,7 @@
 # !Bad ORM Framework
 
 ## Project Description
-Something like: A not-too-shabby (or at least not totally awful) minimalist Java-based ORM framework for simplifying your persistence layer without need for SQL or connection management.
+A not-too-shabby minimalist Java-based ORM framework for simplifying your persistence layer without need for SQL or connection management.
 
 ## Technologies Used
 
